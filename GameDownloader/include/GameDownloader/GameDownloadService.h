@@ -1,0 +1,176 @@
+/****************************************************************************
+** This file is a part of Syncopate Limited GameNet Application or it parts.
+**
+** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
+** All rights reserved.
+**
+** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
+** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+****************************************************************************/
+#ifndef _GGS_GAMEDOWNLOADER_GAMEDOWNLOADSERVICE_H_
+#define _GGS_GAMEDOWNLOADER_GAMEDOWNLOADSERVICE_H_
+
+#include <Core/Service.h>
+
+#include <GameDownloader/GameDownloader_global.h>
+#include <GameDownloader/PauseRequestWatcher.h>
+#include <GameDownloader/HookBase.h>
+#include <GameDownloader/CheckUpdateHelper.h>
+#include <GameDownloader/StartType.h>
+#include <GameDownloader/StageProgressCalculator.h>
+
+#include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
+
+#include <QtCore/QObject>
+#include <QtCore/QDebug>
+#include <QtCore/QMultiMap>
+#include <QtCore/QHash>
+#include <QtCore/QSet>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
+#include <QtCore/QMultiMap>
+#include <QtCore/QDateTime>
+#include <QtCore/QtConcurrentRun>
+
+namespace GGS {
+  namespace GameDownloader {
+    class ServiceState;
+    class ExtractorBase;
+    class DOWNLOADSERVICE_EXPORT GameDownloadService : public QObject
+    {
+      Q_OBJECT
+
+    public:
+      GameDownloadService(QObject *parent = 0);
+      ~GameDownloadService();
+
+      void init();
+      void shutdown();
+      void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
+      void registerExtractor(ExtractorBase *extractor);
+      
+      bool isStoppedOrStopping(const GGS::Core::Service *service);
+      StageProgressCalculator& progressCalculator();
+
+      void setTimeoutForResume(quint32 seconds);
+
+    public slots:
+      void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
+      void stop(const GGS::Core::Service *service);
+
+
+      /*!
+        \fn void GameDownloadService::downloadRequestCompleted(const GGS::Core::Service *service);
+        \brief Функция должна быть вызвана по окончанию скачивания игры каким либо менеджером закачек.
+               Она должна быть вызвана как результат сигнала downloadRequest.
+        \author Ilya.Tkachenko
+        \date 25.04.2012
+        \param service The service.
+      */
+      void downloadRequestCompleted(const GGS::Core::Service *service);
+
+
+      /*!
+        \fn void GameDownloadService::pauseRequestCompleted(const GGS::Core::Service *service);
+        \brief Функция должна быть вызвана по окончанию остановки скачивания игры каким либо менеджером закачек.
+               Она должна быть вызвана как результат сигнала pauseRequest.
+        \author Ilya.Tkachenko
+        \date 25.04.2012
+        \param service The service.
+      */
+      void pauseRequestCompleted(const GGS::Core::Service *service);
+
+
+      /*!
+        \fn void GameDownloadService::checkUpdateRequestCompleted(const GGS::Core::Service *service);
+        \brief Функция должна быть вызвана по окончанию проверки наличия обновления игры.
+               Она должна быть вызвана как результат сигнала checkUpdateRequest.
+        \author Ilya.Tkachenko
+        \date 25.04.2012
+        \param service The service.
+      */
+      void checkUpdateRequestCompleted(const GGS::Core::Service *service, bool isUpdated);
+
+      void checkUpdateFailed(const GGS::Core::Service *service);
+
+      void extractionCompleted(const GGS::Core::Service *service);
+      void extractionFailed(const GGS::Core::Service *service);
+
+      void downloadFailed(const GGS::Core::Service *service);
+
+    signals:
+      void started(const GGS::Core::Service *service);
+      void finished(const GGS::Core::Service *service);
+      void stopped(const GGS::Core::Service *service);
+      void stopping(const GGS::Core::Service *service);
+      void failed(const GGS::Core::Service *service);
+      void shutdownCompleted();
+
+      void progressChanged(QString serviceId, qint8 progress);
+      void progressDownloadChanged(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      void progressExtractionChanged(QString serviceId, qint8 progress, qint64 current, qint64 total);
+
+      /*!
+        \fn void GameDownloadService::downloadStopRequest(const GGS::Core::Service *service);
+        \brief Событие в результате которого должен остановиться торрент. Выделен особо от евента stopping не с проста.
+               Это необходимо, чтобы различать какая стадия сейчас остановилась и не было двойной остановки. 
+               Все стадии кроме скачивания живут короткое время не пересекающееся с другими стадиями, по-этому для них 
+               не выделен отдельный сигнал.
+        \author Ilya.Tkachenko
+        \date 12.05.2012
+        \param service The service.
+      */
+      void downloadStopRequest(const GGS::Core::Service *service);
+
+      void preHooksCompleted(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+      void postHooksCompleted(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+      void checkUpdateRequest(const GGS::Core::Service *service, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type);
+      void downloadRequest(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType, bool isReloadRequired);
+
+    private slots:
+      void preHooksCopletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+      void postHooksCopletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+
+      void internalProgressChangedSlot(QString serviceId, qint8 progress);
+      void internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      void internalProgressExtractionChangedSlot(QString serviceId, qint8 progress, qint64 current, qint64 total);
+
+    private:
+      ServiceState* getStateById(const QString& id);
+      ExtractorBase* getExtractorByType(const QString& type);
+
+      inline void startCheckUpdate(const GGS::Core::Service *service, ServiceState *state);
+      inline void startPreHooks(const GGS::Core::Service *service, ServiceState *state);
+      inline void startPostHooks(const GGS::Core::Service *service, ServiceState *state);
+      inline void startDownload(const GGS::Core::Service *service, ServiceState *state);
+      inline void startExtract(const GGS::Core::Service *service, ServiceState *state);
+      inline void startFinish(const GGS::Core::Service *service, ServiceState *state);
+      inline void startStopping(const GGS::Core::Service *service, ServiceState *state);
+
+      void setStoppedService(const GGS::Core::Service *service);
+      void setStoppedState(const GGS::Core::Service * service, ServiceState * state);
+
+      void hookResultRouter(const GGS::Core::Service *service, ServiceState *state, GGS::GameDownloader::HookBase::HookResult result);
+      void preHookLoop(const Core::Service *service);
+      void postHookLoop(const Core::Service *service);
+
+      void downloadServiceFailed(const Core::Service *service);
+
+      QHash<QString, QMultiMap<int, HookBase*> > _beforeDownloadHookMap;
+      QHash<QString, QMultiMap<int, HookBase*> > _afterDownloadHookMap;
+      
+      QMutex _stateLock;
+      QHash<QString, ServiceState* > _stateMap;
+      QHash<QString, ExtractorBase *> _extractorMap;
+      qint64 _timeForResume;
+      StageProgressCalculator _progressCalculator;
+
+      bool _isShuttingDown;
+      QSet<QString> _serviceStopList;
+    };
+
+  }
+}
+
+#endif // _GGS_GAMEDOWNLOADER_GAMEDOWNLOADSERVICE_H_
+
