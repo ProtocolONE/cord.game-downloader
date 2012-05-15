@@ -111,7 +111,6 @@ private:
 
   QDeclarativeView *nQMLContainer;
   GGS::GameDownloader::Builder _gameDownloaderBuilder;
-
   QHash<QString, GGS::Core::Service *> _serviceMap;
 
 };

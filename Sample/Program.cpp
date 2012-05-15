@@ -20,12 +20,6 @@ Program::Program()
   nQMLContainer->setAlignment(Qt::AlignCenter);                                                                               
   nQMLContainer->setResizeMode(QDeclarativeView::SizeRootObjectToView);                                                       
   nQMLContainer->showNormal();
-  
-  qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookBase::HookResult");
-  qRegisterMetaType<GGS::GameDownloader::StartType>("GGS::GameDownloader::StartType");
-  qRegisterMetaType<GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType>("GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType");
-  qRegisterMetaType<GGS::Libtorrent::EventArgs::ProgressEventArgs>("GGS::Libtorrent::EventArgs::ProgressEventArgs");
-  qRegisterMetaType<const GGS::Core::Service *>("const GGS::Core::Service *");
 
   this->initDatabase();
   this->initServices();

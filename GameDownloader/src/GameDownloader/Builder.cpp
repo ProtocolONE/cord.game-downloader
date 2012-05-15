@@ -31,9 +31,11 @@ namespace GGS {
 
     void Builder::build()
     {
-      qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookInterface::HookResult");
+      qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookBase::HookResult");
       qRegisterMetaType<GGS::GameDownloader::StartType>("GGS::GameDownloader::StartType");
       qRegisterMetaType<GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType>("GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType");
+      qRegisterMetaType<GGS::Libtorrent::EventArgs::ProgressEventArgs>("GGS::Libtorrent::EventArgs::ProgressEventArgs");
+      qRegisterMetaType<const GGS::Core::Service *>("const GGS::Core::Service *");
 
       this->_libtorrentAdapter.setTorrentWrapper(&this->_wrapper);
       this->_gameDownloader.init();
