@@ -14,12 +14,14 @@
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/StartType.h>
 
-#include <Core/Service>
-
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
     
     class DOWNLOADSERVICE_EXPORT ServiceState : public QObject
@@ -52,7 +54,6 @@ namespace GGS {
       void setService(const GGS::Core::Service *service);
       const GGS::Core::Service* service() const;
 
-      void setId(const QString& id);
       const QString& id() const;
 
       void setState(const State state);
@@ -69,6 +70,9 @@ namespace GGS {
       bool isFoundNewUpdate() const;
       void setIsFoundNewUpdate(bool isFoundNewUpdate);
 
+      bool isDirectoryChanged() const;
+      void setIsDirectoryChanged(bool isDirectoryChanged);
+
     private:
       const GGS::Core::Service *_service;
 
@@ -80,6 +84,7 @@ namespace GGS {
       StartType _startType;
 
       bool _isFoundNewUpdate;
+      bool _isDirectoryChanged;
     };
 
   }

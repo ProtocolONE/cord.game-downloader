@@ -13,9 +13,12 @@
 
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/ExtractorBase.h>
-#include <Core/Service>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
     namespace Extractor {
       class DOWNLOADSERVICE_EXPORT DummyExtractor : public GGS::GameDownloader::ExtractorBase

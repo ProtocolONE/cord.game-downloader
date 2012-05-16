@@ -8,15 +8,17 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
 
-#ifndef _GGS_GAMEDOWNLOADER_HOOKINTERFACE_H_
-#define _GGS_GAMEDOWNLOADER_HOOKINTERFACE_H_
+#ifndef _GGS_GAMEDOWNLOADER_HOOKBASE_H_
+#define _GGS_GAMEDOWNLOADER_HOOKBASE_H_
+
+#include <GameDownloader/GameDownloader_global.h>
 
 #include <Core/Service>
-#include <GameDownloader/GameDownloader_global.h>
 #include <QtCore/QObject>
 
 namespace GGS {
   namespace GameDownloader {
+    class GameDownloadService;
     class DOWNLOADSERVICE_EXPORT HookBase : public QObject
     {
       Q_OBJECT
@@ -41,8 +43,8 @@ namespace GGS {
       HookBase(const QString& hookId, QObject *parent = 0);
       virtual ~HookBase();
 
-      virtual HookResult beforeDownload(const GGS::Core::Service *service) = 0;
-      virtual HookResult afterDownload(const GGS::Core::Service *service) = 0;
+      virtual HookResult beforeDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service) = 0;
+      virtual HookResult afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service) = 0;
 
       const QString& hookId();
 
@@ -66,4 +68,4 @@ namespace GGS {
   }
 }
 
-#endif // _GGS_GAMEDOWNLOADER_HOOKINTERFACE_H_
+#endif // _GGS_GAMEDOWNLOADER_HOOKBASE_H_

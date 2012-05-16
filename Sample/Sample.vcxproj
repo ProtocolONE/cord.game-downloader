@@ -52,15 +52,15 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtScript;$(QTDIR)\include\QtXmlPatterns;$(QTDIR)\include\QtDeclarative;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(VLDDIR)\include;$(SolutionDir)GameDownloader\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtScript;$(QTDIR)\include\QtXmlPatterns;$(QTDIR)\include\QtDeclarative;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(VLDDIR)\include;$(SolutionDir)GameDownloader\include;$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtSqld4.lib;QtNetworkd4.lib;QtXmld4.lib;QtSvgd4.lib;QtScriptd4.lib;QtXmlPatternsd4.lib;QtDeclaratived4.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtSqld4.lib;QtNetworkd4.lib;QtXmld4.lib;QtSvgd4.lib;QtScriptd4.lib;QtXmlPatternsd4.lib;QtDeclaratived4.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;BugTrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /I /R /E $(ProjectDir)\qml\*.qml $(TargetDir)qml
@@ -84,7 +84,9 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtScript%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtXmlPatterns%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sqldrivers\"</Command>
+xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sqldrivers\"
+
+xcopy /Y /I /R /E "$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\bin\*.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
@@ -97,15 +99,15 @@ xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sql
       <DebugInformationFormat>
       </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtScript;$(QTDIR)\include\QtXmlPatterns;$(QTDIR)\include\QtDeclarative;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtSql;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtSvg;$(QTDIR)\include\QtScript;$(QTDIR)\include\QtXmlPatterns;$(QTDIR)\include\QtDeclarative;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtSql4.lib;QtNetwork4.lib;QtXml4.lib;QtSvg4.lib;QtScript4.lib;QtXmlPatterns4.lib;QtDeclarative4.lib;GameDownloaderX86.lib;CoreX86.lib;SettingsX86.lib;LibtorrentWrapperX86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtSql4.lib;QtNetwork4.lib;QtXml4.lib;QtSvg4.lib;QtScript4.lib;QtXmlPatterns4.lib;QtDeclarative4.lib;GameDownloaderX86.lib;CoreX86.lib;SettingsX86.lib;LibtorrentWrapperX86.lib;BugTrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y /I /R /E $(ProjectDir)\qml\*.qml $(TargetDir)qml
@@ -129,7 +131,9 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtScript%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtXmlPatterns%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sqldrivers\"</Command>
+xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sqldrivers\"
+xcopy /Y /I /R /E "$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\bin\*.dll" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
@@ -152,11 +156,11 @@ xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sql
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing Program.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_SVG_LIB -DQT_SCRIPT_LIB -DQT_XMLPATTERNS_LIB -DQT_DECLARATIVE_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtXmlPatterns" "-I$(QTDIR)\include\QtDeclarative" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(VLDDIR)\include" "-I$(SolutionDir)GameDownloader\include" "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_SVG_LIB -DQT_SCRIPT_LIB -DQT_XMLPATTERNS_LIB -DQT_DECLARATIVE_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtXmlPatterns" "-I$(QTDIR)\include\QtDeclarative" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(VLDDIR)\include" "-I$(SolutionDir)GameDownloader\include" "-I$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\include" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing Program.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_SVG_LIB -DQT_SCRIPT_LIB -DQT_XMLPATTERNS_LIB -DQT_DECLARATIVE_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtXmlPatterns" "-I$(QTDIR)\include\QtDeclarative" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_SVG_LIB -DQT_SCRIPT_LIB -DQT_XMLPATTERNS_LIB -DQT_DECLARATIVE_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtSql" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtXml" "-I$(QTDIR)\include\QtSvg" "-I$(QTDIR)\include\QtScript" "-I$(QTDIR)\include\QtXmlPatterns" "-I$(QTDIR)\include\QtDeclarative" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\include" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

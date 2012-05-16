@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <GameDownloader/Extractor/DummyExtractor.h>
+#include <Core/Service>
 
 namespace GGS {
   namespace GameDownloader {
@@ -24,6 +25,7 @@ namespace GGS {
 
       void DummyExtractor::extract(const GGS::Core::Service *service, StartType startType)
       {
+        Q_ASSERT(service != 0);
         emit this->extractionProgressChanged(service->id(), 100, 1, 1);
         emit this->extractFinished(service);
       }

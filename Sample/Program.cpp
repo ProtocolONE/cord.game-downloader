@@ -122,7 +122,7 @@ void Program::setDownloadRateLimit(QString bytesPerSecond)
 void Program::startTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::StartType::Normal);
+  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Normal);
 }
 
 void Program::stopTorrent(QString id)
@@ -134,13 +134,13 @@ void Program::stopTorrent(QString id)
 void Program::restartTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::StartType::Force);
+  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Force);
 }
 
 void Program::recheckTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::StartType::Recheck);
+  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Recheck);
 }
 
 void Program::initServices()
@@ -160,7 +160,7 @@ void Program::initService(const QString& id, const QString& torrentUrl)
 
   QString root = QCoreApplication::applicationDirPath();
   QString downloadPath = root;
-  downloadPath.append(QString::fromLocal8Bit("/игра_game/"));
+  downloadPath.append(QString::fromLocal8Bit("/game/"));
   downloadPath.append(id);
   downloadPath.append("/");
 
@@ -171,12 +171,12 @@ void Program::initService(const QString& id, const QString& torrentUrl)
 
   if (id == "300002010000000000" || id == "300004010000000000") {
     service->setDownloadPath(archive);
-    service->setExtractionPath(downloadPath);
+    service->setInstallPath(downloadPath);
     service->setTorrentFilePath(archive);
     service->setExtractorType("D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9");
   } else {
     service->setDownloadPath(downloadPath);
-    service->setExtractionPath(downloadPath);
+    service->setInstallPath(downloadPath);
     service->setTorrentFilePath(downloadPath);
     service->setExtractorType("3A3AC78E-0332-45F4-A466-89C2B8E8BB9C");
   }
@@ -312,4 +312,21 @@ void Program::shutdownCompleted()
 {
   this->_gameDownloaderBuilder.torrentWrapper().shutdown();
   QCoreApplication::quit();
+}
+
+void Program::changeDirectory(QString serviceId, QString downloadPath, QString installPath)
+{
+  GGS::Core::Service *service = this->getService(serviceId);
+  if (!service)
+    return;
+
+  if (service->hashDownloadPath())
+    service->setDownloadPath(downloadPath);
+  else
+    service->setDownloadPath(installPath);
+  
+  service->setTorrentFilePath(service->downloadPath());
+  service->setInstallPath(installPath);
+
+  this->_gameDownloaderBuilder.gameDownloader().directoryChanged(service);
 }

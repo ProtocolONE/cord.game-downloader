@@ -15,16 +15,17 @@
 #include <UpdateSystem/Downloader/RetryFileDownloader>
 #include <UpdateSystem/Downloader/MultiFileDownloader>
 #include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter>
+#include <UpdateSystem/Extractor/SevenZipExtractor>
 
 #include <Settings/Settings>
+#include <Core/Service>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
 #include <QtCore/QRegExp>
+#include <QtCore/QDebug>
 #include <QtNetwork/QNetworkRequest>
 #include <curl/curl.h>
-
-#include <QtCore/QDebug>
 
 using namespace GGS::Downloader;
 using namespace GGS::Extractor;
@@ -45,12 +46,12 @@ namespace GGS {
     {
     }
 
-    QString CheckUpdateHelper::getTorrentUrlWithArchiveExtension()
+    QUrl CheckUpdateHelper::getTorrentUrlWithArchiveExtension()
     {
       QUrl url = this->_service->torrentUrlWithArea();
       QString fileName = QString("%1.torrent.7z").arg(this->_service->id());
       url = url.resolved(QUrl(fileName));
-      return url.toString();
+      return url;
     }
 
     QString CheckUpdateHelper::getTorrentUrlWithoutArchiveExtension()
@@ -61,26 +62,12 @@ namespace GGS {
       return url.toString();
     }
 
-    QString CheckUpdateHelper::getTorrentPath()
+    QString CheckUpdateHelper::getTorrentPath(const GGS::Core::Service *service)
     {
       return QString("%1/%2/%3.torrent")
-        .arg(this->_service->torrentFilePath())
-        .arg(this->getServiceAreaString())
-        .arg(this->_service->id());
-    }
-
-    QString CheckUpdateHelper::getServiceAreaString()
-    {
-      switch(this->_service->area()) {
-      case Service::Live:
-        return QString("live");
-      case Service::Pts:
-        return QString("pts");
-      case Service::Tst:
-        return QString("tst");
-      default:
-        return QString("");
-      }
+        .arg(service->torrentFilePath())
+        .arg(service->areaString())
+        .arg(service->id());
     }
 
     void CheckUpdateHelper::slotError(QNetworkReply::NetworkError error)
@@ -89,11 +76,10 @@ namespace GGS {
       if (!reply)
         return;
 
-      qDebug() << "Error on head request in check update. Error: " << error << " service " << this->_service->id();
-
-      this->_headRequestRetryCount++;
+      CRITICAL_LOG << "Error on head request in check update. Error: " << error << " service " << this->_service->id();
       reply->deleteLater();
 
+      this->_headRequestRetryCount++;
       if (this->_headRequestRetryCount < this->_maxHeadRequestRetryCount)
         this->startCheck(this->_service, this->_checkUpdateType);
       else
@@ -106,41 +92,40 @@ namespace GGS {
       if (!reply)
         return;
 
-      QString lastModifiedHeadername("Last-Modified");
-      this->_lastModified = QString::fromAscii(reply->rawHeader(lastModifiedHeadername.toAscii()));
-      
-      int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-
       reply->deleteLater();
 
+      int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
       // Http codes defined by rfc: http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
       // 200 OK
       // 304 Not Modified
-      if (this->_checkUpdateType == ForceDownloadTorrent && (httpCode == 304 || httpCode == 200)) {
+      if (httpCode != 304 && httpCode != 200) {
+        CRITICAL_LOG << "Http error" << httpCode;
+        emit this->error(this->_service);
+        return;
+      }
+
+      this->_lastModified = QString::fromAscii(reply->rawHeader(QByteArray("Last-Modified")));
+
+      bool isDownloadRequired = this->_checkUpdateType == ForceDownloadTorrent 
+        || httpCode == 200
+        || !QFile::exists(CheckUpdateHelper::getTorrentPath(this->_service));
+
+      if (isDownloadRequired) {
         this->startDownloadTorrent();
         return;
       }
 
-      if (httpCode == 304) {
-        QString torrentPath = this->getTorrentPath();
-        if (!QFile::exists(torrentPath)) {
-          this->startDownloadTorrent();
-        } else {
-          emit this->checkUpdateProgressChanged(this->_service->id(), 100);
-          emit this->result(this->_service, false);
-        }
-        
-      } else if (httpCode == 200) {
-        this->startDownloadTorrent();
-      } 
+      emit this->checkUpdateProgressChanged(this->_service->id(), 100);
+      emit this->result(this->_service, false);
     }
 
     void CheckUpdateHelper::startCheck(const GGS::Core::Service *service, CheckUpdateType checkUpdateType)
     {
+      Q_ASSERT(service);
       this->_checkUpdateType = checkUpdateType;
       this->_service = service;
       emit this->checkUpdateProgressChanged(service->id(), 0);
-      QNetworkRequest request(QUrl(this->getTorrentUrlWithArchiveExtension()));
+      QNetworkRequest request(this->getTorrentUrlWithArchiveExtension());
 
       QString oldLastModifed = this->loadLastModifiedDate();
       request.setRawHeader("If-Modified-Since", oldLastModifed.toAscii());
@@ -153,13 +138,10 @@ namespace GGS {
     void CheckUpdateHelper::startDownloadTorrent()
     {
       DynamicRetryTimeout* dynamicRetryTimeout = new DynamicRetryTimeout(this);
-      dynamicRetryTimeout->addTimeout(5000);
-      dynamicRetryTimeout->addTimeout(10000);
-      dynamicRetryTimeout->addTimeout(15000);
-      dynamicRetryTimeout->addTimeout(30000);
+      *dynamicRetryTimeout << 5000 << 10000 << 15000 << 30000;
 
       RetryFileDownloader* retryDownloader = new RetryFileDownloader(this);
-      retryDownloader->setMaxRetry(DynamicRetryTimeout::InfinityRetryCount);
+      retryDownloader->setMaxRetry(5);
       retryDownloader->setTimeout(dynamicRetryTimeout);
 
       DownloadManager* downloader = new DownloadManager(this);     
@@ -174,7 +156,7 @@ namespace GGS {
       multiExtractor->setResultCallback(this);
 
       QString url = this->getTorrentUrlWithoutArchiveExtension();
-      QString path = this->getTorrentPath();
+      QString path = CheckUpdateHelper::getTorrentPath(this->_service);
       multiExtractor->addFile(url, path);
       multiExtractor->start();
     }
@@ -187,7 +169,7 @@ namespace GGS {
     void CheckUpdateHelper::downloadProgress(quint64 downloadSize, quint64 currentFileDownloadSize, quint64 currestFileSize)
     {
       if (currestFileSize > 0) {
-        qreal progress = 100 * (static_cast<qreal>(currentFileDownloadSize) / static_cast<qreal>(currestFileSize));
+        qreal progress = 100.0f * (static_cast<qreal>(currentFileDownloadSize) / currestFileSize);
         if (progress < 0)
           progress = 0;
 
@@ -216,16 +198,18 @@ namespace GGS {
     void CheckUpdateHelper::saveLastModifiedDate(const QString& date)
     {
      Settings::Settings settings; 
-     QString groupName = QString("GameDownloader/CheckUpdate/%1").arg(this->_service->id());
-     settings.beginGroup(groupName);
+     settings.beginGroup("GameDownloader");
+     settings.beginGroup("CheckUpdate");
+     settings.beginGroup(this->_service->id());
      settings.setValue("LastModified", date, true);
     }
 
     QString CheckUpdateHelper::loadLastModifiedDate() const
     {
       Settings::Settings settings; 
-      QString groupName = QString("GameDownloader/CheckUpdate/%1").arg(this->_service->id());
-      settings.beginGroup(groupName);
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup("CheckUpdate");
+      settings.beginGroup(this->_service->id());
       return settings.value("LastModified", "").toString();
     }
 

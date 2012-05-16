@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
+** Copyright (В©) 2011 - 2012, Syncopate Limited and/or affiliates. 
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -10,6 +10,16 @@
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
+#include <GameDownloader/PauseRequestWatcher.h>
+
+#include <Settings/Settings>
+
+#include <Core/Service>
+
+#include <QtCore/QDebug>
+#include <QtCore/QMutexLocker>
+#include <QtCore/QDateTime>
+#include <QtCore/QtConcurrentRun>
 
 namespace GGS {
   namespace GameDownloader {
@@ -40,10 +50,7 @@ namespace GGS {
 
     void GameDownloadService::start(const GGS::Core::Service *service, StartType startType)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown)
@@ -59,19 +66,25 @@ namespace GGS {
       } else {
         state = new ServiceState(this);
         state->setService(service);
-        state->setId(service->id());
         this->_stateMap[state->id()] = state;
+      }
+
+      emit this->started(service);
+      if (state->isDirectoryChanged()) {
+        state->setIsDirectoryChanged(false);
+        if (startType != GameDownloader::Force)
+          startType = GameDownloader::Recheck;
       }
 
       state->setStartType(startType);
 
-      if (startType == StartType::Force || startType == StartType::Recheck) {
+      if (startType == GameDownloader::Force || startType == GameDownloader::Recheck) {
         state->setState(ServiceState::Started);
         this->startCheckUpdate(service, state);
         return;
       }
 
-      // UNDONE: Реализовать shadow режим (надо сначала обсудить, может его стоит делать не через даунллоад менеджер)
+      // UNDONE: Р РµР°Р»РёР·РѕРІР°С‚СЊ shadow СЂРµР¶РёРј (РЅР°РґРѕ СЃРЅР°С‡Р°Р»Р° РѕР±СЃСѓРґРёС‚СЊ, РјРѕР¶РµС‚ РµРіРѕ СЃС‚РѕРёС‚ РґРµР»Р°С‚СЊ РЅРµ С‡РµСЂРµР· РґР°СѓРЅР»Р»РѕР°Рґ РјРµРЅРµРґР¶РµСЂ)
       qint64 elapsedTime = QDateTime::currentMSecsSinceEpoch() - state->lastDateStateChanged();
       state->setState(ServiceState::Started);
       if (elapsedTime < 0 || elapsedTime > this->_timeForResume) {
@@ -80,7 +93,7 @@ namespace GGS {
       }
 
       switch(state->stage()) {
-      case ServiceState::Nowhere: // Не спроста пропущен брейк - так надо
+      case ServiceState::Nowhere: // РќРµ СЃРїСЂРѕСЃС‚Р° РїСЂРѕРїСѓС‰РµРЅ Р±СЂРµР№Рє - С‚Р°Рє РЅР°РґРѕ
       case ServiceState::CheckUpdate:
         this->startCheckUpdate(service, state);
         break;
@@ -101,7 +114,7 @@ namespace GGS {
         break;
 
       default:
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "unknown stage " << state->stage();
+        CRITICAL_LOG << "unknown stage " << state->stage() << "for service" << service->id();
       }
     }
 
@@ -115,18 +128,15 @@ namespace GGS {
 
     void GameDownloadService::stop(const GGS::Core::Service *service)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown)
         return;
 
-      ServiceState *state = this->getStateById(service-> id());
+      ServiceState *state = this->getStateById(service->id());
       if (!state) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "can't stop unknown service";
+        CRITICAL_LOG << "can't stop unknown service " << service->id();
         return;
       }
 
@@ -138,35 +148,51 @@ namespace GGS {
 
     void GameDownloadService::startCheckUpdate(const Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Check for update. Service: " << service->id();
       state->setStage(ServiceState::CheckUpdate);
       emit this->checkUpdateRequest(service, CheckUpdateHelper::Normal);
     }
 
     void GameDownloadService::startPreHooks(const Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Start pre hooks. Service: " << service->id();
       state->setStage(ServiceState::PreHook);
       QtConcurrent::run(this, &GameDownloadService::preHookLoop, service);
     }
 
     void GameDownloadService::startPostHooks(const Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Start post hooks. Service: " << service->id();
       state->setStage(ServiceState::PostHook);
       QtConcurrent::run(this, &GameDownloadService::postHookLoop, service);
     }
 
     void GameDownloadService::startDownload(const Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Start download. Service: " << service->id();
       state->setStage(ServiceState::Download);
       emit this->downloadRequest(service, state->startType(), state->isFoundNewUpdate());
     }
 
     void GameDownloadService::startExtract(const Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Start extraction. Service: " << service->id();
       state->setStage(ServiceState::Extraction);
       ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
       if (!extractor) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "unknown extractor " << service->extractorType();
+        CRITICAL_LOG << "unknown extractor " << service->extractorType() << "for service" << service->id();
         state->setStage(ServiceState::Nowhere);
+
         state->setState(ServiceState::Unknown);
         emit this->failed(service);
         return;
@@ -177,6 +203,9 @@ namespace GGS {
 
     void GameDownloadService::startFinish(const GGS::Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Finishing. Service: " << service->id();
       state->setStage(ServiceState::Finished);
       state->setState(ServiceState::Unknown);
       emit this->finished(service);
@@ -184,6 +213,9 @@ namespace GGS {
 
     void GameDownloadService::startStopping(const GGS::Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      DEBUG_LOG << "Stopping. Service: " << service->id();
       state->setState(ServiceState::Stopping);
       if (state->stage() == ServiceState::Download)
         emit this->downloadStopRequest(service);
@@ -193,6 +225,7 @@ namespace GGS {
 
     void GameDownloadService::preHookLoop(const Core::Service *service)
     {
+      Q_ASSERT(service);
       PauseRequestWatcher watcher(service);
       connect(this, SIGNAL(stopping(const GGS::Core::Service*)), 
         &watcher, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
@@ -210,7 +243,7 @@ namespace GGS {
             return;
           }
 
-          result = hook->beforeDownload(service);
+          result = hook->beforeDownload(this, service);
           if (result != HookBase::Continue)
             break;
         }
@@ -221,6 +254,7 @@ namespace GGS {
 
     void GameDownloadService::postHookLoop(const Core::Service *service)
     {
+      Q_ASSERT(service);
       PauseRequestWatcher watcher(service);
       connect(this, SIGNAL(stopping(const GGS::Core::Service*)), 
         &watcher, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
@@ -238,7 +272,7 @@ namespace GGS {
             return;
           }
 
-          result = hook->afterDownload(service);
+          result = hook->afterDownload(this, service);
           if (result != HookBase::Continue)
             break;
         }
@@ -247,12 +281,9 @@ namespace GGS {
       emit this->postHooksCompleted(service, result);
     }
 
-    void GameDownloadService::preHooksCopletedSlot(const GGS::Core::Service *service, HookBase::HookResult result)
+    void GameDownloadService::preHooksCompletedSlot(const GGS::Core::Service *service, HookBase::HookResult result)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
@@ -272,17 +303,11 @@ namespace GGS {
 
     void GameDownloadService::downloadRequestCompleted(const GGS::Core::Service *service)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
-      if (!state) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "can't state be null here ";
-        return;
-      }
+      Q_ASSERT(state);
 
       if (state->state() == ServiceState::Stopping) {
         this->setStoppedState(service, state);
@@ -293,14 +318,12 @@ namespace GGS {
         this->startExtract(service, state);
     }
 
-    void GameDownloadService::postHooksCopletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result)
+    void GameDownloadService::postHooksCompletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result)
     {
+      Q_ASSERT(service);
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
-      if (!state) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "can't state be null here ";
-        return;
-      }
+      Q_ASSERT(state);
 
       if (state->state() == ServiceState::Stopping) {
         this->setStoppedState(service, state);
@@ -317,10 +340,12 @@ namespace GGS {
 
     void GameDownloadService::hookResultRouter(const GGS::Core::Service *service, ServiceState *state, HookBase::HookResult result)
     {
-      // UNDONE: подумать нужно ли защиту от дурака на посдечет цикличных хуков.
+      Q_ASSERT(service);
+      Q_ASSERT(state);
+      // UNDONE: РїРѕРґСѓРјР°С‚СЊ РЅСѓР¶РЅРѕ Р»Рё Р·Р°С‰РёС‚Сѓ РѕС‚ РґСѓСЂР°РєР° РЅР° РїРѕСЃРґРµС‡РµС‚ С†РёРєР»РёС‡РЅС‹С… С…СѓРєРѕРІ.
       switch(result) {
       case HookBase::Continue:
-        qCritical() << "hook router can't decide where to continue.";
+        CRITICAL_LOG << "hook router can't decide where to continue. Serivce: " << service->id();
         break;
       case HookBase::Abort:
         this->setStoppedState(service, state);
@@ -349,19 +374,18 @@ namespace GGS {
       case HookBase::ExtractionStartPoint:
         this->startExtract(service, state);
         break;
-      case HookBase::ExtractionEndPoint: // break пропущен не случайно.
+      case HookBase::ExtractionEndPoint: // break РїСЂРѕРїСѓС‰РµРЅ РЅРµ СЃР»СѓС‡Р°Р№РЅРѕ.
       case HookBase::Finish:
         this->startFinish(service, state);
         break;
       default:
-        qCritical() << "hookResultRouter Unknown result";
+        CRITICAL_LOG << "hookResultRouter Unknown result: " << result << "for service" << service->id();
       };
     }
 
     bool GameDownloadService::isStoppedOrStopping(const GGS::Core::Service *service)
     {
-      if (!service)
-        return false;
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
@@ -373,32 +397,27 @@ namespace GGS {
 
     void GameDownloadService::setStoppedService(const GGS::Core::Service *service)
     {
-      if (!service)
-        return;
-
+      Q_ASSERT(service);
+      DEBUG_LOG << "Stopped. Service: " << service->id();
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
+      Q_ASSERT(state);
       this->setStoppedState(service, state);
     }
 
     void GameDownloadService::pauseRequestCompleted(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       this->setStoppedService(service);
     }
 
     void GameDownloadService::checkUpdateRequestCompleted(const GGS::Core::Service *service, bool isUpdated)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
-      if (!state) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "can't state be null here ";
-        return;
-      }
+      Q_ASSERT(state);
 
       state->setIsFoundNewUpdate(isUpdated);
 
@@ -415,12 +434,12 @@ namespace GGS {
     {
       QObject::connect(this, 
         SIGNAL(preHooksCompleted(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
-        SLOT(preHooksCopletedSlot(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
+        SLOT(preHooksCompletedSlot(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
         Qt::QueuedConnection);
 
       QObject::connect(this, 
         SIGNAL(postHooksCompleted(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
-        SLOT(postHooksCopletedSlot(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
+        SLOT(postHooksCompletedSlot(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
         Qt::QueuedConnection);
 
       QObject::connect(&this->_progressCalculator, SIGNAL(progressChanged(QString, qint8)), 
@@ -436,33 +455,28 @@ namespace GGS {
 
     void GameDownloadService::checkUpdateFailed(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       this->downloadServiceFailed(service);
     }
 
     void GameDownloadService::downloadServiceFailed(const Core::Service *service)
     {
-      if (!service)
-        return;
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
       state->setStage(ServiceState::Nowhere);
+
       state->setState(ServiceState::Unknown);
       emit this->failed(service);
     }
 
     void GameDownloadService::registerExtractor(ExtractorBase *extractor)
     {
-      if (!extractor) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "trying to register null extractor";
-        return;
-      }
+      Q_ASSERT(extractor);
 
       QString type = extractor->extractorId();
-      if (this->_extractorMap.contains(type)) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "trying to register existing extractor";
-        return;
-      }
+      Q_ASSERT(!this->_extractorMap.contains(type));
       
       extractor->setGameDownloadService(this);
       this->_extractorMap[type] = extractor;
@@ -490,17 +504,11 @@ namespace GGS {
 
     void GameDownloadService::extractionCompleted(const GGS::Core::Service *service)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       QMutexLocker lock(&this->_stateLock);
       ServiceState *state = this->getStateById(service->id());
-      if (!state) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "can't state be null here ";
-        return;
-      }
+      Q_ASSERT(state);
 
       if (state->state() == ServiceState::Stopping) {
         this->setStoppedState(service, state);
@@ -513,6 +521,7 @@ namespace GGS {
 
     void GameDownloadService::extractionFailed(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       this->downloadServiceFailed(service);
     }
 
@@ -564,6 +573,7 @@ namespace GGS {
 
     void GameDownloadService::downloadFailed(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       this->downloadServiceFailed(service);
     }
 
@@ -571,7 +581,7 @@ namespace GGS {
     {
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown) {
-        qCritical() << "GameDownloadService : double shutdown request";
+        CRITICAL_LOG << "GameDownloadService : double shutdown request";
         return;
       }
 
@@ -590,8 +600,10 @@ namespace GGS {
       }
     }
 
-    void GameDownloadService::setStoppedState(const GGS::Core::Service * service, ServiceState * state)
+    void GameDownloadService::setStoppedState(const GGS::Core::Service *service, ServiceState *state)
     {
+      Q_ASSERT(service);
+      Q_ASSERT(state);
       state->setState(ServiceState::Stopped);
       emit this->stopped(service);
 
@@ -602,6 +614,67 @@ namespace GGS {
       }
     }
 
+    void GameDownloadService::directoryChanged(const GGS::Core::Service *service)
+    {
+      Q_ASSERT(service);
+
+      QMutexLocker lock(&this->_stateLock);
+      if (this->_isShuttingDown)
+        return;
+
+      ServiceState *state = this->getStateById(service-> id());
+      if (!state) {
+        return;
+      }
+
+      state->setIsDirectoryChanged(true);
+      if (state->state() != ServiceState::Started)
+        return;
+
+      this->startStopping(service, state);
+    }
+
+    bool GameDownloadService::isInstalled(const QString& serviceId)
+    {
+      Q_ASSERT(!serviceId.isEmpty());
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup(serviceId);
+      bool ok;
+      int result = settings.value("isInstalled", 0).toInt(&ok);
+      return ok && result == 1;
+    }
+
+    bool GameDownloadService::isInstalled(const GGS::Core::Service *service)
+    {
+      Q_ASSERT(service);
+      return this->isInstalled(service->id());
+    }
+
+    void GameDownloadService::setIsInstalled(const QString& serviceId, bool isInstalled)
+    {
+      Q_ASSERT(!serviceId.isEmpty());
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup(serviceId);
+      settings.setValue("isInstalled", isInstalled ? 1 : 0);
+    }
+
+    bool GameDownloadService::isInProgress(const GGS::Core::Service *service)
+    {
+      Q_ASSERT(service);
+
+      QMutexLocker lock(&this->_stateLock);
+      if (this->_isShuttingDown)
+        return false;
+
+      ServiceState *state = this->getStateById(service-> id());
+      if (!state) {
+        return false;
+      }
+
+      return !(state->state() == ServiceState::Stopped || state->state() == ServiceState::Unknown);
+    }
 
   }
 }

@@ -11,16 +11,26 @@
 #ifndef _GGS_GAMEDOWNLOADER_CHECKUPDATEADAPTER_H_
 #define _GGS_GAMEDOWNLOADER_CHECKUPDATEADAPTER_H_
 
-#include <Core/Service>
-
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 
 #include <QtCore/QObject>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+  
   namespace GameDownloader {
     class GameDownloadService;
+
+
+    /*!
+      \class CheckUpdateAdapter
+      \brief Check update adapter. 
+      \author Ilya.Tkachenko
+      \date 25.05.2012
+    */
     class DOWNLOADSERVICE_EXPORT CheckUpdateAdapter : public QObject
     {
       Q_OBJECT

@@ -12,6 +12,8 @@
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/PauseRequestWatcher.h>
 
+#include <Core/Service>
+
 namespace GGS {
   namespace GameDownloader {
     ExtractorBase::ExtractorBase(const QString &extractorId, QObject *parent)
@@ -26,6 +28,7 @@ namespace GGS {
 
     void ExtractorBase::pauseRequestSlot(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       emit this->pauseRequest(service);
     }
 

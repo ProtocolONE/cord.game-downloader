@@ -77,7 +77,7 @@ public slots:
   void gameDownloaderStopping(const GGS::Core::Service *service);
   void gameDownloaderFailed(const GGS::Core::Service *service);
 
-  
+  void changeDirectory(QString serviceId, QString downloadPath, QString installPath);
 
 signals:
   void progress1Changed();

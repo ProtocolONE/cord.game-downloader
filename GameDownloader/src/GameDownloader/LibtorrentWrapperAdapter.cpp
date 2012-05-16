@@ -9,7 +9,14 @@
 ****************************************************************************/
 
 #include <GameDownloader/LibtorrentWrapperAdapter.h>
+#include <GameDownloader/GameDownloader_global.h>
+#include <GameDownloader/CheckUpdateHelper>
+
 #include <LibtorrentWrapper/TorrentConfig>
+#include <LibtorrentWrapper/Wrapper>
+
+#include <Core/Service>
+
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDebug>
 
@@ -29,9 +36,10 @@ namespace GGS {
 
     void LibtorrentWrapperAdapter::downloadRequest(const Service *service, StartType startType, bool isReloadRequired)
     {
+      Q_ASSERT(service);
       this->saveService(service);
       TorrentConfig config;
-      config.setPathToTorrentFile(this->getTorrentPath(service));
+      config.setPathToTorrentFile(CheckUpdateHelper::getTorrentPath(service));
       config.setDownloadPath(service->downloadPath());
       config.setIsForceRehash(startType == Recheck);
       config.setIsReloadRequired(startType == Recheck || isReloadRequired);
@@ -40,38 +48,14 @@ namespace GGS {
 
     void LibtorrentWrapperAdapter::pauseRequest(const Service *service)
     {
+      Q_ASSERT(service);
       this->saveService(service);
       this->_wrapper->stop(service->id());
     }
 
-    QString LibtorrentWrapperAdapter::getTorrentPath(const Service *service)
-    {
-      QString dirName = service->torrentFilePath();
-
-      if (!(dirName.endsWith('/') || dirName.endsWith('\\')))
-        dirName.append('/');
-      return QString("%1%2/%3.torrent")
-        .arg(dirName)
-        .arg(this->getServiceAreaString(service))
-        .arg(service->id());
-    }
-
-    QString LibtorrentWrapperAdapter::getServiceAreaString(const Service *service)
-    {
-      switch(service->area()) {
-      case Service::Live:;
-        return QString("live");
-      case Service::Pts:
-        return QString("pts");
-      case Service::Tst:
-        return QString("tst");
-      default:
-        return QString("");
-      }
-    }
-
     void LibtorrentWrapperAdapter::saveService(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       QMutexLocker lock(&this->_mutex);
       this->_serviceHash[service->id()] = service;
     }
@@ -104,7 +88,7 @@ namespace GGS {
     {
       const GGS::Core::Service *service = this->getService(id);
       if (!service) {
-        qCritical() << "Unknown torrent event for id " << id;
+        CRITICAL_LOG << "Unknown torrent event for id " << id;
         return;
       }
 
@@ -115,7 +99,7 @@ namespace GGS {
     {
       const GGS::Core::Service *service = this->getService(id);
       if (!service) {
-        qCritical() << "Unknown torrent event for id " << id;
+        CRITICAL_LOG << "Unknown torrent event for id " << id;
         return;
       }
 
@@ -126,7 +110,7 @@ namespace GGS {
     {
       const GGS::Core::Service *service = this->getService(id);
       if (!service) {
-        qCritical() << "Unknown torrent event for id " << id;
+        CRITICAL_LOG << "Unknown torrent event for id " << id;
         return;
       }
 

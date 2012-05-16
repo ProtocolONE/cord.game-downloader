@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <GameDownloader/ServiceState.h>
+#include <Core/Service>
 
 #include <QtCore/QDateTime>
 
@@ -20,6 +21,7 @@ namespace GGS {
       , _stage(Nowhere)
       , _state(Unknown)
       , _lastDateStateChanded(-1)
+      , _isDirectoryChanged(false)
     {
     }
 
@@ -27,14 +29,10 @@ namespace GGS {
     {
     }
 
-    void ServiceState::setId(const QString& id)
-    {
-      this->_id = id;
-    }
-
     const QString& ServiceState::id() const
     {
-      return this->_id;
+      Q_ASSERT(this->_service);
+      return this->_service->id();
     }
 
     void ServiceState::setState(const State state)
@@ -85,6 +83,7 @@ namespace GGS {
 
     void ServiceState::setService(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       this->_service = service;
     }
 
@@ -92,5 +91,16 @@ namespace GGS {
     {
       return this->_service;
     }
+
+    bool ServiceState::isDirectoryChanged() const
+    {
+      return this->_isDirectoryChanged;
+    }
+
+    void ServiceState::setIsDirectoryChanged(bool isDirectoryChanged)
+    {
+      this->_isDirectoryChanged = isDirectoryChanged;
+    }
+
   }
 }

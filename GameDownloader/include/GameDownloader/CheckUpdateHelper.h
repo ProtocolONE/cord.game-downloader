@@ -8,21 +8,27 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
 
-#ifndef _GGS_GAMEDOWNLOADER_HOOKS_CHECKUPDATEHOOK_H_
-#define _GGS_GAMEDOWNLOADER_HOOKS_CHECKUPDATEHOOK_H_
-
-#include <Core/Service.h>
+#ifndef _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_
+#define _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_
 
 #include <GameDownloader/GameDownloader_global.h>
 
 #include <UpdateSystem/Downloader/MultiDownloadResultInterface>
-#include <UpdateSystem/Extractor/SevenZipExtractor.h>
 
 #include <QtCore/QString>
 #include <QtNetwork/QNetworkReply>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
+  namespace Extractor {
+    class SevenZipExtactor;
+  }
+
   namespace GameDownloader {
+    
     class DOWNLOADSERVICE_EXPORT CheckUpdateHelper : public QObject,
       public GGS::Downloader::MultiFileDownloadResultInterface
     {
@@ -46,6 +52,8 @@ namespace GGS {
 
       void setMaxHeadRequestRetry(int count);
 
+      static QString getTorrentPath(const GGS::Core::Service *service);
+
     public slots:
       void startCheck(const GGS::Core::Service *service, CheckUpdateType checkUpdateType);
 
@@ -60,16 +68,14 @@ namespace GGS {
 
     private:
       QString getTorrentUrlWithoutArchiveExtension();
-      QString getTorrentUrlWithArchiveExtension();
-      QString getTorrentPath();
-      QString getServiceAreaString();
+      QUrl getTorrentUrlWithArchiveExtension();
       void startDownloadTorrent();
 
       void saveLastModifiedDate(const QString& date);
       QString loadLastModifiedDate() const;
 
       QString _lastModified;
-      QNetworkAccessManager * _manager;
+      QNetworkAccessManager *_manager;
       const GGS::Core::Service *_service;
       GGS::Extractor::SevenZipExtactor *_extractor;
       int _headRequestRetryCount;
@@ -81,4 +87,4 @@ namespace GGS {
   }
 }
 
-#endif // _GGS_GAMEDOWNLOADER_HOOKS_CHECKUPDATEHOOK_H_
+#endif // _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_

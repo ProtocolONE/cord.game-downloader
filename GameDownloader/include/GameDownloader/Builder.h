@@ -12,9 +12,10 @@
 #define _GGS_GAMEDOWNLOADER_BUILDER_H_
 
 #include <GameDownloader/GameDownloader_global.h>
-#include <LibtorrentWrapper/Wrapper>
 #include <GameDownloader/LibtorrentWrapperAdapter.h>
 #include <GameDownloader/GameDownloadService.h>
+
+#include <LibtorrentWrapper/Wrapper>
 
 #include <QtCore/QObject>
 

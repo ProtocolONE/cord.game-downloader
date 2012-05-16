@@ -11,12 +11,14 @@
 #ifndef _GGS_GAMEDOWNLOADER_PAUSEREQUESTWACHER_H_
 #define _GGS_GAMEDOWNLOADER_PAUSEREQUESTWACHER_H_
 
-#include <Core/Service.h>
-
 #include <QtCore/QObject>
 #include <QtCore/QString>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
 
     class PauseRequestWatcher : public QObject

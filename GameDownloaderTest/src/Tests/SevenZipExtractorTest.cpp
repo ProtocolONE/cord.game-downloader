@@ -16,12 +16,15 @@
 #include <gtest/gtest.h>
 
 #include <QtCore/QObject>
+#include <QtCore/QString>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QTime>
 #include <QtCore/QDirIterator>
 #include <QtCore/QHash>
 #include <QtCore/QDataStream>
 #include <QtTest/QSignalSpy>
+
+#include <Windows.h>
 
 void scanDir(int removeLength, QHash<QString, QString> &result, QDir dir)
 {
@@ -61,7 +64,7 @@ void QDirIteratorSpeedTest(QHash<QString, QString> &result)
   // Note that "if (!it.filinfo().isDir())" faster than setFilter
   //dir.setFilter(QDir::Files | QDir::NoSymLinks);
 
-  QDirIterator it(dir, QDirIterator::IteratorFlag::Subdirectories);
+  QDirIterator it(dir, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QString file = it.next();
     if (!it.fileInfo().isDir()) 
@@ -128,7 +131,7 @@ public:
 
     service.setTorrentFilePath(fileArchivePath);
     service.setDownloadPath(fileArchivePath);
-    service.setExtractionPath(fileGamePath);
+    service.setInstallPath(fileGamePath);
 
     service.setId("300003010000000000");
     service.setExtractorType(extractor.extractorId());
@@ -218,7 +221,16 @@ public:
     QString fixturePath = QString("%1/fixtures/%2").arg(QCoreApplication::applicationDirPath(), realtivePathName);
 
     if (!QFile::exists(fixturePath)) {
-      qCritical() << "unknwonw fixture " << realtivePathName;
+      qCritical() << "unknown fixture " << realtivePathName;
+      QFile file("C:/tmp/1.txt");
+      if (!file.open(QIODevice::WriteOnly)) {
+        qCritical() << "can't open tmp log";
+        return;
+      }
+
+      QVector<uint> vec = fixturePath.toUcs4();
+       
+      file.write( (char*)vec.data(), vec.size() * sizeof(int));
       return;
     }
 
@@ -239,7 +251,7 @@ public:
 
   void corruptGameFile(const QString& realtivePathName) 
   {
-    QString filePath = QString("%1/%2/%3").arg(this->service.extractionPath(), 
+    QString filePath = QString("%1/%2/%3").arg(this->service.installPath(), 
       this->getServiceAreaString(&this->service),
       realtivePathName);
   
@@ -261,7 +273,7 @@ public:
 
   void removeGameFile(const QString& realtivePathName) 
   {
-    QString filePath = QString("%1/%2/%3").arg(this->service.extractionPath(), 
+    QString filePath = QString("%1/%2/%3").arg(this->service.installPath(), 
       this->getServiceAreaString(&this->service),
       realtivePathName);
 
@@ -283,23 +295,22 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   //<< "update.crc.7z"
   //<< "3000.torrent.7z"
 
-  QString rusfile1 = QString::fromUtf8(QByteArray::fromHex(QString("d09fd0b0d0bfd0bad0b0d181d184d0b0d0b9d0bbd0b0d0bcd0b85cd0bfd180d0bed187d182d0b85fd0bcd0b5d0bdd18f2ed182d0b5d0bad181d1822e377a").toLatin1()));
-  QString rusfile2 = QString::fromUtf8(QByteArray::fromHex(QString("d09fd0b0d0bfd0bad0b0d181d184d0b0d0b9d0bbd0b0d0bcd0b85cd09fd0bed0b4d09fd0b0d0bfd0bad0b0d0a1d0a4d0b0d0b9d0bbd0b0d0bcd0b85cd09fd180d0bed187d182d0b85fd09cd0b5d0bdd18f5fd09fd0bed0b6d0b0d0bbd183d0b9d181d182d0b02ed182d0b5d0bad181d1822e377a").toLatin1()));
-
+  //QString rusfile2_without_7z = QString::fromUtf16(L"Папкасфайлами\\ПодПапкаСФайлами\\Прочти_Меня_Пожалуйста.текст\0");
   QString rusfile2_without_7z = QString::fromUtf8(QByteArray::fromHex(QString("d09fd0b0d0bfd0bad0b0d181d184d0b0d0b9d0bbd0b0d0bcd0b85cd09fd0bed0b4d09fd0b0d0bfd0bad0b0d0a1d0a4d0b0d0b9d0bbd0b0d0bcd0b85cd09fd180d0bed187d182d0b85fd09cd0b5d0bdd18f5fd09fd0bed0b6d0b0d0bbd183d0b9d181d182d0b02ed182d0b5d0bad181d182").toLatin1()));
   QStringList fixtures;
+
   fixtures << "AirGarden.mp3.7z"
     << "Basilan.mp3.7z"
     << "test.txt.7z"
     << "SubDir\\readme.txt.7z"
-    //<< QString::fromLocal8Bit("Папкасфайлами\\прочти_меня.текст.7z")
-    << rusfile1
-    //<< QString::fromLocal8Bit("Папкасфайлами\\ПодПапкаСФайлами\\Прочти_Меня_Пожалуйста.текст.7z");
-    << rusfile2;
+    //<< QString::fromUtf16(L"Папкасфайлами\\прочти_меня.текст.7z\0")
+    << QString::fromUtf8(QByteArray::fromHex(QString("d09fd0b0d0bfd0bad0b0d181d184d0b0d0b9d0bbd0b0d0bcd0b85cd0bfd180d0bed187d182d0b85fd0bcd0b5d0bdd18f2ed182d0b5d0bad181d1822e377a").toLatin1()))
+    //<< QString::fromUtf16(L"Папкасфайлами\\ПодПапкаСФайлами\\Прочти_Меня_Пожалуйста.текст.7z\0");
+    << QString::fromUtf8(QByteArray::fromHex(QString("d09fd0b0d0bfd0bad0b0d181d184d0b0d0b9d0bbd0b0d0bcd0b85cd09fd0bed0b4d09fd0b0d0bfd0bad0b0d0a1d0a4d0b0d0b9d0bbd0b0d0bcd0b85cd09fd180d0bed187d182d0b85fd09cd0b5d0bdd18f5fd09fd0bed0b6d0b0d0bbd183d0b9d181d182d0b02ed182d0b5d0bad181d1822e377a").toLatin1()));
 
   this->copyFromFixturesToArchiveDirectory(fixtures);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::StartType::Normal);
+  gameDownloaderService.start(&service, GGS::GameDownloader::Normal);
 
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 10000);
@@ -332,7 +343,7 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   // Let's recheck files, we shouldn't get any extra progress event except first one
   this->resetSignals();
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::StartType::Force);
+  gameDownloaderService.start(&service, GGS::GameDownloader::Force);
   QEventLoop loop1;
   TestEventLoopFinisher loopKiller1(&loop1, 10000);
   QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller1, SLOT(terminateLoop()));
@@ -354,7 +365,7 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   this->corruptGameFile("SubDir/readme.txt");
   this->corruptGameFile(rusfile2_without_7z);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::StartType::Force);
+  gameDownloaderService.start(&service, GGS::GameDownloader::Force);
   QEventLoop loop2;
   TestEventLoopFinisher loopKiller2(&loop2, 5000);
   QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller2, SLOT(terminateLoop()));
@@ -373,7 +384,7 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   this->corruptGameFile("SubDir/readme.txt");
   this->corruptGameFile(rusfile2_without_7z);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::StartType::Recheck);
+  gameDownloaderService.start(&service, GGS::GameDownloader::Recheck);
   QEventLoop loop3;
   TestEventLoopFinisher loopKiller3(&loop3, 5000);
   QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller3, SLOT(terminateLoop()));

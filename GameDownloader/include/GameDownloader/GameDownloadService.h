@@ -10,10 +10,7 @@
 #ifndef _GGS_GAMEDOWNLOADER_GAMEDOWNLOADSERVICE_H_
 #define _GGS_GAMEDOWNLOADER_GAMEDOWNLOADSERVICE_H_
 
-#include <Core/Service.h>
-
 #include <GameDownloader/GameDownloader_global.h>
-#include <GameDownloader/PauseRequestWatcher.h>
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 #include <GameDownloader/StartType.h>
@@ -22,42 +19,92 @@
 #include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
 
 #include <QtCore/QObject>
-#include <QtCore/QDebug>
 #include <QtCore/QMultiMap>
 #include <QtCore/QHash>
 #include <QtCore/QSet>
 #include <QtCore/QMutex>
-#include <QtCore/QMutexLocker>
-#include <QtCore/QMultiMap>
-#include <QtCore/QDateTime>
-#include <QtCore/QtConcurrentRun>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
     class ServiceState;
     class ExtractorBase;
+
     class DOWNLOADSERVICE_EXPORT GameDownloadService : public QObject
     {
       Q_OBJECT
-
     public:
       GameDownloadService(QObject *parent = 0);
       ~GameDownloadService();
 
+      /*!
+        \fn void GameDownloadService::init();
+        \brief Инициализация этого объекта. Необходимо вызвать перед любой работой с объектом.
+        \author Ilya.Tkachenko
+        \date 25.05.2012
+      */
       void init();
+
+
+      /*!
+        \fn void GameDownloadService::shutdown();
+        \brief Завешает работу сервиса. Необходимо вызвать перед закрытием приложения.
+        \author Ilya.Tkachenko
+        \date 25.05.2012
+      */
       void shutdown();
+
+
+      /*!
+        \fn void GameDownloadService::registerHook(const QString& serviceId, int preHookPriority,
+          int postHookPriority, HookBase *hook);
+        \brief Добавление хука для сервиса. Хуки выполняются в соответсвии с приоритетом от больших к меньшим.
+        \author Ilya.Tkachenko
+        \date 25.05.2012
+        \param serviceId        Идентификатор сервиса.
+        \param preHookPriority  Приоритет хука перед скаичванием.
+        \param postHookPriority Приоритет хука после скачивания.
+        \param [in,out] hook    Хук.
+      */
       void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
+
+
+      /*!
+        \fn void GameDownloadService::registerExtractor(ExtractorBase *extractor);
+        \brief Добавление поддерживаемых екстракторов.
+        \author Ilya.Tkachenko
+        \date 25.05.2012
+        \param [in,out] extractor If non-null, the extractor.
+      */
       void registerExtractor(ExtractorBase *extractor);
       
+
+      /*!
+        \fn bool GameDownloadService::isStoppedOrStopping(const GGS::Core::Service *service);
+        \brief Проверяет состояние закачки по сервису. Возращает true, если скачи вание остановлено или находиться в 
+               процессс остановки. 
+        \author Ilya.Tkachenko
+        \date 25.05.2012
+        \param service The service.
+        \return true if stopped or stopping, false if not.
+      */
       bool isStoppedOrStopping(const GGS::Core::Service *service);
+      
+      bool isInProgress(const GGS::Core::Service *service);
+
       StageProgressCalculator& progressCalculator();
 
       void setTimeoutForResume(quint32 seconds);
 
+      bool isInstalled(const QString& serviceId);
+      bool isInstalled(const GGS::Core::Service *service);
+
     public slots:
       void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
       void stop(const GGS::Core::Service *service);
-
 
       /*!
         \fn void GameDownloadService::downloadRequestCompleted(const GGS::Core::Service *service);
@@ -69,7 +116,6 @@ namespace GGS {
       */
       void downloadRequestCompleted(const GGS::Core::Service *service);
 
-
       /*!
         \fn void GameDownloadService::pauseRequestCompleted(const GGS::Core::Service *service);
         \brief Функция должна быть вызвана по окончанию остановки скачивания игры каким либо менеджером закачек.
@@ -79,7 +125,6 @@ namespace GGS {
         \param service The service.
       */
       void pauseRequestCompleted(const GGS::Core::Service *service);
-
 
       /*!
         \fn void GameDownloadService::checkUpdateRequestCompleted(const GGS::Core::Service *service);
@@ -97,6 +142,8 @@ namespace GGS {
       void extractionFailed(const GGS::Core::Service *service);
 
       void downloadFailed(const GGS::Core::Service *service);
+
+      void directoryChanged(const GGS::Core::Service *service);
 
     signals:
       void started(const GGS::Core::Service *service);
@@ -127,9 +174,12 @@ namespace GGS {
       void checkUpdateRequest(const GGS::Core::Service *service, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type);
       void downloadRequest(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType, bool isReloadRequired);
 
+    protected:
+      void setIsInstalled(const QString& serviceId, bool isInstalled);
+
     private slots:
-      void preHooksCopletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
-      void postHooksCopletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+      void preHooksCompletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
+      void postHooksCompletedSlot(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
 
       void internalProgressChangedSlot(QString serviceId, qint8 progress);
       void internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
@@ -148,7 +198,7 @@ namespace GGS {
       inline void startStopping(const GGS::Core::Service *service, ServiceState *state);
 
       void setStoppedService(const GGS::Core::Service *service);
-      void setStoppedState(const GGS::Core::Service * service, ServiceState * state);
+      void setStoppedState(const GGS::Core::Service *service, ServiceState *state);
 
       void hookResultRouter(const GGS::Core::Service *service, ServiceState *state, GGS::GameDownloader::HookBase::HookResult result);
       void preHookLoop(const Core::Service *service);

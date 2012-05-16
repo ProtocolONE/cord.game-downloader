@@ -14,11 +14,13 @@
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/StartType.h>
 
-#include <Core/Service>
-
 #include <QtCore/QObject>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
     class GameDownloadService;
     class DOWNLOADSERVICE_EXPORT ExtractorBase : public QObject
@@ -49,7 +51,6 @@ namespace GGS {
       QString _extractorId;
 
     };
-
   }
 }
 

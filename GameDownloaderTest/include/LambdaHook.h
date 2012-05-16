@@ -7,6 +7,13 @@
 
 #define DOWNLOADERHOOK(x) std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int, const GGS::Core::Service *)> x = [&](int hookId, const GGS::Core::Service *service) mutable -> GGS::GameDownloader::HookBase::HookResult
 
+
+namespace GGS {
+  namespace GameDownloader {
+    class GameDownloadService;
+  }
+}
+
 /*!
   \class LambdaHook
   \brief Реализуется хук для GameDownloaderService. На вход принимает идентификатор хука и два функтора, 
@@ -21,8 +28,8 @@ public:
     std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int id, const GGS::Core::Service *)>post);
   ~LambdaHook();
 
-  virtual HookResult beforeDownload( const GGS::Core::Service *service );
-  virtual HookResult afterDownload( const GGS::Core::Service *service );
+  virtual HookResult beforeDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service );
+  virtual HookResult afterDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service );
 
 private:
   int _id;

@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <GameDownloader/HookBase.h>
+#include <GameDownloader/GameDownloadService>
 
 GGS::GameDownloader::HookBase::~HookBase()
 {
@@ -18,6 +19,8 @@ GGS::GameDownloader::HookBase::~HookBase()
 GGS::GameDownloader::HookBase::HookBase(const QString& hookId, QObject *parent)
   : QObject(parent)
   , _hookId(hookId)
+  , _beforeProgressWeight(0)
+  , _afterProgressWeight(0)
 {
 }
 

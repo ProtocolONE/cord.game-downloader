@@ -1,5 +1,4 @@
 #include "FakeHook.h"
-
 #include <QtCore/QDebug>
 #include <Windows.h>
 
@@ -12,7 +11,7 @@ FakeHook::~FakeHook()
 {
 }
 
-GGS::GameDownloader::HookBase::HookResult FakeHook::beforeDownload(const GGS::Core::Service *service)
+GGS::GameDownloader::HookBase::HookResult FakeHook::beforeDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service)
 {
   qDebug() << "pre  hook " << this->hookId();
   emit this->beforeProgressChanged(service->id(), this->hookId(), 0);
@@ -21,10 +20,10 @@ GGS::GameDownloader::HookBase::HookResult FakeHook::beforeDownload(const GGS::Co
     emit this->beforeProgressChanged(service->id(), this->hookId(), 10 * i );
   }
 
-  return GGS::GameDownloader::HookBase::HookResult::Continue;
+  return GGS::GameDownloader::HookBase::Continue;
 }
 
-GGS::GameDownloader::HookBase::HookResult FakeHook::afterDownload(const GGS::Core::Service *service)
+GGS::GameDownloader::HookBase::HookResult FakeHook::afterDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service)
 {
   qDebug() << "post hook " << this->hookId();
   emit this->afterProgressChanged(service->id(), this->hookId(), 0);
@@ -33,5 +32,5 @@ GGS::GameDownloader::HookBase::HookResult FakeHook::afterDownload(const GGS::Cor
     emit this->afterProgressChanged(service->id(), this->hookId(), 10 * i );
   }
 
-  return GGS::GameDownloader::HookBase::HookResult::Continue;
+  return GGS::GameDownloader::HookBase::Continue;
 }

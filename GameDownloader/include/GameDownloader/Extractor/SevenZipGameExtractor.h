@@ -13,10 +13,13 @@
 
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/ExtractorBase.h>
-#include <Core/Service>
 #include <UpdateSystem/UpdateFileInfo>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
   namespace GameDownloader {
     class PauseRequestWatcher;
     namespace Extractor {
@@ -33,8 +36,7 @@ namespace GGS {
         bool getUpdateInfo(const GGS::Core::Service *service, QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash);
         void loadUpdateInfo(const GGS::Core::Service *service, QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash);
         void saveUpdateInfo(const GGS::Core::Service *service, const QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash);
-        void getFilesInDirectory(const QString &dirictory, QHash<QString, QString> &result);
-        QString getServiceAreaString(const GGS::Core::Service *service);
+        void getFilesInDirectory(const QString &directory, QHash<QString, QString> &result);
         QString createDirectoryIfNotExist(const QString &targetFilePath);
         void extractFiles(
           const GGS::Core::Service *service, 

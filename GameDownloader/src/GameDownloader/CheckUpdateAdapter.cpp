@@ -10,6 +10,7 @@
 
 #include <GameDownloader/CheckUpdateAdapter.h>
 #include <GameDownloader/GameDownloadService.h>
+#include <Core/Service>
 
 namespace GGS {
   namespace GameDownloader {
@@ -25,6 +26,7 @@ namespace GGS {
 
     void CheckUpdateAdapter::checkUpdateRequest(const GGS::Core::Service *service, CheckUpdateHelper::CheckUpdateType type)
     {
+      Q_ASSERT(service);
       GGS::GameDownloader::CheckUpdateHelper *helper = new GGS::GameDownloader::CheckUpdateHelper(this);
       QObject::connect(helper, SIGNAL(result(const GGS::Core::Service *, bool)),
         this, SLOT(checkUpdateResult(const GGS::Core::Service *, bool)),
@@ -42,6 +44,7 @@ namespace GGS {
 
     void CheckUpdateAdapter::checkUpdateResult(const GGS::Core::Service *service, bool isUpdated)
     {
+      Q_ASSERT(service);
       CheckUpdateHelper *helper = qobject_cast<CheckUpdateHelper *>(QObject::sender());
       if (helper)
         helper->deleteLater();
@@ -51,6 +54,7 @@ namespace GGS {
 
     void CheckUpdateAdapter::checkUpdateError(const GGS::Core::Service *service)
     {
+      Q_ASSERT(service);
       CheckUpdateHelper *helper = qobject_cast<CheckUpdateHelper *>(QObject::sender());
       if (helper)
         helper->deleteLater();

@@ -26,9 +26,9 @@ namespace GGS {
 
       void UpdateInfoGetterResultEventLoopKiller::updateInfoCallback(GGS::UpdateSystem::UpdateInfoGetterResults error)
       {
+        Q_ASSERT(this->_loop != 0);
         this->_result = error;
-        if (this->_loop)
-          this->_loop->exit();
+        this->_loop->exit();
       }
 
       void UpdateInfoGetterResultEventLoopKiller::infoGetterUpdateProggress(quint64 current, quint64 total)

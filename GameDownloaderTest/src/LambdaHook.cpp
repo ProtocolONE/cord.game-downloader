@@ -1,4 +1,5 @@
 #include "LambdaHook.h"
+#include <GameDownloader/GameDownloadService>
 
 
 LambdaHook::LambdaHook(int id, 
@@ -16,12 +17,12 @@ LambdaHook::~LambdaHook()
 {
 }
 
-GGS::GameDownloader::HookBase::HookResult LambdaHook::beforeDownload( const GGS::Core::Service *service )
+GGS::GameDownloader::HookBase::HookResult LambdaHook::beforeDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service)
 {
   return this->preHook(this->_id, service);
 }
 
-GGS::GameDownloader::HookBase::HookResult LambdaHook::afterDownload( const GGS::Core::Service *service )
+GGS::GameDownloader::HookBase::HookResult LambdaHook::afterDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service)
 {
   return this->postHook(this->_id, service);
 }

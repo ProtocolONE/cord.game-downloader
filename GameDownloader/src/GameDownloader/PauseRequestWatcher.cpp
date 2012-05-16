@@ -18,10 +18,7 @@ namespace GGS {
 
     PauseRequestWatcher::PauseRequestWatcher(const GGS::Core::Service *service)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
-        return;
-      }
+      Q_ASSERT(service);
 
       this->_id = service->id();
       this->_isPaused = false;
@@ -33,10 +30,10 @@ namespace GGS {
 
     void PauseRequestWatcher::pauseRequestSlot(const GGS::Core::Service *service)
     {
-      if (!service) {
-        qCritical() << __FILE__ << __LINE__ << __FUNCTION__ << "service can't be null";
+      Q_ASSERT(service);
+
+      if (this->_id != service->id())
         return;
-      }
 
       this->_isPaused = true;
     }

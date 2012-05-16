@@ -116,12 +116,18 @@
     <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="include\GameDownloader\StartType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\Hooks\InstallDependency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

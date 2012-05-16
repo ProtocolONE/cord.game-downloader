@@ -18,9 +18,11 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -154,6 +156,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
     <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\SevenZipGameExtractor.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\DummyExtractor.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBase.cpp">
@@ -321,6 +324,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -D_WINDLL "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I." "-I." "-I." "-I."</Command>
     </CustomBuild>
     <ClInclude Include="include\GameDownloader\StartType.h" />
+    <ClInclude Include="include\GameDownloader\Hooks\InstallDependency.h" />
     <ClInclude Include="resource.h" />
     <CustomBuild Include="include\GameDownloader\ServiceState.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -375,7 +379,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="1" lupdateOptions="" lreleaseOptions="" QtVersion_x0020_Win32="4.8.0" />
+      <UserProperties UicDir=".\GeneratedFiles" MocDir=".\GeneratedFiles\$(ConfigurationName)" MocOptions="" RccDir=".\GeneratedFiles" lupdateOnBuild="1" lupdateOptions="" lreleaseOptions="" QtVersion_x0020_Win32="$(DefaultQtVersion)" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

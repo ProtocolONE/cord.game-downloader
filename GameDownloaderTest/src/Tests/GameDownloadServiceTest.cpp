@@ -89,7 +89,7 @@ TEST(GameDownloadService, HookPriorityCheck)
     return true;
   });
 
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
 
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
@@ -150,7 +150,7 @@ TEST(GameDownloadService, PreHookResultCheck)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(2, step);
@@ -197,7 +197,7 @@ TEST(GameDownloadService, PostHookResultCheck)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(2, step);
@@ -251,7 +251,7 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostStart)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(1, step);
@@ -307,7 +307,7 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostEnd)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(1, step);
@@ -357,7 +357,7 @@ TEST(GameDownloadService, SimpleStopOnPreHooks)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -416,7 +416,7 @@ TEST(GameDownloadService, SimpleStopOnPostHooks)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -476,7 +476,7 @@ TEST(GameDownloadService, SimpleStopOnDownload)
   GGS::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -537,7 +537,7 @@ TEST(GameDownloadService, SimpleStopOnCheckUpdate)
   service.setExtractorType(extractor.extractorId());
   service.setTorrentUrl(QUrl("http://fs0.gamenet.ru/update/aika/"));
 
-  downloadService.start(&service, GGS::GameDownloader::StartType::Normal);
+  downloadService.start(&service, GGS::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);

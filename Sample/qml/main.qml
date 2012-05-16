@@ -4,7 +4,7 @@ import "./Elements" as Elements
 import "." as Blocks
 Rectangle {
      id: container
-     width: 1000; height: 400
+     width: 1000; height: 800
 
 	Rectangle {
 		x: 10
@@ -81,7 +81,7 @@ Rectangle {
 
 	Blocks.GameControl {
 		x: 5
-		y: 70
+		y: 70+30
 		gameId: "300003010000000000"
 //		progressValue: mainWindow.progress2
 //		statusText: mainWindow.statusText2
@@ -89,7 +89,7 @@ Rectangle {
 
 	Blocks.GameControl {
 		x: 5
-		y: 100
+		y: 100+60
 		gameId: "300004010000000000"
 //		progressValue: mainWindow.progress2
 //		statusText: mainWindow.statusText2
@@ -97,7 +97,7 @@ Rectangle {
 
 	Blocks.GameControl {
 		x: 5
-		y: 130
+		y: 130+90
 		gameId: "300005010000000000"
 //		progressValue: mainWindow.progress2
 //		statusText: mainWindow.statusText2
@@ -105,7 +105,7 @@ Rectangle {
 
 	Blocks.GameControl {
 		x: 5
-		y: 160
+		y: 160+120
 		gameId: "300006010000000000"
 //		progressValue: mainWindow.progress2
 //		statusText: mainWindow.statusText2

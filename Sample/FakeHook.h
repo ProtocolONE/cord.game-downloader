@@ -12,9 +12,9 @@ public:
   FakeHook(const QString& id, QObject *parent = 0);
   ~FakeHook();
 
-  virtual GGS::GameDownloader::HookBase::HookResult beforeDownload(const GGS::Core::Service *service);
+  virtual GGS::GameDownloader::HookBase::HookResult beforeDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service);
 
-  virtual GGS::GameDownloader::HookBase::HookResult afterDownload(const GGS::Core::Service *service);
+  virtual GGS::GameDownloader::HookBase::HookResult afterDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service);
 
 };
 

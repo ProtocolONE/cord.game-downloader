@@ -94,6 +94,9 @@
     <ClCompile Include="src\Tests\StageProgressCalculatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tests\InstallDependencyHookTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\Tests\GameDownloadServiceTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

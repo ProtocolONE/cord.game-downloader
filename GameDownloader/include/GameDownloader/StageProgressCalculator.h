@@ -12,7 +12,6 @@
 #define _GGS_GAMEDOWNLOADER_STAGEPROGRESCALCULATOR_H_
 
 #include <GameDownloader/GameDownloader_global.h>
-#include <GameDownloader/HookBase.h>
 #include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
 
 #include <QtCore/QObject>
@@ -23,6 +22,7 @@
 namespace GGS {
   namespace GameDownloader {
     class HookBase;
+
     class DOWNLOADSERVICE_EXPORT StageProgressCalculator : public QObject
     {
       Q_OBJECT
@@ -56,7 +56,6 @@ namespace GGS {
       void recalculateHooksStages(int priority, HookBase *hook, bool isBefore,
         QMap<int, HookBase* > &priorityMap,
         QHash<QString, QPair<qint32, qint32> > &hookStateMap);
-
 
       qreal _checkUpdateStageSize;
       qreal _preHookStageSize;

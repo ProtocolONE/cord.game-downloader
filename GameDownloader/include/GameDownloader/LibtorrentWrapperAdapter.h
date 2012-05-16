@@ -11,8 +11,6 @@
 #ifndef _GGS_GAMEDOWNLOADER_LIBTORRENTWRAPPERADAPTER_H_
 #define _GGS_GAMEDOWNLOADER_LIBTORRENTWRAPPERADAPTER_H_
 
-#include <Core/Service>
-#include <LibtorrentWrapper/Wrapper>
 #include <GameDownloader/StartType.h>
 
 #include <QtCore/QObject>
@@ -20,6 +18,14 @@
 #include <QtCore/QMutex>
 
 namespace GGS {
+  namespace Core {
+    class Service;
+  }
+
+  namespace Libtorrent {
+    class Wrapper;
+  }
+
   namespace GameDownloader {
 
     class LibtorrentWrapperAdapter : public QObject
@@ -46,8 +52,6 @@ namespace GGS {
       void torrentDownloadFailedSlot(QString id);
 
     private:
-      QString getTorrentPath(const GGS::Core::Service *service);
-      QString getServiceAreaString(const GGS::Core::Service *service);
       void saveService(const GGS::Core::Service *service);
       const GGS::Core::Service* getService(const QString& id);
 

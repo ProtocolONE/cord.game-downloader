@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <GameDownloader/StageProgressCalculator.h>
+#include <GameDownloader/HookBase.h>
 #include <QtCore/QDebug>
 
 namespace GGS {
@@ -113,8 +114,7 @@ namespace GGS {
 
     void StageProgressCalculator::registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook)
     {
-      if (!hook)
-        return;
+      Q_ASSERT(hook);
         
       if (hook->beforeProgressWeight() > 0)
         this->recalculateHooksStages(preHookPriority, hook, true, this->_preHookPriorityMap[serviceId], this->_preHookStateMap[serviceId]);
