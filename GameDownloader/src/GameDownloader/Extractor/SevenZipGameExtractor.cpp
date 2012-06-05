@@ -26,6 +26,7 @@
 #include <Settings/Settings>
 #include <Core/Service>
 
+#include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
 #include <QtCore/QTimer>
 #include <QtCore/QDir>

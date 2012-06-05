@@ -17,6 +17,7 @@
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 
+#include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QStringList>
 #include <QtCore/QFile>
