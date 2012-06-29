@@ -54,15 +54,18 @@ namespace GGS {
       quint8 afterProgressWeight() const;
       void setAfterProgressWeight(quint8 weight);
 
+    public slots:
+      void pauseRequestSlot(const GGS::Core::Service *service);
+
     signals:
       void beforeProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
       void afterProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
+      void pauseRequest(const GGS::Core::Service *service);
 
-    private:
-      QString _hookId;
-
+    protected:
       quint8 _beforeProgressWeight;
       quint8 _afterProgressWeight;
+      QString _hookId;
 
     };
   }

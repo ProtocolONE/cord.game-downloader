@@ -91,7 +91,7 @@ namespace GGS {
         \param service The service.
         \return true if stopped or stopping, false if not.
       */
-      bool isStoppedOrStopping(const GGS::Core::Service *service);
+      virtual bool isStoppedOrStopping(const GGS::Core::Service *service);
       
       bool isInProgress(const GGS::Core::Service *service);
 

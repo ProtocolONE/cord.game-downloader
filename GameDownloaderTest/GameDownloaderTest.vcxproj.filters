@@ -88,16 +88,28 @@
     <ClCompile Include="src\FakeCheckUpdateAdapter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\SevenZipExtractorTest.cpp">
+    <ClCompile Include="src\Tests\OldGameClientMigrateTest.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MessageAdapterMock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MessageAdapterMock.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MessageAdapterMock.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\StageProgressCalculatorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\InstallDependencyHookTest.cpp">
+    <ClCompile Include="src\Tests\SevenZipExtractorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\GameDownloadServiceTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tests\InstallDependencyHookTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\CheckUpdateHookTest.cpp">
@@ -132,6 +144,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="include\FakeCheckUpdateAdapter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\MessageAdapterMock.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

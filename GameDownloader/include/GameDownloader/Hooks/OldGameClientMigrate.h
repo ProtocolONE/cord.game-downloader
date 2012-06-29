@@ -8,10 +8,9 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
 
-#ifndef _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_
-#define _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_
+#ifndef _GGS_GAMEDOWNLOADER_HOOKS_OLDGAMECLIENTMIGRATE_H_
+#define _GGS_GAMEDOWNLOADER_HOOKS_OLDGAMECLIENTMIGRATE_H_
 
-#include <GameDownloader/GameDownloader_global>
 #include <GameDownloader/HookBase.h>
 
 namespace GGS {
@@ -19,16 +18,27 @@ namespace GGS {
     class GameDownloadService;
 
     namespace Hooks {
-      class DOWNLOADSERVICE_EXPORT InstallDependency : public HookBase
+      class DOWNLOADSERVICE_EXPORT OldGameClientMigrate : public HookBase
       {
       public:
-        InstallDependency();
-        virtual ~InstallDependency();
+        OldGameClientMigrate();
+        virtual ~OldGameClientMigrate();
 
         virtual HookResult beforeDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service);
         virtual HookResult afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service);
+      
+      private:
+        bool isFirstRun(const GGS::Core::Service *service);
+        void saveHookFinished(const GGS::Core::Service *service);
+        bool migrate(GameDownloadService *gameDownloader, const GGS::Core::Service *service);
+        bool readString(const QString& key, const QString& paramName, QString& result);
+
+        quint64 getDriveFreeSpace(const QString& drive);
+        quint64 getDirectorySize(const QString& directory);
+        QString getDriveName(const QString& path);
       };
     }
   }
 }
-#endif // _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_
+
+#endif // _GGS_GAMEDOWNLOADER_HOOKS_OLDGAMECLIENTMIGRATE_H_

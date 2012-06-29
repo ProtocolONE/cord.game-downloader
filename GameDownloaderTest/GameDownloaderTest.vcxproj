@@ -132,6 +132,12 @@ xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_MessageAdapterMock.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_MessageAdapterMock.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\FakeCheckUpdateAdapter.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_FakeCheckUpdateAdapter.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -146,6 +152,7 @@ xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\FileUtils.cpp" />
+    <ClCompile Include="src\MessageAdapterMock.cpp" />
     <ClCompile Include="src\SignalCounter.cpp" />
     <ClCompile Include="src\FakeLibtorrentWrapperAdapter.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_FakeLibtorrentWrapperAdapter.cpp">
@@ -175,6 +182,7 @@ xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
     <ClCompile Include="src\Tests\CheckUpdateHookTest.cpp" />
     <ClCompile Include="src\Tests\GameDownloadServiceTest.cpp" />
     <ClCompile Include="src\Tests\InstallDependencyHookTest.cpp" />
+    <ClCompile Include="src\Tests\OldGameClientMigrateTest.cpp" />
     <ClCompile Include="src\Tests\SevenZipExtractorTest.cpp" />
     <ClCompile Include="src\Tests\StageProgressCalculatorTest.cpp" />
   </ItemGroup>
@@ -220,6 +228,16 @@ xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing FakeLibtorrentWrapperAdapter.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB  "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
+    </CustomBuild>
+    <CustomBuild Include="include\MessageAdapterMock.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing MessageAdapterMock.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing MessageAdapterMock.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <ClInclude Include="include\SimpleContinueHook.h" />
     <CustomBuild Include="include\TestEventLoopFinisher.h">

@@ -50,7 +50,8 @@ namespace GGS {
         Q_ASSERT(service != 0);
 
         PauseRequestWatcher watcher(service);
-        connect(this, SIGNAL(pauseRequest(const GGS::Core::Service*)), &watcher, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
+        connect(this, SIGNAL(pauseRequest(const GGS::Core::Service*)), 
+          &watcher, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
 
         if (this->_gameDownloadService->isStoppedOrStopping(service)) {
           emit this->extractPaused(service);

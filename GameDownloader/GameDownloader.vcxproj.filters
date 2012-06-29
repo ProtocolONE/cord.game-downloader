@@ -119,6 +119,9 @@
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\OldGameClientMigrate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
@@ -128,6 +131,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\GameDownloader\Hooks\InstallDependency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\Hooks\OldGameClientMigrate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

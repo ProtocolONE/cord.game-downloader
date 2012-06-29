@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <AdditionalOptions>/MP4 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -156,6 +156,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
     <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\OldGameClientMigrate.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\SevenZipGameExtractor.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\DummyExtractor.cpp" />
@@ -325,6 +326,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
     </CustomBuild>
     <ClInclude Include="include\GameDownloader\StartType.h" />
     <ClInclude Include="include\GameDownloader\Hooks\InstallDependency.h" />
+    <ClInclude Include="include\GameDownloader\Hooks\OldGameClientMigrate.h" />
     <ClInclude Include="resource.h" />
     <CustomBuild Include="include\GameDownloader\ServiceState.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

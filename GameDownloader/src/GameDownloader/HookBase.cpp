@@ -11,40 +11,50 @@
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/GameDownloadService>
 
-GGS::GameDownloader::HookBase::~HookBase()
-{
+namespace GGS {
+  namespace GameDownloader {
+    HookBase::~HookBase()
+    {
+    }
 
-}
+    HookBase::HookBase(const QString& hookId, QObject *parent)
+      : QObject(parent)
+      , _hookId(hookId)
+      , _beforeProgressWeight(0)
+      , _afterProgressWeight(0)
+    {
+    }
 
-GGS::GameDownloader::HookBase::HookBase(const QString& hookId, QObject *parent)
-  : QObject(parent)
-  , _hookId(hookId)
-  , _beforeProgressWeight(0)
-  , _afterProgressWeight(0)
-{
-}
+    const QString& HookBase::hookId()
+    {
+      return this->_hookId;
+    }
 
-const QString& GGS::GameDownloader::HookBase::hookId()
-{
-  return this->_hookId;
-}
+    quint8 HookBase::beforeProgressWeight() const
+    {
+      return this->_beforeProgressWeight;
+    }
 
-quint8 GGS::GameDownloader::HookBase::beforeProgressWeight() const
-{
-  return this->_beforeProgressWeight;
-}
+    void HookBase::setBeforeProgressWeight(quint8 weight)
+    {
+      this->_beforeProgressWeight = weight;
+    }
 
-void GGS::GameDownloader::HookBase::setBeforeProgressWeight(quint8 weight)
-{
-  this->_beforeProgressWeight = weight;
-}
+    quint8 HookBase::afterProgressWeight() const
+    {
+      return this->_afterProgressWeight;
+    }
 
-quint8 GGS::GameDownloader::HookBase::afterProgressWeight() const
-{
-  return this->_afterProgressWeight;
-}
+    void HookBase::setAfterProgressWeight(quint8 weight)
+    {
+      this->_afterProgressWeight = weight;
+    }
 
-void GGS::GameDownloader::HookBase::setAfterProgressWeight(quint8 weight)
-{
-  this->_afterProgressWeight = weight;
+    void HookBase::pauseRequestSlot(const GGS::Core::Service *service)
+    {
+      Q_ASSERT(service);
+      emit this->pauseRequest(service);
+    }
+
+  }
 }

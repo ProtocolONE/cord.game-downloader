@@ -28,7 +28,7 @@ namespace GGS {
       Q_OBJECT
     public:
       ExtractorBase(const QString &extractorId, QObject *parent = 0);
-      ~ExtractorBase();
+      virtual ~ExtractorBase();
 
       void setGameDownloadService(GameDownloadService *gameDownloadService);
       virtual void extract(const GGS::Core::Service *service, StartType startType) = 0;

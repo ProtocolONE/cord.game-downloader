@@ -46,6 +46,9 @@ namespace GGS {
 
       QObject::connect(hook, SIGNAL(afterProgressChanged(const QString&, const QString&, quint8)),
         &this->_progressCalculator, SLOT(postHookProgress(const QString&, const QString&, quint8)));
+
+      QObject::connect(this, SIGNAL(stopping(const GGS::Core::Service*)), 
+        hook, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
     }
 
     void GameDownloadService::start(const GGS::Core::Service *service, StartType startType)
@@ -208,6 +211,7 @@ namespace GGS {
       DEBUG_LOG << "Finishing. Service: " << service->id();
       state->setStage(ServiceState::Finished);
       state->setState(ServiceState::Unknown);
+      this->setIsInstalled(service->id(), true);
       emit this->finished(service);
     }
 
@@ -669,9 +673,8 @@ namespace GGS {
         return false;
 
       ServiceState *state = this->getStateById(service-> id());
-      if (!state) {
+      if (!state)
         return false;
-      }
 
       return !(state->state() == ServiceState::Stopped || state->state() == ServiceState::Unknown);
     }
