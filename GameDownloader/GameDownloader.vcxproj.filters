@@ -210,5 +210,11 @@
     <None Include="gamedownloader_ru.ts">
       <Filter>Translation Files</Filter>
     </None>
+    <None Include="i18n\GameDownloader_en.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="i18n\GameDownloader_ru.ts">
+      <Filter>Translation Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

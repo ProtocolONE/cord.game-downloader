@@ -51,13 +51,9 @@ namespace GGS {
         if (!this->isFirstRun(service))
           return HookBase::Continue;
         
-        QString message = QString::fromUtf8("Приложение обнаружило, что у вас уже есть игра %1. Приложение " \
-                                            "может скопировать игру, чтобы вам не пришлось загружать ее заново.")
-                                            .arg(service->name());
-        
         Message::StandardButtons result = Message::information(
-          QString::fromUtf8("Внимание"),
-          message, 
+          QObject::tr("TITLE_WARNING"),
+          QString(QObject::tr("INFO_OLD_GAME_CLIENT_MIGRATE")).arg(service->name()), 
           static_cast<Message::StandardButton>(Message::Yes | Message::No));
         
         if (result != Message::Yes) {
