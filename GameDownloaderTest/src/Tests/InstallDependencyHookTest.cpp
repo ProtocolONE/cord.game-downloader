@@ -46,7 +46,7 @@ public:
 
   void copyFromFixturesToInstallDirectory(const QString &realtivePathName)
   {
-    QString targetDirectory = QString("%1/Dependency/%2").arg(this->service.installPath(), realtivePathName);
+    QString targetDirectory = QString("%1/%2/Dependency/%3").arg(this->service.installPath(), this->service.areaString(), realtivePathName);
     this->createDirectoryIfNotExist(targetDirectory);
 
     QString fixturePath = QString("%1/fixtures/%2").arg(QCoreApplication::applicationDirPath(), realtivePathName);
@@ -66,7 +66,7 @@ public:
 
     service.setInstallPath(QCoreApplication::applicationDirPath() + "/InstallDependencyHook/");
     service.setId("someTestId");
-    QString targetDirectory = QString("%1/Dependency/").arg(this->service.installPath());
+    QString targetDirectory = QString("%1/%2/Dependency/").arg(this->service.installPath(), this->service.areaString());
     FileUtils::removeDir(targetDirectory);
     QStringList fixtures;
     fixtures << this->redistr1 << this->redistr2;
@@ -84,7 +84,7 @@ public:
   }
 
   QString readResult(const QString& fileName) {
-    QString targetPath = QString("%1/Dependency/%2").arg(this->service.installPath(), fileName);
+    QString targetPath = QString("%1/%2/Dependency/%3").arg(this->service.installPath(), this->service.areaString(), fileName);
     if (!QFile::exists(targetPath))
       return QString();
 
@@ -107,7 +107,7 @@ public:
   }
 
   bool isResultExist(const QString& fileName) {
-    QString targetPath = QString("%1/Dependency/%2").arg(this->service.installPath(), fileName);
+    QString targetPath = QString("%1/%2/Dependency/%3").arg(this->service.installPath(), this->service.areaString(), fileName);
     return QFile::exists(targetPath);
   }
 };

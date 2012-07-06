@@ -4,14 +4,16 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/GameDownloader/Hooks/OldGameClientMigrate.cpp" line="55"/>
         <source>TITLE_WARNING</source>
         <translation type="unfinished">TRANSLATE_ME</translation>
     </message>
     <message>
-        <location filename="../src/GameDownloader/Hooks/OldGameClientMigrate.cpp" line="56"/>
         <source>INFO_OLD_GAME_CLIENT_MIGRATE</source>
         <translation type="unfinished">TRANSLATE_ME</translation>
+    </message>
+    <message>
+        <source>ERROR_NO_DISK_SPACE</source>
+        <translation type="unfinished">No space on drive %1</translation>
     </message>
 </context>
 </TS>

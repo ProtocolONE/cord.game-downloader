@@ -74,6 +74,9 @@ namespace GGS {
       void saveLastModifiedDate(const QString& date);
       QString loadLastModifiedDate() const;
 
+      void saveTorrenthash(const QString& date);
+      QString torrentHash() const;
+
       QString _lastModified;
       QNetworkAccessManager *_manager;
       const GGS::Core::Service *_service;

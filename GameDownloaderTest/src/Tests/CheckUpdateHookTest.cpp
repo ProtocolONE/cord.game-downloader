@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include <QtCore/QEventLoop>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QTextStream>
 #include <QtTest/QSignalSpy>
 
 class CheckUpdateHookTest : public ::testing::Test {
@@ -179,6 +180,34 @@ TEST_F(CheckUpdateHookTest, checkUpdateWithSameDate)
 
   QString lastmodified3 = loadLastModifiedDate("300002010000000000");
   ASSERT_TRUE(lastmodified2 == lastmodified3);
+
+  // and finally let's currupt torrent file.
+  QFile curruptFile(expectedTorrentFilePath);
+  ASSERT_TRUE(curruptFile.open(QIODevice::ReadWrite));
+  QTextStream curruptFileStream(&curruptFile);
+  curruptFileStream << "fake torrent file with some intresting info in it";
+  curruptFile.close();
+
+  GGS::GameDownloader::CheckUpdateHelper hook4;
+  QSignalSpy spy7(&hook4, SIGNAL(result(const GGS::Core::Service *, bool)));
+  QSignalSpy spy8(&hook4, SIGNAL(error(const GGS::Core::Service *)));
+  QEventLoop loop4;
+  TestEventLoopFinisher killer4(&loop4, 10000);
+  QObject::connect(&hook4, SIGNAL(result(const GGS::Core::Service *, bool)), &killer4, SLOT(terminateLoop()));
+  hook4.startCheck(service.data(), GGS::GameDownloader::CheckUpdateHelper::Normal);
+  loop4.exec();
+  ASSERT_FALSE(killer4.isKilledByTimeout());
+
+  ASSERT_EQ(1, spy7.count());
+  ASSERT_EQ(0, spy8.count());
+
+  QList<QVariant> arguments4 = spy7.takeFirst();
+  ASSERT_EQ(service.data(), arguments4.at(0).value<const GGS::Core::Service *>());
+  ASSERT_TRUE(arguments4.at(1).toBool());
+  ASSERT_TRUE(QFile::exists(expectedTorrentFilePath));
+
+  QString lastmodified4 = loadLastModifiedDate("300002010000000000");
+  ASSERT_TRUE(lastmodified2 == lastmodified4);
 }
 
 TEST_F(CheckUpdateHookTest, forceStartTest)

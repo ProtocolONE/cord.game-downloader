@@ -51,21 +51,17 @@ namespace GGS {
         if (!this->isFirstRun(service))
           return HookBase::Continue;
         
-        Message::StandardButtons result = Message::information(
-          QObject::tr("TITLE_WARNING"),
-          QString(QObject::tr("INFO_OLD_GAME_CLIENT_MIGRATE")).arg(service->name()), 
-          static_cast<Message::StandardButton>(Message::Yes | Message::No));
-        
-        if (result != Message::Yes) {
+        QString sourceDirectory;
+        if (!this->checkAndGetSourceDirectory(service, sourceDirectory)) {
           this->saveHookFinished(service);
           return HookBase::Continue;
         }
 
-        if (!this->migrate(gameDownloader, service))
+        if (!this->migrate(gameDownloader, service, sourceDirectory))
           return HookBase::Abort;
 
         this->saveHookFinished(service);
-        return HookBase::Continue;
+        return HookBase::CheckUpdate;
       }
 
       GGS::GameDownloader::HookBase::HookResult OldGameClientMigrate::afterDownload(
@@ -92,7 +88,7 @@ namespace GGS {
         settings.setValue("migrateFinished", 1);
       }
 
-      bool OldGameClientMigrate::migrate(GameDownloadService *gameDownloader, const GGS::Core::Service *service)
+      bool OldGameClientMigrate::migrate(GameDownloadService *gameDownloader, const GGS::Core::Service *service, const QString& sourceDirectory)
       {
         PauseRequestWatcher watcher(service);
         connect(this, SIGNAL(pauseRequest(const GGS::Core::Service*)), 
@@ -101,18 +97,15 @@ namespace GGS {
         if (gameDownloader->isStoppedOrStopping(service))
           return false;
 
-        QString key = QString("SOFTWARE\\GGS\\GNA\\%1\\").arg(service->id());
-        QString paramName = service->hashDownloadPath() ? "PathToInstaller" : "INSTALL_DIRECTORY";
-        QString sourceDirectory;
-        if (!this->readString(key, paramName, sourceDirectory)) 
-          return true;
-
         QString targetDir = service->downloadPath();
         QString targetDrive = this->getDriveName(targetDir);
         quint64 totalsize = this->getDirectorySize(sourceDirectory);
         if (totalsize > this->getDriveFreeSpace(targetDrive)) {
-          QString message = QString::fromUtf8("Недостаточно места на диске %1").arg(targetDrive);
-          GGS::Core::UI::Message::warning(QString::fromUtf8("Внимание"), message, GGS::Core::UI::Message::Ok);
+          GGS::Core::UI::Message::warning(
+            QObject::tr("TITLE_WARNING"), 
+            QObject::tr("ERROR_NO_DISK_SPACE").arg(targetDrive), 
+            GGS::Core::UI::Message::Ok);
+
           return false;
         }
 
@@ -146,8 +139,6 @@ namespace GGS {
             CRITICAL_LOG << "Can't migrate file from old GNA. Source: " << file << "Destination" << targetPath;
             continue;
           }
-
-          
         }
 
         return true;
@@ -231,6 +222,21 @@ namespace GGS {
           return QString();
 
         return path.left(index + 1);
+      }
+
+      bool OldGameClientMigrate::checkAndGetSourceDirectory(const GGS::Core::Service *service, QString& sourceDirectory)
+      {
+        QString key = QString("SOFTWARE\\GGS\\GNA\\%1\\").arg(service->id());
+        QString paramName = service->hashDownloadPath() ? "PathToInstaller" : "INSTALL_DIRECTORY";
+        if (!this->readString(key, paramName, sourceDirectory)) 
+          return false;
+
+        Message::StandardButtons result = Message::information(
+          QObject::tr("TITLE_WARNING"),
+          QObject::tr("INFO_OLD_GAME_CLIENT_MIGRATE").arg(service->name()), 
+          static_cast<Message::StandardButton>(Message::Yes | Message::No));
+
+        return result == Message::Yes;
       }
 
     }

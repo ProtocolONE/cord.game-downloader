@@ -49,7 +49,7 @@ namespace GGS {
           if (!fileNames.isEmpty())
             args = fileNames.takeFirst();
           
-          QString fullPath = QString("%1/Dependency/%2").arg(service->installPath(), dependency);
+          QString fullPath = QString("%1/%2/Dependency/%3").arg(service->installPath(), service->areaString(), dependency);
           if (!QFile::exists(fullPath)) {
             WARNING_LOG << "Dependency not found. Service " << service->id() << " Dependency: " << dependency;
             return GGS::GameDownloader::HookBase::Continue;

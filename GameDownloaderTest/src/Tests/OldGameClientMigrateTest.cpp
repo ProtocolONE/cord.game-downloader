@@ -163,7 +163,7 @@ TEST_F(OldGameClientMigrateTest, SimpleMigrateCheck)
   writeFakeFile(filePath1);
   writeFakeFile(filePath2);
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
@@ -187,7 +187,7 @@ TEST_F(OldGameClientMigrateTest, SimpleMigrateCheckWithoutArchive)
   
   service.setHashDownloadPath(false);
   service.setDownloadPath(destinationInstall);
-  ASSERT_EQ(GGS::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
@@ -216,7 +216,7 @@ TEST_F(OldGameClientMigrateTest, OverwriteMigrateCheck)
   writeFakeFile(destFilePath1, "wrongfakedata");
   ASSERT_FALSE(checkFiles(filePath1, destFilePath1));
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   ASSERT_TRUE(QFile::exists(destFilePath1));
   ASSERT_TRUE(QFile::exists(destFilePath2));
@@ -235,7 +235,7 @@ TEST_F(OldGameClientMigrateTest, SecondMigrateCheck)
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   ASSERT_TRUE(QFile::exists(destFilePath1));
   ASSERT_TRUE(QFile::exists(destFilePath2));

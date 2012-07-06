@@ -16,6 +16,7 @@
 #include <UpdateSystem/Downloader/MultiFileDownloader>
 #include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter>
 #include <UpdateSystem/Extractor/SevenZipExtractor>
+#include <UpdateSystem/Hasher/Md5FileHasher>
 
 #include <Settings/Settings>
 #include <Core/Service>
@@ -30,6 +31,7 @@
 using namespace GGS::Downloader;
 using namespace GGS::Extractor;
 using namespace GGS::Core;
+using namespace GGS::Hasher;
 
 namespace GGS {
   namespace GameDownloader {
@@ -106,9 +108,13 @@ namespace GGS {
 
       this->_lastModified = QString::fromAscii(reply->rawHeader(QByteArray("Last-Modified")));
 
+      QString torrentPath = CheckUpdateHelper::getTorrentPath(this->_service);
+      Md5FileHasher hasher;
+
       bool isDownloadRequired = this->_checkUpdateType == ForceDownloadTorrent 
         || httpCode == 200
-        || !QFile::exists(CheckUpdateHelper::getTorrentPath(this->_service));
+        || !QFile::exists(torrentPath)
+        || this->torrentHash() != hasher.getFileHash(torrentPath);
 
       if (isDownloadRequired) {
         this->startDownloadTorrent();
@@ -187,7 +193,12 @@ namespace GGS {
       } else {
         emit this->checkUpdateProgressChanged(this->_service->id(), 100);
         emit this->result(this->_service, true);
+        
+        Md5FileHasher hasher;
+        QString hash = hasher.getFileHash(this->getTorrentPath(this->_service));
+
         this->saveLastModifiedDate(this->_lastModified);
+        this->saveTorrenthash(hash);
       }
     }
 
@@ -217,5 +228,24 @@ namespace GGS {
     {
       this->_maxHeadRequestRetryCount = count;
     }
+
+    void CheckUpdateHelper::saveTorrenthash(const QString& date)
+    {
+      Settings::Settings settings; 
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup("CheckUpdate");
+      settings.beginGroup(this->_service->id());
+      settings.setValue("TorrentHash", date, true);
+    }
+
+    QString CheckUpdateHelper::torrentHash() const
+    {
+      Settings::Settings settings; 
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup("CheckUpdate");
+      settings.beginGroup(this->_service->id());
+      return settings.value("TorrentHash", "").toString();
+    }
+
   }
 }
