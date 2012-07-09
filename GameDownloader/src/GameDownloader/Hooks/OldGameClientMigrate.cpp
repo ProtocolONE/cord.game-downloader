@@ -109,6 +109,7 @@ namespace GGS {
           return false;
         }
 
+        emit this->statusMessageChanged(service, QObject::tr("OLD_GAME_CLIENT_MEGRATE_HOOK"));
         QDir dir(targetDir);
         QDirIterator dirIterator(sourceDirectory, QDirIterator::Subdirectories);
         qreal currentSize = 0;

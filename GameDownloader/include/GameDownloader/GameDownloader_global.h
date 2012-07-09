@@ -28,4 +28,6 @@
 #define WARNING_LOG qWarning() << __FILE__ << __LINE__ << __FUNCTION__
 #define DEBUG_LOG qDebug() << __FILE__ << __LINE__ << __FUNCTION__
 
+#define SIGNAL_CONNECT_CHECK(X) { bool result = X; Q_ASSERT_X(result, __FUNCTION__ , #X); }
+
 #endif // _GGS_DOWNLOADSERVICE_GLOBAL_H

@@ -16,5 +16,17 @@
         <source>ERROR_NO_DISK_SPACE</source>
         <translation type="unfinished">Недостаточно места на диске %1</translation>
     </message>
+    <message>
+        <source>PRE_HOOK_DEFAULT_MESSAGE</source>
+        <translation>Подготовка к запуску...</translation>
+    </message>
+    <message>
+        <source>OLD_GAME_CLIENT_MEGRATE_HOOK</source>
+        <translation type="unfinished">Копирование файлов</translation>
+    </message>
+    <message>
+        <source>POST_HOOK_DEFAULT_MESSAGE</source>
+        <translation>Подготовка к запуску</translation>
+    </message>
 </context>
 </TS>

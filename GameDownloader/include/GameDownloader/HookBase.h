@@ -60,6 +60,8 @@ namespace GGS {
     signals:
       void beforeProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
       void afterProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
+      void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
+
       void pauseRequest(const GGS::Core::Service *service);
 
     protected:

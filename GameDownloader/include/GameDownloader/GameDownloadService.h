@@ -153,6 +153,8 @@ namespace GGS {
       void failed(const GGS::Core::Service *service);
       void shutdownCompleted();
 
+      void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
+
       void progressChanged(QString serviceId, qint8 progress);
       void progressDownloadChanged(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
       void progressExtractionChanged(QString serviceId, qint8 progress, qint64 current, qint64 total);
@@ -173,6 +175,7 @@ namespace GGS {
       void postHooksCompleted(const GGS::Core::Service *service, GGS::GameDownloader::HookBase::HookResult result);
       void checkUpdateRequest(const GGS::Core::Service *service, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type);
       void downloadRequest(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType, bool isReloadRequired);
+
 
     protected:
       void setIsInstalled(const QString& serviceId, bool isInstalled);
@@ -217,6 +220,8 @@ namespace GGS {
 
       bool _isShuttingDown;
       QSet<QString> _serviceStopList;
+
+      QSet<HookBase *> _registredHooks;
     };
 
   }

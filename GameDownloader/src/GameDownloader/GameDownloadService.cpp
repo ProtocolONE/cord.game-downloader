@@ -41,14 +41,22 @@ namespace GGS {
 
       this->_progressCalculator.registerHook(serviceId, preHookPriority, postHookPriority, hook);
 
-      QObject::connect(hook, SIGNAL(beforeProgressChanged(const QString&, const QString&, quint8)),
-        &this->_progressCalculator, SLOT(preHookProgress(const QString&, const QString&, quint8)));
+      if (_registredHooks.contains(hook))
+        return;
 
-      QObject::connect(hook, SIGNAL(afterProgressChanged(const QString&, const QString&, quint8)),
-        &this->_progressCalculator, SLOT(postHookProgress(const QString&, const QString&, quint8)));
+      this->_registredHooks.insert(hook);
 
-      QObject::connect(this, SIGNAL(stopping(const GGS::Core::Service*)), 
-        hook, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
+      SIGNAL_CONNECT_CHECK(QObject::connect(hook, SIGNAL(beforeProgressChanged(const QString&, const QString&, quint8)),
+        &this->_progressCalculator, SLOT(preHookProgress(const QString&, const QString&, quint8))));
+
+      SIGNAL_CONNECT_CHECK(QObject::connect(hook, SIGNAL(afterProgressChanged(const QString&, const QString&, quint8)),
+        &this->_progressCalculator, SLOT(postHookProgress(const QString&, const QString&, quint8))));
+
+      SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(stopping(const GGS::Core::Service*)), 
+        hook, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection));
+
+      SIGNAL_CONNECT_CHECK(QObject::connect(hook, SIGNAL(statusMessageChanged(const GGS::Core::Service*, const QString&)), 
+        this, SIGNAL(statusMessageChanged(const GGS::Core::Service*, const QString&))));
     }
 
     void GameDownloadService::start(const GGS::Core::Service *service, StartType startType)
@@ -122,7 +130,7 @@ namespace GGS {
     }
 
     ServiceState* GameDownloadService::getStateById(const QString& id)
-    {
+    { 
       if (!this->_stateMap.contains(id)) 
         return 0;
 
@@ -238,7 +246,8 @@ namespace GGS {
         this->setStoppedService(service);
         return;
       }
-
+      
+      emit this->statusMessageChanged(service, QObject::tr("PRE_HOOK_DEFAULT_MESSAGE"));
       HookBase::HookResult result = HookBase::Continue;
       if(this->_beforeDownloadHookMap.contains(service->id())) {
         Q_FOREACH(HookBase *hook, this->_beforeDownloadHookMap[service->id()]) {
@@ -248,6 +257,7 @@ namespace GGS {
           }
 
           result = hook->beforeDownload(this, service);
+          emit this->statusMessageChanged(service, QObject::tr("PRE_HOOK_DEFAULT_MESSAGE"));
           if (result != HookBase::Continue)
             break;
         }
@@ -268,6 +278,8 @@ namespace GGS {
         return;
       }
 
+      emit this->statusMessageChanged(service, QObject::tr("POST_HOOK_DEFAULT_MESSAGE"));
+
       HookBase::HookResult result = HookBase::Continue;
       if (this->_afterDownloadHookMap.contains(service->id())) {
         Q_FOREACH(HookBase *hook, this->_afterDownloadHookMap[service->id()]) {
@@ -277,6 +289,7 @@ namespace GGS {
           }
 
           result = hook->afterDownload(this, service);
+          emit this->statusMessageChanged(service, QObject::tr("POST_HOOK_DEFAULT_MESSAGE"));
           if (result != HookBase::Continue)
             break;
         }
