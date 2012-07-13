@@ -78,7 +78,6 @@ namespace GGS {
 
         QHash<QString, UpdateFileInfo> savedInfo;
         this->loadUpdateInfo(service, savedInfo);
-
         
         GGS::Hasher::Md5FileHasher hasher;
         qint64 totalFilesCount = onlineInfo.count();
@@ -104,7 +103,7 @@ namespace GGS {
               static_cast<qint8>(40.0f * static_cast<qreal>(checkedFilesCount) / static_cast<qreal>(totalFilesCount)), 0, 0);
           } 
 
-          if (!existingFilesHash.contains(relativePath)) {
+          if (!existingFilesHash.contains(relativePath.toLower())) {
             filesToExtraction[relativePath] = onlineInfo[relativePath];
             continue;
           }
@@ -235,7 +234,7 @@ namespace GGS {
         while (it.hasNext()) {
           QString file = it.next();
           if (!it.fileInfo().isDir()) {
-            result[file.right(file.length() - len)] = file;
+            result[file.right(file.length() - len).toLower()] = file;
           }
         }
       }
@@ -285,7 +284,7 @@ namespace GGS {
           QString archivePath = QString("%1%2.7z").arg(archiveDirectory, relativePath);
           QString targetFilePath = QString("%1%2").arg(extractionDirectory, relativePath);
           QString targetDirectory = this->createDirectoryIfNotExist(targetFilePath);
-
+          DEBUG_LOG << "extracting " << relativePath;
           GGS::Extractor::ExtractionResult result = extractor.extract(archivePath, targetDirectory);
           if (result != ExtractionResult::NoError) {
             CRITICAL_LOG << "Extraction error: " << result;
