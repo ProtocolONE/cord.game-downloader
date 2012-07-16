@@ -5,16 +5,16 @@
     <name>QObject</name>
     <message>
         <source>TITLE_WARNING</source>
-        <translation type="unfinished">Внимание</translation>
+        <translation>Внимание</translation>
     </message>
     <message>
         <source>INFO_OLD_GAME_CLIENT_MIGRATE</source>
         <translatorcomment>Дорогой переводчик. %1 - убьешь это значение - выебу! Он обозначает место подстановки имени игры.</translatorcomment>
-        <translation type="unfinished">Приложение обнаружило, что у вас уже есть игра %1. Приложение может скопировать игру, чтобы вам не пришлось загружать ее заново.</translation>
+        <translation>На вашем компьютере уже установлена игра %1. Мы можем скопировать игру, чтобы вам не пришлось загружать ее заново.</translation>
     </message>
     <message>
         <source>ERROR_NO_DISK_SPACE</source>
-        <translation type="unfinished">Недостаточно места на диске %1</translation>
+        <translation>Недостаточно места на диске %1</translation>
     </message>
     <message>
         <source>PRE_HOOK_DEFAULT_MESSAGE</source>
@@ -22,7 +22,7 @@
     </message>
     <message>
         <source>OLD_GAME_CLIENT_MEGRATE_HOOK</source>
-        <translation type="unfinished">Копирование файлов</translation>
+        <translation>Копирование файлов</translation>
     </message>
     <message>
         <source>POST_HOOK_DEFAULT_MESSAGE</source>
