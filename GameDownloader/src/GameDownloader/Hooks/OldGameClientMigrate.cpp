@@ -13,14 +13,16 @@
 #include <GameDownloader/PauseRequestWatcher>
 
 #include <Core/UI/Message>
+#include <Core/System/Registry/RegistryKey.h>
+
 #include <Settings/Settings>
 
 #include <QtCore/QDirIterator>
 #include <QtCore/QByteArray>
 #include <QtCore/QDebug>
-#include <Windows.h>
 
 using GGS::Core::UI::Message;
+using namespace GGS::Core::System::Registry;
 
 namespace GGS {
   namespace GameDownloader {
@@ -145,45 +147,6 @@ namespace GGS {
         return true;
       }
 
-      bool OldGameClientMigrate::readString(const QString& key, const QString& paramName, QString& result)
-      {
-        wchar_t keyArray[MAX_PATH] = {0};
-        key.toWCharArray(keyArray);
-        HKEY hkey;
-        DWORD res = RegOpenKeyExW(HKEY_LOCAL_MACHINE, keyArray, 0, KEY_WOW64_64KEY | KEY_READ, &hkey);
-        if (res != ERROR_SUCCESS) {
-          return false;
-        }
-        
-        wchar_t paramNameArray[MAX_PATH] = {0};
-        paramName.toWCharArray(paramNameArray);
-
-        wchar_t resultArray[MAX_PATH + 1] = {0};
-        DWORD size = MAX_PATH;
-        DWORD type = REG_SZ;
-        res = RegQueryValueExW(hkey, paramNameArray, 0, &type, reinterpret_cast<LPBYTE>(resultArray), &size);
-        if (size > 32000) {
-          DEBUG_LOG << "Path is too long: " << size;
-          RegCloseKey(hkey);
-          return false;
-        }
-
-        if (res == ERROR_MORE_DATA) {
-          // Можно обработать, но QDirIterator не работает с такими длинными путями тоже.
-          CRITICAL_LOG << "Source path is too long" << size;
-          return false;
-        }
-        
-        RegCloseKey(hkey);
-
-        if (res == ERROR_SUCCESS) {
-          result = QString::fromWCharArray(resultArray);
-          return true;
-        }
-        
-        return false;
-      }
-
       quint64 OldGameClientMigrate::getDirectorySize(const QString& directory)
       {
         quint64 result = 0;
@@ -229,7 +192,9 @@ namespace GGS {
       {
         QString key = QString("SOFTWARE\\GGS\\GNA\\%1\\").arg(service->id());
         QString paramName = service->hashDownloadPath() ? "PathToInstaller" : "INSTALL_DIRECTORY";
-        if (!this->readString(key, paramName, sourceDirectory)) 
+
+        RegistryKey registry(RegistryKey::HKLM, key);
+        if (!registry.value(paramName, sourceDirectory))
           return false;
 
         Message::StandardButtons result = Message::information(

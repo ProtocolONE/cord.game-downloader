@@ -31,7 +31,6 @@ namespace GGS {
         bool isFirstRun(const GGS::Core::Service *service);
         void saveHookFinished(const GGS::Core::Service *service);
         bool migrate(GameDownloadService *gameDownloader, const GGS::Core::Service *service, const QString& sourceDirectory);
-        bool readString(const QString& key, const QString& paramName, QString& result);
         bool checkAndGetSourceDirectory(const GGS::Core::Service *service, QString& sourceDirectory);
 
         quint64 getDriveFreeSpace(const QString& drive);
