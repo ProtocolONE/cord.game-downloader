@@ -94,6 +94,7 @@ namespace GGS {
       virtual bool isStoppedOrStopping(const GGS::Core::Service *service);
       
       bool isInProgress(const GGS::Core::Service *service);
+      bool isAnyServiceInProgress();
 
       StageProgressCalculator& progressCalculator();
 

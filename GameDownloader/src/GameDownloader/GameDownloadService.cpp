@@ -685,11 +685,24 @@ namespace GGS {
       if (this->_isShuttingDown)
         return false;
 
-      ServiceState *state = this->getStateById(service-> id());
+      ServiceState *state = this->getStateById(service->id());
       if (!state)
         return false;
 
       return !(state->state() == ServiceState::Stopped || state->state() == ServiceState::Unknown);
+    }
+
+    bool GameDownloadService::isAnyServiceInProgress()
+    {
+      QMutexLocker lock(&this->_stateLock);
+      if (this->_isShuttingDown)
+        return false;
+
+      bool result = false;
+      Q_FOREACH(ServiceState *state, this->_stateMap)
+        result |= !(state->state() == ServiceState::Stopped || state->state() == ServiceState::Unknown);
+
+      return result;
     }
 
   }
