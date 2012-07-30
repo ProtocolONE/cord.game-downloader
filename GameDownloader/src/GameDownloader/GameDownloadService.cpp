@@ -15,11 +15,14 @@
 #include <Settings/Settings>
 
 #include <Core/Service>
+#include <Core/Marketing.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
 #include <QtCore/QtConcurrentRun>
+
+using GGS::Core::Marketing;
 
 namespace GGS {
   namespace GameDownloader {
@@ -81,6 +84,8 @@ namespace GGS {
       }
 
       emit this->started(service);
+      Marketing::send(Marketing::StartDownloadService, service->id());
+
       if (state->isDirectoryChanged()) {
         state->setIsDirectoryChanged(false);
         if (startType != GameDownloader::Force)
@@ -220,6 +225,7 @@ namespace GGS {
       state->setStage(ServiceState::Finished);
       state->setState(ServiceState::Unknown);
       this->setIsInstalled(service->id(), true);
+      Marketing::sendOnceByService(Marketing::FinishInstallService, service->id());
       emit this->finished(service);
     }
 
@@ -331,6 +337,7 @@ namespace GGS {
         return;
       } 
 
+      Marketing::sendOnceByService(Marketing::FinishDownloadService, service->id());
       if (state->state() != ServiceState::Stopped)
         this->startExtract(service, state);
     }
