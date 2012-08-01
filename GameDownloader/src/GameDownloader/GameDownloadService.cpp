@@ -432,7 +432,13 @@ namespace GGS {
     void GameDownloadService::pauseRequestCompleted(const GGS::Core::Service *service)
     {
       Q_ASSERT(service);
-      this->setStoppedService(service);
+      QMutexLocker lock(&this->_stateLock);
+      ServiceState *state = this->getStateById(service->id());
+      Q_ASSERT(state);
+
+      if ((state->state() == ServiceState::Started || state->state() == ServiceState::Stopping) &&
+           (state->stage() == ServiceState::Download || state->stage() == ServiceState::Extraction))
+        this->setStoppedState(service, state);
     }
 
     void GameDownloadService::checkUpdateRequestCompleted(const GGS::Core::Service *service, bool isUpdated)
