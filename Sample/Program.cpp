@@ -40,7 +40,7 @@ Program::Program()
     this, SLOT(progressExtractionChanged(QString, qint8, qint64, qint64)));
 
 
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(started(const GGS::Core::Service *)), 
+  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(started(const GGS::Core::Service *, GGS::GameDownloader::StartType)), 
     this, SLOT(gameDownloaderStarted(const GGS::Core::Service *)));
   QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(finished(const GGS::Core::Service *)), 
     this, SLOT(gameDownloaderFinished(const GGS::Core::Service *)));

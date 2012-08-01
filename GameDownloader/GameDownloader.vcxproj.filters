@@ -122,6 +122,9 @@
     <ClCompile Include="src\GameDownloader\Hooks\OldGameClientMigrate.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />

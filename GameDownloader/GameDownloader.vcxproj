@@ -167,6 +167,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
     <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\OldGameClientMigrate.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\SevenZipGameExtractor.cpp" />

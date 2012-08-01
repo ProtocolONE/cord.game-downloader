@@ -83,7 +83,7 @@ namespace GGS {
         this->_stateMap[state->id()] = state;
       }
 
-      emit this->started(service);
+      emit this->started(service, startType);
       Marketing::send(Marketing::StartDownloadService, service->id());
 
       if (state->isDirectoryChanged()) {

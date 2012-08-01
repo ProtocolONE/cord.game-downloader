@@ -147,7 +147,7 @@ namespace GGS {
       void directoryChanged(const GGS::Core::Service *service);
 
     signals:
-      void started(const GGS::Core::Service *service);
+      void started(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
       void finished(const GGS::Core::Service *service);
       void stopped(const GGS::Core::Service *service);
       void stopping(const GGS::Core::Service *service);
