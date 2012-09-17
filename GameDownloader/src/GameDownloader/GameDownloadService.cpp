@@ -224,7 +224,11 @@ namespace GGS {
       DEBUG_LOG << "Finishing. Service: " << service->id();
       state->setStage(ServiceState::Finished);
       state->setState(ServiceState::Unknown);
-      this->setIsInstalled(service->id(), true);
+      if (!this->isInstalled(service)) {
+        this->setIsInstalled(service->id(), true);
+        emit this->serviceInstalled(service);
+      }
+
       Marketing::sendOnceByService(Marketing::FinishInstallService, service->id());
       emit this->finished(service);
     }
@@ -688,6 +692,9 @@ namespace GGS {
       settings.beginGroup("GameDownloader");
       settings.beginGroup(serviceId);
       settings.setValue("isInstalled", isInstalled ? 1 : 0);
+      
+      if (isInstalled && !settings.contains("installDate"))
+        settings.setValue("installDate", QDateTime::currentDateTime());
     }
 
     bool GameDownloadService::isInProgress(const GGS::Core::Service *service)

@@ -16,7 +16,8 @@
 using namespace GGS::GameDownloader;
 using namespace GGS::GameDownloader::Hooks;
 using namespace GGS::Core;
-class InstallDependencyHook : public ::testing::Test {
+class InstallDependencyHook : public ::testing::Test
+{
 public:
   QString redistr1;
   QString redistr2;
@@ -59,7 +60,8 @@ public:
     QFile::copy(fixturePath, targetDirectory);
   }
 
-  void SetUp() {
+  void SetUp()
+  {
     this->noArgumentsString = "\"NO ARGS\"";
     this->redistr1 = "redistr1.exe";
     this->redistr2 = "redistr2.exe";
@@ -83,7 +85,8 @@ public:
     return this->readResult(this->redistr2 + ".txt");
   }
 
-  QString readResult(const QString& fileName) {
+  QString readResult(const QString& fileName)
+  {
     QString targetPath = QString("%1/%2/Dependency/%3").arg(this->service.installPath(), this->service.areaString(), fileName);
     if (!QFile::exists(targetPath))
       return QString();
