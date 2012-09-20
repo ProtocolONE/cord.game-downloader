@@ -227,6 +227,8 @@ namespace GGS {
       if (!this->isInstalled(service)) {
         this->setIsInstalled(service->id(), true);
         emit this->serviceInstalled(service);
+      } else { 
+        emit this->serviceUpdated(service); 
       }
 
       Marketing::sendOnceByService(Marketing::FinishInstallService, service->id());

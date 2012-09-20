@@ -154,6 +154,7 @@ namespace GGS {
       void failed(const GGS::Core::Service *service);
       void shutdownCompleted();
       void serviceInstalled(const GGS::Core::Service *service);
+      void serviceUpdated(const GGS::Core::Service *service);
 
       void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
 
