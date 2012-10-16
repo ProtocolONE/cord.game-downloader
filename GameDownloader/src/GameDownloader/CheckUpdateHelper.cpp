@@ -26,7 +26,6 @@
 #include <QtCore/QRegExp>
 #include <QtCore/QDebug>
 #include <QtNetwork/QNetworkRequest>
-#include <curl/curl.h>
 
 using namespace GGS::Downloader;
 using namespace GGS::Extractor;

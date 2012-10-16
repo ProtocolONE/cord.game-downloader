@@ -15,7 +15,6 @@
 #include <GameDownloader/CheckUpdateHelper.h>
 #include <GameDownloader/StartType.h>
 #include <GameDownloader/StageProgressCalculator.h>
-
 #include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
 
 #include <QtCore/QObject>
@@ -102,6 +101,8 @@ namespace GGS {
 
       bool isInstalled(const QString& serviceId);
       bool isInstalled(const GGS::Core::Service *service);
+
+      StartType startType(const QString& serviceId);
 
     public slots:
       void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);

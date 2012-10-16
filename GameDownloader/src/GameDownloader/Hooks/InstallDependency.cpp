@@ -36,8 +36,8 @@ namespace GGS {
 
       GGS::GameDownloader::HookBase::HookResult InstallDependency::afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service)
       {
-        if (gameDownloader->isInstalled(service))
-          return GGS::GameDownloader::HookBase::Continue;
+        if (gameDownloader->isInstalled(service) && gameDownloader->startType(service->id()) != Recheck)
+            return GGS::GameDownloader::HookBase::Continue;
 
         QString dependencyList = service->externalDependencyList();
         QStringList fileNames = dependencyList.split(',', QString::KeepEmptyParts);

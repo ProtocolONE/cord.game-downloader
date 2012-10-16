@@ -63,7 +63,7 @@
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(QGNACOMMONDIR)\Google\gtest\1.6.0\lib;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtSqld4.lib;QtTestd4.lib;gtestd.lib;libcurl.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;UpdateSystemX86d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtSqld4.lib;QtTestd4.lib;gtestd.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;UpdateSystemX86d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>SET D=""
@@ -83,10 +83,12 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
 
 @rem fixtures copy:
-xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
+xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
+
+xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
+      <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -124,10 +126,12 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
 
 @rem fixtures copy:
-xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"</Command>
+xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
+
+xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
+      <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

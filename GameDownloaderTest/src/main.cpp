@@ -28,10 +28,8 @@
 
 #include <gtest/gtest.h>
 
-#include <curl/curl.h>
-
-
 #include <Settings/Settings>
+
 void initDatabase() 
 {
   QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
@@ -67,7 +65,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     initDatabase();
-    curl_global_init(CURL_GLOBAL_ALL);
 
     qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookBase::HookResult");
     qRegisterMetaType<GGS::GameDownloader::StartType>("GGS::GameDownloader::StartType");

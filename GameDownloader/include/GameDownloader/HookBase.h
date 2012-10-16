@@ -24,7 +24,7 @@ namespace GGS {
       Q_OBJECT
       Q_ENUMS(GGS::GameDownloader::HookBase::HookResult);
     public:
-
+      
       enum HookResult {
         Continue = 0,
         Abort = 1,

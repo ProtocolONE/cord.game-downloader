@@ -63,7 +63,7 @@
       <AdditionalDependencies>qtmaind.lib;QtCored4.lib;QtGuid4.lib;QtSqld4.lib;QtNetworkd4.lib;QtXmld4.lib;QtSvgd4.lib;QtScriptd4.lib;QtXmlPatternsd4.lib;QtDeclaratived4.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;BugTrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /I /R /E $(ProjectDir)\qml\*.qml $(TargetDir)qml
+      <Command>xcopy /Y /I /R /E "$(ProjectDir)\qml\*.qml" "$(TargetDir)qml"
 
 SET D=""
 IF "$(Configuration)"=="Debug" (
@@ -89,7 +89,7 @@ xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%4.dll" "$(TargetDir)sql
 xcopy /Y /I /R /E "$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\bin\*.dll" "$(TargetDir)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
+      <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -110,7 +110,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\bin\*.dll
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtSql4.lib;QtNetwork4.lib;QtXml4.lib;QtSvg4.lib;QtScript4.lib;QtXmlPatterns4.lib;QtDeclarative4.lib;GameDownloaderX86.lib;CoreX86.lib;SettingsX86.lib;LibtorrentWrapperX86.lib;BugTrap.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /Y /I /R /E $(ProjectDir)\qml\*.qml $(TargetDir)qml
+      <Command>xcopy /Y /I /R /E "$(ProjectDir)\qml\*.qml" "$(TargetDir)qml"
 
 SET D=""
 IF "$(Configuration)"=="Debug" (
@@ -136,7 +136,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\IntelleSoft\BugTrap\$(BugTrapArea)\bin\*.dll
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>xcopy /Y /I /R $(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll $(TargetDir)
+      <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
 </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>

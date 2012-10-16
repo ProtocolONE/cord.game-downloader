@@ -727,5 +727,16 @@ namespace GGS {
       return result;
     }
 
+    GGS::GameDownloader::StartType GameDownloadService::startType(const QString& serviceId)
+    {
+      QMutexLocker lock(&this->_stateLock);
+      ServiceState *state = this->getStateById(serviceId);
+      if (!state)
+        return GGS::GameDownloader::Unknown;
+
+      return state->startType();
+    }
+
+
   }
 }

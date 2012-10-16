@@ -67,7 +67,7 @@
       <OutputFile>$(TargetPath)</OutputFile>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;LibtorrentWrapperX86d.lib;libcurl.lib;CoreX86d.lib;SettingsX86d.lib;UpdateSystemX86d.lib;QtNetworkd4.lib;QtSqld4.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;QtCored4.lib;LibtorrentWrapperX86d.lib;CoreX86d.lib;SettingsX86d.lib;UpdateSystemX86d.lib;QtNetworkd4.lib;QtSqld4.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>IF NOT "$(QGNACOMMONDIR)"=="" (
