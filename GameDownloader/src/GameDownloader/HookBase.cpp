@@ -50,10 +50,10 @@ namespace GGS {
       this->_afterProgressWeight = weight;
     }
 
-    void HookBase::pauseRequestSlot(const GGS::Core::Service *service)
+    void HookBase::pauseRequestSlot(GGS::GameDownloader::ServiceState *state)
     {
-      Q_ASSERT(service);
-      emit this->pauseRequest(service);
+      Q_ASSERT(state);
+      emit this->pauseRequest(state);
     }
 
   }

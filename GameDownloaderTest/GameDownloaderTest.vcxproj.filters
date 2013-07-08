@@ -79,18 +79,6 @@
     <ClCompile Include="src\FileUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_FakeCheckUpdateAdapter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_FakeCheckUpdateAdapter.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="src\FakeCheckUpdateAdapter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests\OldGameClientMigrateTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\MessageAdapterMock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -100,22 +88,25 @@
     <ClCompile Include="GeneratedFiles\Release\moc_MessageAdapterMock.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\StageProgressCalculatorTest.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_TestBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TestBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderAsyncTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\SevenZipExtractorTest.cpp">
+    <ClCompile Include="src\Tests\Behavior\BindiffTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\GameDownloadServiceTest.cpp">
+    <ClCompile Include="src\Tests\Behavior\CompressorBehaviorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\InstallDependencyHookTest.cpp">
+    <ClCompile Include="src\Tests\StateMachine\StateMachineTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\CheckUpdateHookTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Tests\CheckUpdateAdapterTest.cpp">
+    <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -127,6 +118,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ExternalToolHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,10 +137,10 @@
     <CustomBuild Include="include\SignalCounter.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\FakeCheckUpdateAdapter.h">
+    <CustomBuild Include="include\MessageAdapterMock.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\MessageAdapterMock.h">
+    <CustomBuild Include="include\StateMachine\TestBehavior.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>

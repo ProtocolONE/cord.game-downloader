@@ -13,17 +13,21 @@ import "Elements" as Elements
 
 
 Item {
+    id: gameControl
 
     property string gameId:  "0000011"
     property string statusText:  "status text "
     property int progressValue: 0
-    id: gameControl
+
+  	width: parent.width
+	  height: 50
 
     Text {
         x: gameControl.x
         y: gameControl.y - 10
         text: gameControl.gameId
     }
+
     Elements.Button2 {
         x: gameControl.x
         y: gameControl.y
@@ -118,6 +122,11 @@ Item {
             gameControl.statusText = status;
         }
 
+		onServiceProgressChanged2: {
+            if (id != gameControl.gameId)
+                return;
+            gameControl.progressValue = progress;
+		}
     }
 
 

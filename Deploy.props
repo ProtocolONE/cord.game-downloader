@@ -8,6 +8,7 @@
     <SettingsArea>trunk</SettingsArea>
     <UpdateSystemArea>trunk</UpdateSystemArea>
     <BugTrapArea>1.3.3718.38316</BugTrapArea>
+    <XdeltaArea>3.0.6</XdeltaArea>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
@@ -34,6 +35,10 @@
     </BuildMacro>
     <BuildMacro Include="BugTrapArea">
       <Value>$(BugTrapArea)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="XdeltaArea">
+      <Value>$(XdeltaArea)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

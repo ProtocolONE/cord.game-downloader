@@ -8,8 +8,7 @@
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
 
-#ifndef _GGS_GAMEDOWNLOADER_EXTRACTORBASE_H_
-#define _GGS_GAMEDOWNLOADER_EXTRACTORBASE_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/StartType.h>
@@ -22,6 +21,7 @@ namespace GGS {
   }
 
   namespace GameDownloader {
+    class ServiceState;
     class GameDownloadService;
     class DOWNLOADSERVICE_EXPORT ExtractorBase : public QObject
     {
@@ -30,22 +30,31 @@ namespace GGS {
       ExtractorBase(const QString &extractorId, QObject *parent = 0);
       virtual ~ExtractorBase();
 
-      void setGameDownloadService(GameDownloadService *gameDownloadService);
-      virtual void extract(const GGS::Core::Service *service, StartType startType) = 0;
+      virtual void extract(ServiceState* state, StartType startType) = 0;
+      virtual void compress(ServiceState* state) = 0;
+      virtual void setAllUnpacked(ServiceState* state) = 0;
+
       const QString &extractorId();
 
     public slots:
-      void pauseRequestSlot(const GGS::Core::Service *service);
+      void pauseRequestSlot(GGS::GameDownloader::ServiceState* state);
 
     signals:
-      void pauseRequest(const GGS::Core::Service *service);
-      void extractFinished(const GGS::Core::Service *service);
-      void extractPaused(const GGS::Core::Service *service);
-      void extractFailed(const GGS::Core::Service *service);
-      void extractionProgressChanged(const QString& serviceId, qint8 progress, qint64 current, qint64 total);
+      void pauseRequest(GGS::GameDownloader::ServiceState* state);
+      void extractFinished(GGS::GameDownloader::ServiceState* state);
+      void extractPaused(GGS::GameDownloader::ServiceState* state);
+      void extractFailed(GGS::GameDownloader::ServiceState* state);
 
-    protected:
-      GameDownloadService *_gameDownloadService;
+      void extractionProgressChanged(GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
+
+      void compressFinished(GGS::GameDownloader::ServiceState* state);
+      void compressPaused(GGS::GameDownloader::ServiceState* state);
+      void compressFailed(GGS::GameDownloader::ServiceState* state);
+
+      void compressProgressChanged(GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
+
+      void unpackStateSaved(GGS::GameDownloader::ServiceState* state);
+      void unpackStateSaveFailed(GGS::GameDownloader::ServiceState* state);
 
     private:
       QString _extractorId;
@@ -53,5 +62,3 @@ namespace GGS {
     };
   }
 }
-
-#endif // _GGS_GAMEDOWNLOADER_EXTRACTORBASE_H_

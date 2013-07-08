@@ -9,7 +9,6 @@ TestEventLoopFinisher::TestEventLoopFinisher(QEventLoop *loop, int timeout)
   QTimer::singleShot(timeout, this, SLOT(timeoutTick()));
 }
 
-
 TestEventLoopFinisher::~TestEventLoopFinisher(void)
 {
 }
@@ -28,4 +27,9 @@ void TestEventLoopFinisher::timeoutTick()
 {
   this->_timeoutKill = true;
   this->terminateLoop();
+}
+
+bool TestEventLoopFinisher::setTerminateSignal(QObject *sender, const char* signal)
+{
+  return QObject::connect(sender, signal, this, SLOT(terminateLoop()));
 }

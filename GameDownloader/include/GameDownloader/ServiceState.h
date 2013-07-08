@@ -7,15 +7,15 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_SERVICESTATE_H_
-#define _GGS_GAMEDOWNLOADER_SERVICESTATE_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/StartType.h>
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <QtCore/QStringList>
+#include <QtCore/QByteArray>
 
 namespace GGS {
   namespace Core {
@@ -23,29 +23,19 @@ namespace GGS {
   }
 
   namespace GameDownloader {
-    
+    namespace Behavior {
+      class BaseBehavior;
+    }
+
     class DOWNLOADSERVICE_EXPORT ServiceState : public QObject
     {
       Q_OBJECT
       Q_ENUMS(GGS::GameDownloader::ServiceState::State);
-      Q_ENUMS(GGS::GameDownloader::ServiceState::Stage);
     public:
-
-      enum Stage {
-        Nowhere = 0,
-        CheckUpdate,
-        PreHook,
-        Download,
-        PostHook,
-        Extraction,
-        Finished
-      };
-
       enum State {
-        Unknown = 0,
-        Started,
-        Stopping,
-        Stopped
+        Started = 1,
+        Stopping = 2,
+        Stopped = 3
       };
 
       explicit ServiceState(QObject *parent = 0);
@@ -59,9 +49,7 @@ namespace GGS {
       void setState(const State state);
       State state() const;
 
-      void setStage(const Stage stage);
-      Stage stage() const;
-
+      void resetLastDateStateChanged();
       qint64 lastDateStateChanged() const;
 
       void setStartType(StartType type);
@@ -73,20 +61,72 @@ namespace GGS {
       bool isDirectoryChanged() const;
       void setIsDirectoryChanged(bool isDirectoryChanged);
 
+      Behavior::BaseBehavior* currentBehavior() const;
+      void setCurrentBehavior(Behavior::BaseBehavior* behavior);
+
+      bool isGameClientComplete() const;
+      void setIsGameClientComplete(bool value);
+
+      void setPackingFiles(const QStringList& files);
+      QStringList packingFiles();
+
+      void setPatchFiles(const QStringList& files);
+      void setPatchVersion(const QString& version);
+
+      QStringList patchFiles();
+      QString patchVersion();
+
+      void setTorrentLastModifedDate(const QString& date);
+      QString torrentLastModifedDate() const;
+
+
+      /*!
+        \fn bool ServiceState::isInstalled() const;
+        \brief Query if this object is installed.
+        \author Ilya.Tkachenko
+        \date 13.09.2013
+        \return true if installed, false if not.
+      */
+      bool isInstalled() const;
+
+      /*!
+        \fn void ServiceState::setIsInstalled(bool isInstalled);
+        \brief Sets the is installed. Don't call it if you are not really sure that you have to.
+        \author Ilya.Tkachenko
+        \date 13.09.2013
+        \param isInstalled true if is installed.
+      */
+      void setIsInstalled(bool isInstalled);
+
+
+      /*!
+        \fn static bool ServiceState::isInstalled(const QString& serviceId);
+        \brief Узнает установлена ли игра.
+        \author Ilya.Tkachenko
+        \date 13.09.2013
+        \param serviceId Identifier for the service.
+        \return true if installed, false if not.
+      */
+      static bool isInstalled(const QString& serviceId);
+
     private:
+      QStringList deserialize(QByteArray serialized);
+      QByteArray serialize(QStringList stringList);
+
       const GGS::Core::Service *_service;
 
-      QString _id;
       State _state;
-      Stage _stage;
 
+      QString _lastTorrentModifedDate;
       qint64 _lastDateStateChanded;
       StartType _startType;
 
       bool _isFoundNewUpdate;
       bool _isDirectoryChanged;
+
+      Behavior::BaseBehavior *_currentBehavior;
+      bool _isGameClientComplete;
     };
 
   }
 }
-#endif // _GGS_GAMEDOWNLOADER_SERVICESTATE_H_

@@ -29,7 +29,7 @@ void SingleShotFunctor::setCallback(std::tr1::function<void ()> f)
   this->_functor = f;
 }
 
-void SingleShotFunctor::start( int msec )
+void SingleShotFunctor::start(int msec)
 {
   QTimer::singleShot(msec, this, SLOT(internalFunctorCaller()));
 }

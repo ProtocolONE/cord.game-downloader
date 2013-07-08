@@ -7,9 +7,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_
-#define _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
 
@@ -19,16 +17,13 @@
 #include <QtNetwork/QNetworkReply>
 
 namespace GGS {
-  namespace Core {
-    class Service;
-  }
-
   namespace Extractor {
     class SevenZipExtactor;
   }
 
   namespace GameDownloader {
-    
+    class ServiceState;
+
     class DOWNLOADSERVICE_EXPORT CheckUpdateHelper : public QObject,
       public GGS::Downloader::MultiFileDownloadResultInterface
     {
@@ -45,22 +40,24 @@ namespace GGS {
       ~CheckUpdateHelper();
 
       //MultiFileDownloadResultInterface
-      virtual void fileDownloaded(const QString& filePath);
-      virtual void downloadResult(bool isError, GGS::Downloader::DownloadResults error);
-      virtual void downloadProgress(quint64 downloadSize, quint64 currentFileDownloadSize, quint64 currestFileSize);
-      virtual void downloadWarning(bool isError, GGS::Downloader::DownloadResults error);
+      virtual void fileDownloaded(const QString& filePath) override;
+      virtual void downloadResult(bool isError, GGS::Downloader::DownloadResults error) override;
+      virtual void downloadProgress(quint64 downloadSize, quint64 currentFileDownloadSize, quint64 currestFileSize) override;
+      virtual void downloadWarning(bool isError, GGS::Downloader::DownloadResults error) override;
 
       void setMaxHeadRequestRetry(int count);
 
-      static QString getTorrentPath(const GGS::Core::Service *service);
+      static QString getTorrentPath(GGS::GameDownloader::ServiceState *state);
 
     public slots:
-      void startCheck(const GGS::Core::Service *service, CheckUpdateType checkUpdateType);
+      void startCheck(GGS::GameDownloader::ServiceState *state, CheckUpdateType checkUpdateType);
+      static void saveLastModifiedDate(const QString& date, GGS::GameDownloader::ServiceState *state);
+      static void saveTorrenthash(const QString& date, GGS::GameDownloader::ServiceState *state);
 
     signals:
-      void result(const GGS::Core::Service *service, bool isUpdate);
-      void error(const GGS::Core::Service *service);
-      void checkUpdateProgressChanged(const QString& serviceId, quint8 progress);
+      void result(GGS::GameDownloader::ServiceState *state, bool isUpdate);
+      void error(GGS::GameDownloader::ServiceState *state);
+      void checkUpdateProgressChanged(GGS::GameDownloader::ServiceState *state, quint8 progress);
 
     private slots:
       void slotError(QNetworkReply::NetworkError error);
@@ -71,23 +68,16 @@ namespace GGS {
       QUrl getTorrentUrlWithArchiveExtension();
       void startDownloadTorrent();
 
-      void saveLastModifiedDate(const QString& date);
       QString loadLastModifiedDate() const;
-
-      void saveTorrenthash(const QString& date);
       QString torrentHash() const;
 
       QString _lastModified;
       QNetworkAccessManager *_manager;
-      const GGS::Core::Service *_service;
+      GGS::GameDownloader::ServiceState *_state;
       GGS::Extractor::SevenZipExtactor *_extractor;
       int _headRequestRetryCount;
       int _maxHeadRequestRetryCount;
       CheckUpdateType _checkUpdateType;
     };
-
-
   }
 }
-
-#endif // _GGS_GAMEDOWNLOADER_CHECKUPDATEHELPER_H_

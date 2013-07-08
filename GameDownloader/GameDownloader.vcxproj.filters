@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
@@ -26,32 +28,8 @@
     <ClCompile Include="GeneratedFiles\Release\moc_PauseRequestWatcher.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateHelper.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateHelper.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDownloader\CheckUpdateHelper.cpp">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameDownloader\CheckUpdateAdapter.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateAdapter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateAdapter.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameDownloader\LibtorrentWrapperAdapter.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_LibtorrentWrapperAdapter.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_LibtorrentWrapperAdapter.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\GameDownloader\Builder.cpp">
       <Filter>Generated Files</Filter>
@@ -69,12 +47,6 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_StageProgressCalculator.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_HookBase.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_HookBase.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\GameDownloader\HookBase.cpp">
@@ -119,11 +91,132 @@
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDownloader\Hooks\OldGameClientMigrate.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_HookBase.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_HookBase.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\XdeltaDecoder.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\XdeltaSource.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_XdeltaDecoder.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DecodeState.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DecodeState.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\DecodeState.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\DecodeStatePrivate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\BaseBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BaseBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BaseBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\StateMachine.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_StateMachine.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_StateMachine.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\CheckUpdateBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\PostHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\ExtractorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\PreHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="GeneratedFiles\Debug\moc_InstallDependency.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_InstallDependency.cpp">
+=======
+    <ClCompile Include="src\GameDownloader\Behavior\BindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehavior.cpp">
+>>>>>>> 97e7f1c... QGNA-405 Первая версия применениея bindiff, пока без обработки ошибок
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\BindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,10 +226,7 @@
     <ClInclude Include="include\GameDownloader\StartType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameDownloader\Hooks\InstallDependency.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameDownloader\Hooks\OldGameClientMigrate.h">
+    <ClInclude Include="include\GameDownloader\XdeltaWrapper\DecodeStatePrivate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -181,12 +271,6 @@
     <CustomBuild Include="include\GameDownloader\CheckUpdateHelper.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\CheckUpdateAdapter.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\LibtorrentWrapperAdapter.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="include\GameDownloader\Builder.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -208,6 +292,43 @@
     <CustomBuild Include="include\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\XdeltaDecoder.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeState.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BaseBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\StateMachine.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\CheckUpdateBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\TorrentDownloadBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PostHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ExtractorBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PreHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+<<<<<<< HEAD
+    <CustomBuild Include="include\GameDownloader\Hooks\InstallDependency.h">
+=======
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h">
+>>>>>>> 97e7f1c... QGNA-405 Первая версия применениея bindiff, пока без обработки ошибок
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="gamedownloader_ru.ts">
@@ -220,4 +341,471 @@
       <Filter>Translation Files</Filter>
     </None>
   </ItemGroup>
+=======
+=======
+>>>>>>> 210cfb7... QGNA-295 убрал фильры
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\GameDownloader\Behavior\FinishBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckTorrentModify.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_FinishBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckTorrentModify.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_FinishBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\Private\CheckTorrentModify.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadBindiffBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_OnlyCheckUpdateBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_DownloadBindiffBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_OnlyCheckUpdateBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\OnlyCheckUpdateBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\DownloadBindiffBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadFileHelper.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetBindiffTorrentBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetNewTorrentBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_RehashClientBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_DownloadFileHelper.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_GetBindiffTorrentBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_GetNewTorrentBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_RehashClientBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\GetNewTorrentBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\Private\DownloadFileHelper.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\RehashClientBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Algorithms\BindiffVersion.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_InstallDependency.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_PreHookBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleVerison.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_InstallDependency.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_PreHookBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleVerison.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\BindiffBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\ExtractorBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_PostHookBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_TorrentDownloadBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_PostHookBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_TorrentDownloadBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\PostHookBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\CheckUpdateBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_StateMachine.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_StateMachine.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_BaseBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_BaseBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\BaseBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateHelper.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_DecodeState.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_DummyExtractor.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_HookBase.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_SevenZipGameExtractor.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_UpdateInfoGetterResultEventLoopKiller.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_XdeltaDecoder.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateHelper.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_DecodeState.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_DummyExtractor.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_HookBase.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_SevenZipGameExtractor.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\PreHookBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\private\BindiffBehaviorPrivate.cpp" />
+    <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
+    <ClCompile Include="src\GameDownloader\Extractor\SevenZipGameExtractor.cpp" />
+    <ClCompile Include="src\GameDownloader\Extractor\DummyExtractor.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBase.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBase.cpp" />
+    <ClCompile Include="src\GameDownloader\ExtractorBase.cpp" />
+    <ClCompile Include="src\GameDownloader\HookBase.cpp" />
+    <ClCompile Include="src\GameDownloader\CheckUpdateHelper.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_GameDownloadService.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ServiceState.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_GameDownloadService.cpp" />
+    <ClCompile Include="GeneratedFiles\Release\moc_ServiceState.cpp" />
+    <ClCompile Include="src\GameDownloader\ServiceState.cpp" />
+    <ClCompile Include="src\GameDownloader\GameDownloadService.cpp" />
+    <ClCompile Include="src\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.cpp" />
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\DecodeState.cpp" />
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\DecodeStatePrivate.cpp" />
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\XdeltaSource.cpp" />
+    <ClCompile Include="src\GameDownloader\XdeltaWrapper\XdeltaDecoder.cpp" />
+    <ClCompile Include="src\GameDownloader\StateMachine.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\TorrentDownloadBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="src\GameDownloader\Behavior\RehashClientBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    <ClCompile Include="GetPatchVersionBehavior.cpp">
+=======
+    <ClCompile Include="GeneratedFiles\Debug\moc_compressorbehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_compressorbehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+=======
+>>>>>>> 954ae49... QGNA-295 Добавил FinishBehavior. Поправил другие шаги и поперенсил неокторые.
+    <ClCompile Include="src\GameDownloader\Behavior\CompressorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="src\GameDownloader\Behavior\Private\CheckTorrentModify.cpp">
+>>>>>>> b05c19d... QGNA-295 Добавил шаг на проверку обновленности торрента. ПОменял чутка верстку примера и добавил СА. Начал собирать стейт машину для новог алгоритма
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+>>>>>>> 210cfb7... QGNA-295 убрал фильры
+=======
+    <ClCompile Include="src\GameDownloader\Behavior\GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffVersion.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffVersion.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> 954ae49... QGNA-295 Добавил FinishBehavior. Поправил другие шаги и поперенсил неокторые.
+=======
+    <ClCompile Include="src\GameDownloader\Behavior\BindiffFailedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> c023e3b... QGNA-295 Добавил шаг фейла применения биндифов. Накидал синхронный алгоритм впаковки.
+=======
+    <ClCompile Include="src\GameDownloader\Behavior\SetAllPackedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> 3aa8bad... QGNA-295 Добавил шаг на "обнуление" файлов на распаковку.
+=======
+    <ClCompile Include="src\GameDownloader\ProgressCalculator.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> 0e957b6... QGNA-295 Переписал Каклькулятор прогресса и прикрутил к простому механизму
+=======
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\Private\CheckPatchExist.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> ef9ffb1... QGNA-295 Фикс бага - невохможность добавить файл в несуществующую папку
+=======
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> 4a7e3b6... QGNA-295 Правки по ревью
+=======
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleVersion.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleVersion.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Algorithms\SimpleVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+>>>>>>> fd4c368... QGNA-295 Объединил шаги получния версии патча и скачивания торрента для будущей оптимизации одного из кейсов.
+=======
+    <ClCompile Include="src\GameDownloader\Common\FileUtils.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+>>>>>>> 3e7cea5... QGNA-295 Починил баг с xdelta синзронной. Вынес создание папки в отдельный класс. Поменял порядок следования шагов обовления, чтобды ускорить вариант при остуствии биндиф патча. Перерисовал схему под этот вариант.
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
+    <ClInclude Include="include\GameDownloader\StartType.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="include\GameDownloader\Common\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GameDownloader.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\XdeltaDecoder.h" />
+    <CustomBuild Include="include\GameDownloader\GameDownloadService.h" />
+    <CustomBuild Include="include\GameDownloader\CheckUpdateHelper.h" />
+    <CustomBuild Include="include\GameDownloader\ExtractorBase.h" />
+    <CustomBuild Include="include\GameDownloader\Extractor\DummyExtractor.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\BaseBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\CheckUpdateBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\ExtractorBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\PreHookBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DownloadFileHelper.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\GetNewTorrentBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\DownloadBindiffBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckTorrentModify.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\FinishBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\HookBase.h" />
+    <CustomBuild Include="include\GameDownloader\Hooks\InstallDependency.h" />
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeState.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\PostHookBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\RehashClientBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\OnlyCheckUpdateBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\ServiceState.h" />
+    <CustomBuild Include="include\GameDownloader\Extractor\SevenZipGameExtractor.h" />
+    <CustomBuild Include="include\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.h" />
+    <CustomBuild Include="include\GameDownloader\StateMachine.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\TorrentDownloadBehavior.h" />
+    <CustomBuild Include="include\GameDownloader\Behavior\CompressorBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\GetPatchVersionBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Algorithms\BindiffVersion.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffFailedBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\SetAllPackedBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\ProgressCalculator.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckPatchExist.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeStatePrivate.h" />
+    <CustomBuild Include="include\gamedownloader\behavior\private\BindiffBehaviorPrivate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Algorithms\SimpleVersion.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gamedownloader_ru.ts" />
+    <None Include="i18n\GameDownloader_en.ts" />
+    <None Include="i18n\GameDownloader_ru.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>moc;h;cpp</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files\Debug">
+      <UniqueIdentifier>{942aed74-5b42-47ff-98b6-1f3b121bd699}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+    <Filter Include="Generated Files\Release">
+      <UniqueIdentifier>{1804a656-abf9-43a4-84fe-ce559060e863}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="include\GameDownloader\GameDownloadService.h" />
+    <CustomBuild Include="include\GameDownloader\ServiceState.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\CheckUpdateHelper.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\StageProgressCalculator.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\HookBase.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\ExtractorBase.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\DummyExtractor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\SevenZipGameExtractor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\XdeltaDecoder.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeState.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BaseBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\StateMachine.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\CheckUpdateBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\TorrentDownloadBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PostHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ExtractorBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PreHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Hooks\InstallDependency.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Algorithms\SimpleVerison.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\GetBindiffTorrentBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\gamedownloader\behavior\private\bindiffbehaviorprivate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DownloadFileHelper.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\RehashClientBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\GetNewTorrentBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\DownloadBindiffBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    <CustomBuild Include="GetPatchVersionBehavior.h">
+=======
+    <CustomBuild Include="include\gamedownloader\behavior\compressorbehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\OnlyCheckUpdateBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckTorrentModify.h">
+>>>>>>> b05c19d... QGNA-295 Добавил шаг на проверку обновленности торрента. ПОменял чутка верстку примера и добавил СА. Начал собирать стейт машину для новог алгоритма
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+>>>>>>> 210cfb7... QGNA-295 убрал фильры
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gamedownloader_ru.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="i18n\GameDownloader_en.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+    <None Include="i18n\GameDownloader_ru.ts">
+      <Filter>Translation Files</Filter>
+    </None>
+=======
+>>>>>>> 954ae49... QGNA-295 Добавил FinishBehavior. Поправил другие шаги и поперенсил неокторые.
+=======
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c;def</Extensions>
+      <ParseFiles>true</ParseFiles>
+    </Filter>
+>>>>>>> fd4c368... QGNA-295 Объединил шаги получния версии патча и скачивания торрента для будущей оптимизации одного из кейсов.
+  </ItemGroup>
+<<<<<<< HEAD
+>>>>>>> d337b74... QGNA-295 Убрал лишний файл.
+=======
+>>>>>>> 210cfb7... QGNA-295 убрал фильры
 </Project>

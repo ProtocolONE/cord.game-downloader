@@ -9,11 +9,13 @@
 ****************************************************************************/
 
 #include <GameDownloader/Extractor/SevenZipGameExtractor.h>
-#include <GameDownloader/PauseRequestWatcher.h>
 #include <GameDownloader/GameDownloadService.h>
+#include <GameDownloader/ServiceState.h>
 #include <GameDownloader/Extractor/UpdateInfoGetterResultEventLoopKiller.h>
+#include <GameDownloader/Common/FileUtils.h>
 
 #include <UpdateSystem/Extractor/SevenZipExtractor.h>
+#include <UpdateSystem/Compressor/ZevenZipCompressor.h>
 #include <UpdateSystem/UpdateInfoGetter>
 #include <UpdateSystem/UpdateInfoContainer>
 #include <UpdateSystem/UpdateFileInfo>
@@ -44,31 +46,116 @@ namespace GGS {
       SevenZipGameExtractor::~SevenZipGameExtractor()
       {
       }
-
-      void SevenZipGameExtractor::extract(const GGS::Core::Service *service, StartType startType)
+      
+      QStringList SevenZipGameExtractor::deserialize(QByteArray serialized)
       {
-        Q_ASSERT(service != 0);
+        QStringList result;
+        QDataStream in(&serialized, QIODevice::ReadOnly);
+        in >> result;
+        return result;
+      }
 
-        PauseRequestWatcher watcher(service);
-        connect(this, SIGNAL(pauseRequest(const GGS::Core::Service*)), 
-          &watcher, SLOT(pauseRequestSlot(const GGS::Core::Service*)), Qt::DirectConnection);
+      QByteArray SevenZipGameExtractor::serialize(QStringList stringList)
+      {
+        QByteArray byteArray;
+        QDataStream out(&byteArray, QIODevice::WriteOnly);
+        out << stringList;
+        return byteArray;
+      }
 
-        if (this->_gameDownloadService->isStoppedOrStopping(service)) {
-          emit this->extractPaused(service);
+      void SevenZipGameExtractor::compress(GGS::GameDownloader::ServiceState* state)
+      {
+        Q_CHECK_PTR(state);
+        Q_CHECK_PTR(state->service());
+
+        if (state->state() != ServiceState::Started) {
+          emit this->compressPaused(state);
+          return;
+        }
+        
+        const GGS::Core::Service *service = state->service();
+        emit this->compressProgressChanged(state, 0, 0, 0);
+
+        using namespace GGS::Compressor;
+        SevenZipCompressor compressor;
+        compressor.setCompressionLevel(GGS::Compressor::SevenZipCompressor::Low);
+
+        if (QThread::idealThreadCount() > 1)
+          compressor.setNumThreads(2);
+
+        QStringList files = state->packingFiles();
+
+        QString sourceDirectory = QString("%1/%2").arg(service->installPath(), service->areaString());
+        QString distrDirectory = QString("%1/%2").arg(service->downloadPath(), service->areaString());
+
+        qint64 filesCount = 0;
+        qint64 totalFilesCount = files.length();
+
+        bool skipedProgres = false;
+        int progressMod = 0;
+        if (totalFilesCount > 200) {
+          skipedProgres = true;
+          progressMod = static_cast<int>(totalFilesCount / 100);
+        }
+
+        Q_FOREACH(QString fileName, files) {
+          if (state->state() != ServiceState::Started) {
+            emit this->compressPaused(state);
+            return;
+          }
+
+          filesCount++;
+          if (!skipedProgres || ((filesCount % progressMod) == 0 || filesCount == totalFilesCount)) {
+            emit this->compressProgressChanged(
+              state, 
+              static_cast<qint8>(100.0f * static_cast<qreal>(filesCount) / static_cast<qreal>(totalFilesCount)), 
+              filesCount, 
+              totalFilesCount);
+          } 
+
+          QString archiveFile = QString("%1/%2.7z").arg(distrDirectory, fileName);
+          QString sourceFile = QString("%1/%2").arg(sourceDirectory, fileName);
+          QFile::remove(archiveFile); // TODO обсудить
+
+          Common::FileUtils::createDirectoryIfNotExist(archiveFile);
+
+          DEBUG_LOG << "compress " << sourceFile;
+          CompressorInterface::CompressionResult result = compressor.compressFile(sourceFile, archiveFile);
+
+          if (result != CompressorInterface::NoError) {
+            emit this->compressFailed(state);
+            return;
+          }
+
+          files.removeOne(fileName);
+          state->setPackingFiles(files);
+        }
+
+        emit this->compressFinished(state);
+      }
+
+      void SevenZipGameExtractor::extract(GGS::GameDownloader::ServiceState* state, StartType startType)
+      {
+        Q_CHECK_PTR(state);
+        Q_CHECK_PTR(state->service());
+
+        if (state->state() != ServiceState::Started) {
+          emit this->extractPaused(state);
           return;
         }
 
-        emit this->extractionProgressChanged(service->id(), 0, 0, 0);
+        const GGS::Core::Service *service = state->service();
+        emit this->extractionProgressChanged(state, 0, 0, 0);
 
         using namespace GGS::UpdateSystem;
         QHash<QString, UpdateFileInfo> onlineInfo;
-        if (!this->getUpdateInfo(service, onlineInfo)) {
-          emit this->extractFailed(service);
+        if (!this->getUpdateInfo(state, onlineInfo)) {
+          emit this->extractFailed(state);
           return;
         }
 
-        if (watcher.isPaused()) {
-          emit this->extractPaused(service);
+        if (state->state() != ServiceState::Started) {
+          emit this->extractPaused(state);
           return;
         }
 
@@ -77,7 +164,7 @@ namespace GGS {
         this->getFilesInDirectory(extractionDirectory, existingFilesHash);
 
         QHash<QString, UpdateFileInfo> savedInfo;
-        this->loadUpdateInfo(service, savedInfo);
+        this->loadUpdateInfo(state, savedInfo);
         
         GGS::Hasher::Md5FileHasher hasher;
         qint64 totalFilesCount = onlineInfo.count();
@@ -92,14 +179,14 @@ namespace GGS {
 
         QHash<QString, UpdateFileInfo> filesToExtraction;
         Q_FOREACH(QString relativePath, onlineInfo.keys()) {
-          if (watcher.isPaused()) {
-            emit this->extractPaused(service);
+          if (state->state() != ServiceState::Started) {
+            emit this->extractPaused(state);
             return;
           }
 
           checkedFilesCount++;
           if (!skipedProgres || ((checkedFilesCount % progressMod) == 0 || checkedFilesCount == totalFilesCount)) {
-            emit this->extractionProgressChanged(service->id(), 
+            emit this->extractionProgressChanged(state, 
               static_cast<qint8>(40.0f * static_cast<qreal>(checkedFilesCount) / static_cast<qreal>(totalFilesCount)), 0, 0);
           } 
 
@@ -113,7 +200,7 @@ namespace GGS {
             continue;
           }
 
-          if (onlineInfo[relativePath].forceCheck() || startType == StartType::Recheck) {
+          if (onlineInfo[relativePath].forceCheck() || startType == GGS::GameDownloader::Recheck) {
             QString filePath = QString("%1%2").arg(extractionDirectory, relativePath);
             if (hasher.getFileHash(filePath) != onlineInfo[relativePath].hash()) {
               filesToExtraction[relativePath] = onlineInfo[relativePath];
@@ -126,23 +213,21 @@ namespace GGS {
         }
 
         if (filesToExtraction.isEmpty()) {
-          emit this->extractFinished(service);
+          emit this->extractFinished(state);
           return;
         }
           
-        this->extractFiles(
-          service, 
-          filesToExtraction,
-          extractionDirectory, 
-          &watcher,
-          savedInfo);
+        this->extractFiles(state, filesToExtraction, extractionDirectory, savedInfo);
       }
 
-      bool SevenZipGameExtractor::getUpdateInfo(const GGS::Core::Service *service, QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+      bool SevenZipGameExtractor::getUpdateInfo(GGS::GameDownloader::ServiceState* state, 
+        QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
       {
         using namespace GGS::UpdateSystem;
         using namespace GGS::Extractor;
         using namespace GGS::Downloader;
+
+        const GGS::Core::Service *service = state->service();
 
         DynamicRetryTimeout dynamicRetryTimeout;
         dynamicRetryTimeout << 5000 << 10000 << 15000 << 30000;
@@ -193,11 +278,15 @@ namespace GGS {
         return true;
       }
 
-      void SevenZipGameExtractor::loadUpdateInfo(const GGS::Core::Service *service, QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+      void SevenZipGameExtractor::loadUpdateInfo(GGS::GameDownloader::ServiceState* state,
+        QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
       {
+        const GGS::Core::Service *service = state->service();
+
         GGS::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
         settings.beginGroup("SevenZipGameExtractor");
+        
         QByteArray byteArray = settings.value(service->id(), QByteArray()).toByteArray();
         if (byteArray.isEmpty())
           return;
@@ -208,9 +297,11 @@ namespace GGS {
       }
 
       void SevenZipGameExtractor::saveUpdateInfo(
-        const GGS::Core::Service *service, 
+        GGS::GameDownloader::ServiceState* state, 
         const QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
       {
+        const GGS::Core::Service *service = state->service();
+
         QByteArray byteArray;
         QDataStream stream(&byteArray, QIODevice::WriteOnly);
         stream << resultHash;
@@ -239,27 +330,16 @@ namespace GGS {
         }
       }
 
-      QString SevenZipGameExtractor::createDirectoryIfNotExist(const QString &targetFilePath)
-      {
-        QFileInfo info(targetFilePath);
-        QDir targetPath = info.dir();
-        QString path = info.absolutePath();
-        if (!targetPath.exists())
-          targetPath.mkpath(path);
-
-        return path;
-      }
-
       void SevenZipGameExtractor::extractFiles(
-        const GGS::Core::Service *service, 
+        GGS::GameDownloader::ServiceState* state, 
         const QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &filesToExtraction, 
         const QString& extractionDirectory,
-        const PauseRequestWatcher *watcher,
         QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &savedInfo)
       {
+        const GGS::Core::Service *service = state->service();
+
         qint64 totalFilesCount = filesToExtraction.count();
-        QString id = service->id();
-        emit this->extractionProgressChanged(id, 40, 0, totalFilesCount);
+        emit this->extractionProgressChanged(state, 40, 0, totalFilesCount);
 
         using namespace GGS::Extractor;
         SevenZipExtactor extractor;
@@ -276,19 +356,19 @@ namespace GGS {
         }
 
         Q_FOREACH(QString relativePath, filesToExtraction.keys()) {
-          if (watcher->isPaused()) {
-            emit this->extractPaused(service);
+          if (state->state() != ServiceState::Started) {
+            emit this->extractPaused(state);
             return;
           }
 
           QString archivePath = QString("%1%2.7z").arg(archiveDirectory, relativePath);
           QString targetFilePath = QString("%1%2").arg(extractionDirectory, relativePath);
-          QString targetDirectory = this->createDirectoryIfNotExist(targetFilePath);
+          QString targetDirectory = Common::FileUtils::createDirectoryIfNotExist(targetFilePath);
           DEBUG_LOG << "extracting " << relativePath;
           GGS::Extractor::ExtractionResult result = extractor.extract(archivePath, targetDirectory);
           if (result != ExtractionResult::NoError) {
             CRITICAL_LOG << "Extraction error: " << result;
-            emit this->extractFailed(service);
+            emit this->extractFailed(state);
             return;
           }
         
@@ -296,20 +376,35 @@ namespace GGS {
 
           if (!skipedProgres || ((extractedFilesCount % progressMod) == 0 || extractedFilesCount == totalFilesCount)) {
             qint8 progress = 40 + static_cast<qint8>(60 * (static_cast<qreal>(extractedFilesCount) / static_cast<qreal>(totalFilesCount)));
-            emit this->extractionProgressChanged(id, progress, extractedFilesCount, totalFilesCount);
+            emit this->extractionProgressChanged(state, progress, extractedFilesCount, totalFilesCount);
           } 
 
           savedInfo[relativePath] = filesToExtraction[relativePath];
           
           qint64 diff = QDateTime::currentMSecsSinceEpoch() - timeOfLastSaveUpdateInfo;
           if (diff < 0 || diff > 10000) {
-            this->saveUpdateInfo(service, savedInfo);
+            this->saveUpdateInfo(state, savedInfo);
             timeOfLastSaveUpdateInfo = QDateTime::currentMSecsSinceEpoch();
           }
         }
 
-        this->saveUpdateInfo(service, savedInfo);
-        emit this->extractFinished(service);
+        this->saveUpdateInfo(state, savedInfo);
+        emit this->extractFinished(state);
+      }
+
+      void SevenZipGameExtractor::setAllUnpacked(ServiceState* state)
+      {
+        Q_CHECK_PTR(state);
+
+        using namespace GGS::UpdateSystem;
+        QHash<QString, UpdateFileInfo> onlineInfo;
+        if (!this->getUpdateInfo(state, onlineInfo)) {
+          emit this->unpackStateSaveFailed(state);
+          return;
+        }
+
+        this->saveUpdateInfo(state, onlineInfo);
+        emit this->unpackStateSaved(state);
       }
 
     }

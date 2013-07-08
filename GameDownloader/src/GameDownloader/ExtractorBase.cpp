@@ -10,7 +10,6 @@
 
 #include <GameDownloader/ExtractorBase.h>
 #include <GameDownloader/GameDownloadService.h>
-#include <GameDownloader/PauseRequestWatcher.h>
 
 #include <Core/Service>
 
@@ -26,15 +25,10 @@ namespace GGS {
     {
     }
 
-    void ExtractorBase::pauseRequestSlot(const GGS::Core::Service *service)
+    void ExtractorBase::pauseRequestSlot(ServiceState* state)
     {
-      Q_ASSERT(service);
-      emit this->pauseRequest(service);
-    }
-
-    void ExtractorBase::setGameDownloadService(GameDownloadService *gameDownloadService)
-    {
-      this->_gameDownloadService = gameDownloadService;
+      Q_CHECK_PTR(state);
+      emit this->pauseRequest(state);
     }
 
     const QString& ExtractorBase::extractorId()

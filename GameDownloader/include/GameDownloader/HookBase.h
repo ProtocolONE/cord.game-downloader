@@ -7,17 +7,16 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_HOOKBASE_H_
-#define _GGS_GAMEDOWNLOADER_HOOKBASE_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
+#include <GameDownloader/ServiceState.h>
 
-#include <Core/Service>
 #include <QtCore/QObject>
 
 namespace GGS {
   namespace GameDownloader {
+
     class GameDownloadService;
     class DOWNLOADSERVICE_EXPORT HookBase : public QObject
     {
@@ -25,6 +24,7 @@ namespace GGS {
       Q_ENUMS(GGS::GameDownloader::HookBase::HookResult);
     public:
       
+      // UNDONE Пересмотреть и вохможно уменьшить число результатов
       enum HookResult {
         Continue = 0,
         Abort = 1,
@@ -43,8 +43,8 @@ namespace GGS {
       HookBase(const QString& hookId, QObject *parent = 0);
       virtual ~HookBase();
 
-      virtual HookResult beforeDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service) = 0;
-      virtual HookResult afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service) = 0;
+      virtual HookResult beforeDownload(GameDownloadService *gameDownloader, ServiceState *state) = 0;
+      virtual HookResult afterDownload(GameDownloadService *gameDownloader, ServiceState *state) = 0;
 
       const QString& hookId();
 
@@ -55,14 +55,14 @@ namespace GGS {
       void setAfterProgressWeight(quint8 weight);
 
     public slots:
-      void pauseRequestSlot(const GGS::Core::Service *service);
+      void pauseRequestSlot(GGS::GameDownloader::ServiceState *state);
 
     signals:
       void beforeProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
       void afterProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
-      void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
+      void statusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
 
-      void pauseRequest(const GGS::Core::Service *service);
+      void pauseRequest(GGS::GameDownloader::ServiceState *state);
 
     protected:
       quint8 _beforeProgressWeight;
@@ -72,5 +72,3 @@ namespace GGS {
     };
   }
 }
-
-#endif // _GGS_GAMEDOWNLOADER_HOOKBASE_H_

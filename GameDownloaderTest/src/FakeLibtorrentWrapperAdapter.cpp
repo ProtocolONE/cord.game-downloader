@@ -2,6 +2,7 @@
 
 #include <functional>
 
+// HACK считай не работает 
 FakeLibtorrentWrapperAdapter::FakeLibtorrentWrapperAdapter(GGS::GameDownloader::GameDownloadService *service)
   : _downloadService(service)
   , _downloadEventCount(0)
@@ -11,13 +12,14 @@ FakeLibtorrentWrapperAdapter::FakeLibtorrentWrapperAdapter(GGS::GameDownloader::
 {
   this->_downloadEventCount;
 
-  QObject::connect(
-    service, SIGNAL(downloadRequest(const GGS::Core::Service*, GGS::GameDownloader::StartType, bool)), 
-    this, SLOT(downloadRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
+  // UNDONE чутка не работает
+  //QObject::connect(
+  //  service, SIGNAL(downloadRequest(const GGS::Core::Service*, GGS::GameDownloader::StartType, bool)), 
+  //  this, SLOT(downloadRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
 
-  QObject::connect(
-    service, SIGNAL(downloadStopRequest(const GGS::Core::Service*)), 
-    this, SLOT(pauseRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
+  //QObject::connect(
+  //  service, SIGNAL(downloadStopRequest(const GGS::Core::Service*)), 
+  //  this, SLOT(pauseRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
 
   QObject::connect(&this->_timer, SIGNAL(timeout()), this, SLOT(downloadCompletedTimerTick()));
 }
@@ -52,14 +54,14 @@ void FakeLibtorrentWrapperAdapter::setDownloadTime(int msec)
 
 void FakeLibtorrentWrapperAdapter::pauseRequestCounter(const GGS::Core::Service *service)
 {
-  QMutexLocker lock(&this->_mutex);
-  this->_pauseEventCount++;
-  if (!this->_downloadInProgress)
-    return;
+  //QMutexLocker lock(&this->_mutex);
+  //this->_pauseEventCount++;
+  //if (!this->_downloadInProgress)
+  //  return;
 
-  this->_downloadInProgress = false;
-  this->_timer.stop();
-  this->_downloadService->pauseRequestCompleted(service);
+  //this->_downloadInProgress = false;
+  //this->_timer.stop();
+  //this->_downloadService->pauseRequestCompleted(service);
 }
 
 int FakeLibtorrentWrapperAdapter::pauseEventCount() const
@@ -69,5 +71,5 @@ int FakeLibtorrentWrapperAdapter::pauseEventCount() const
 
 void FakeLibtorrentWrapperAdapter::downloadCompletedTimerTick()
 {
-  this->_downloadService->downloadRequestCompleted(this->_service);  
+//  this->_downloadService->downloadRequestCompleted(this->_service);  
 }

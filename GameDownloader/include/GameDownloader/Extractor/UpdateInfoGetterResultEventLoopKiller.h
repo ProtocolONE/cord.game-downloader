@@ -7,9 +7,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_EXTRACTOR_UPDATEINFOGETTERRESULTEVENTLOOPKILLER_H_
-#define _GGS_GAMEDOWNLOADER_EXTRACTOR_UPDATEINFOGETTERRESULTEVENTLOOPKILLER_H_
+#pragma once
 
 #include <UpdateSystem/UpdateInfoGetterResultInterface>
 #include <QtCore/QObject>
@@ -42,4 +40,3 @@ namespace GGS {
     }
   }
 }
-#endif // _GGS_GAMEDOWNLOADER_EXTRACTOR_UPDATEINFOGETTERRESULTEVENTLOOPKILLER_H_

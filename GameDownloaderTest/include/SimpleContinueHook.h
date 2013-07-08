@@ -11,6 +11,9 @@ namespace GGS {
   }
 }
 
+using GGS::GameDownloader::HookBase;
+using GGS::GameDownloader::ServiceState;
+using GGS::GameDownloader::GameDownloadService;
 
 class SimpleContinueHook : public GGS::GameDownloader::HookBase
 {
@@ -18,8 +21,8 @@ public:
   SimpleContinueHook(int hookId, QList<int> *preList, QList<int> *postList);
   ~SimpleContinueHook();
 
-  HookResult beforeDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service);
-  HookResult afterDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service);
+  virtual HookBase::HookResult beforeDownload(GameDownloadService *, ServiceState *state) override;
+  virtual HookBase::HookResult afterDownload(GameDownloadService *, ServiceState *state) override;
 
   int beforeCallCount() const { return this->_beforeCallCount; }
   int afterCallCount() const { return this->_afterCallCount; }

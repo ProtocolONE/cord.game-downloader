@@ -11,6 +11,7 @@ public:
   ~TestEventLoopFinisher();
   
   bool isKilledByTimeout() const { return this->_timeoutKill; }
+  bool setTerminateSignal(QObject *sender, const char* signal);
 
 public slots:
   void terminateLoop();

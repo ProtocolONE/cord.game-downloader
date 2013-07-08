@@ -11,16 +11,21 @@
 #include <GameDownloader/Hooks/InstallDependency.h>
 #include <GameDownloader/GameDownloadService>
 
+#include <Core/Service.h>
+
 #include <QtCore/QFile>
 #include <QtCore/QStringList>
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 
+using GGS::GameDownloader::HookBase;
+
 namespace GGS {
   namespace GameDownloader {
     namespace Hooks {
-      InstallDependency::InstallDependency()
-         : HookBase("B4910801-2FA4-455E-AEAE-A2BAA2D3E4CA")
+
+      InstallDependency::InstallDependency(QObject *parent)
+         : HookBase("B4910801-2FA4-455E-AEAE-A2BAA2D3E4CA", parent)
       {
       }
 
@@ -28,16 +33,20 @@ namespace GGS {
       {
       }
 
-      GGS::GameDownloader::HookBase::HookResult InstallDependency::beforeDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service)
+      HookBase::HookResult InstallDependency::beforeDownload(GameDownloadService *gameDownloader, ServiceState *state)
       {
         // nothing to do, really
         return GGS::GameDownloader::HookBase::Continue;
       }
 
-      GGS::GameDownloader::HookBase::HookResult InstallDependency::afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service)
+      HookBase::HookResult InstallDependency::afterDownload(GameDownloadService *gameDownloader, ServiceState *state)
       {
-        if (gameDownloader->isInstalled(service) && gameDownloader->startType(service->id()) != Recheck)
-            return GGS::GameDownloader::HookBase::Continue;
+        if (state->isInstalled() && state->startType() != Recheck)
+            return HookBase::Continue;
+
+        DEBUG_LOG << "Start installing dependency";
+
+        const GGS::Core::Service *service = state->service();
 
         QString dependencyList = service->externalDependencyList();
         QStringList fileNames = dependencyList.split(',', QString::KeepEmptyParts);
@@ -50,9 +59,11 @@ namespace GGS {
             args = fileNames.takeFirst();
           
           QString fullPath = QString("%1/%2/Dependency/%3").arg(service->installPath(), service->areaString(), dependency);
+          DEBUG_LOG << "install" << fullPath;
+
           if (!QFile::exists(fullPath)) {
             WARNING_LOG << "Dependency not found. Service " << service->id() << " Dependency: " << dependency;
-            return GGS::GameDownloader::HookBase::Continue;
+            return HookBase::Continue;
           }
           
           QStringList argumentList = args.split(' ', QString::SkipEmptyParts);
@@ -60,7 +71,7 @@ namespace GGS {
           process.waitForFinished();
         }
 
-        return GGS::GameDownloader::HookBase::Continue;
+        return HookBase::Continue;
       }
 
     }

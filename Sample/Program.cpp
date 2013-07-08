@@ -21,41 +21,54 @@ Program::Program()
   nQMLContainer->setResizeMode(QDeclarativeView::SizeRootObjectToView);                                                       
   nQMLContainer->showNormal();
 
-  this->initDatabase();
+  this->initDatabase();  
   this->initServices();
-  this->_gameDownloaderBuilder.torrentWrapper().setListeningPort(11789);
+
+  this->_gameDownloaderService.setListeningPort(11789);
+
   QString torrentConfigPath = root;
   torrentConfigPath.append("/torrents");
-  this->_gameDownloaderBuilder.torrentWrapper().setTorrentConfigDirectoryPath(torrentConfigPath);
-  this->_gameDownloaderBuilder.torrentWrapper().initEngine();
+  this->_gameDownloaderService.setTorrentConfigDirectoryPath(torrentConfigPath);
+  this->_gameDownloaderService.setTimeoutForResume(120);
+  this->_gameDownloaderService.init();
 
-  this->_gameDownloaderBuilder.build();
-  this->_gameDownloaderBuilder.gameDownloader().setTimeoutForResume(120);
-
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(progressChanged(QString, qint8)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(progressChanged(QString, qint8)), 
     this, SLOT(progressChanged(QString, qint8)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(progressDownloadChanged(QString, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(progressDownloadChanged(QString, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
     this, SLOT(progressDownloadChanged(QString, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(progressExtractionChanged(QString, qint8, qint64, qint64)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(progressExtractionChanged(QString, qint8, qint64, qint64)), 
     this, SLOT(progressExtractionChanged(QString, qint8, qint64, qint64)));
 
+  QObject::connect(
+    &this->_gameDownloaderService, 
+    SIGNAL(totalProgressChanged(const GGS::Core::Service *, qint8)), 
+    this, 
+    SLOT(totalProgressChanged(const GGS::Core::Service *, qint8)));
 
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(started(const GGS::Core::Service *, GGS::GameDownloader::StartType)), 
+  QObject::connect(
+    &this->_gameDownloaderService, 
+    SIGNAL(downloadProgressChanged(const GGS::Core::Service *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
+    this, 
+    SLOT(downloadProgressChanged(const GGS::Core::Service *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)));
+
+
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(started(const GGS::Core::Service *, GGS::GameDownloader::StartType)), 
     this, SLOT(gameDownloaderStarted(const GGS::Core::Service *)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(finished(const GGS::Core::Service *)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), 
     this, SLOT(gameDownloaderFinished(const GGS::Core::Service *)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(stopped(const GGS::Core::Service *)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(stopped(const GGS::Core::Service *)), 
     this, SLOT(gameDownloaderStopped(const GGS::Core::Service *)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(stopping(const GGS::Core::Service *)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(stopping(const GGS::Core::Service *)), 
     this, SLOT(gameDownloaderStopping(const GGS::Core::Service *)));
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(failed(const GGS::Core::Service *)), 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(failed(const GGS::Core::Service *)), 
     this, SLOT(gameDownloaderFailed(const GGS::Core::Service *)));
 
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(statusMessageChanged(const GGS::Core::Service *, const QString&)), 
+    this, SLOT(gameDownloaderStatusChanged(const GGS::Core::Service *, const QString&)));
 
-  QObject::connect(&this->_gameDownloaderBuilder.gameDownloader(), SIGNAL(shutdownCompleted()),
+  QObject::connect(&this->_gameDownloaderService, SIGNAL(shutdownCompleted()),
     this, SLOT(shutdownCompleted()));
 }
-
 
 Program::~Program()
 {
@@ -108,7 +121,7 @@ void Program::setUploadRateLimit(QString bytesPerSecond)
   bool ok;
   int q = bytesPerSecond.toInt(&ok);
   if (ok)
-    this->_gameDownloaderBuilder.torrentWrapper().setUploadRateLimit(q);
+    this->_gameDownloaderService.setUploadRateLimit(q);
 }
 
 void Program::setDownloadRateLimit(QString bytesPerSecond)
@@ -116,47 +129,53 @@ void Program::setDownloadRateLimit(QString bytesPerSecond)
   bool ok;
   int q = bytesPerSecond.toInt(&ok);
   if (ok)
-    this->_gameDownloaderBuilder.torrentWrapper().setDownloadRateLimit(q);
+    this->_gameDownloaderService.setDownloadRateLimit(q);
 }
 
 void Program::startTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Normal);
+  this->_gameDownloaderService.start(service, GGS::GameDownloader::Normal);
 }
 
 void Program::stopTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().stop(service);
+  this->_gameDownloaderService.stop(service);
 }
 
 void Program::restartTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Force);
+  this->_gameDownloaderService.start(service, GGS::GameDownloader::Force);
 }
 
 void Program::recheckTorrent(QString id)
 {
   Service *service = this->getService(id);
-  this->_gameDownloaderBuilder.gameDownloader().start(service, GGS::GameDownloader::Recheck);
+  this->_gameDownloaderService.start(service, GGS::GameDownloader::Recheck);
 }
 
 void Program::initServices()
 {
   this->initService("300002010000000000", "http://fs0.gamenet.ru/update/aika/");
   this->initService("300003010000000000", "http://fs0.gamenet.ru/update/bs/");
+  
+  //this->initService("300009010000000000", "http://fs0.gamenet.ru/update/ca/");
+  this->initService("100009010000000000", "http://gnlupdate.tst.local/update/ca/");
+
   this->initService("300004010000000000", "http://fs0.gamenet.ru/update/rot/");
   this->initService("300005010000000000", "http://fs0.gamenet.ru/update/warinc/");
   this->initService("300006010000000000", "http://fs0.gamenet.ru/update/mw2/");
+
+
 }
 
 void Program::initService(const QString& id, const QString& torrentUrl)
 {
   using namespace GGS::Core;
   Service *service = new Service();
-  service->setArea(Service::Live);
+  service->setArea(Service::Pts);
 
   QString root = QCoreApplication::applicationDirPath();
   QString downloadPath = root;
@@ -169,13 +188,17 @@ void Program::initService(const QString& id, const QString& torrentUrl)
   archive.append(id);
   archive.append("/");
 
-  if (id == "300002010000000000" || id == "300004010000000000") {
+  if (id == "300002010000000000" 
+    || id == "300004010000000000" 
+    || id == "300009010000000000"
+    || id == "100009010000000000"
+    ) {
     service->setDownloadPath(archive);
     service->setInstallPath(downloadPath);
     service->setTorrentFilePath(archive);
     service->setExtractorType("D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9");
   } else {
-    service->setDownloadPath(downloadPath);
+    service->setDownloadPath(downloadPath); 
     service->setInstallPath(downloadPath);
     service->setTorrentFilePath(downloadPath);
     service->setExtractorType("3A3AC78E-0332-45F4-A466-89C2B8E8BB9C");
@@ -189,15 +212,15 @@ void Program::initService(const QString& id, const QString& torrentUrl)
 
   QStringList args = QCoreApplication::arguments();
   if (!args.contains("/nohook")) {
-    FakeHook *hook1 = new FakeHook("hook_1", &this->_gameDownloaderBuilder.gameDownloader());
+    FakeHook *hook1 = new FakeHook("hook_1", &this->_gameDownloaderService);
     hook1->setBeforeProgressWeight(25);
     hook1->setAfterProgressWeight(75);
-    this->_gameDownloaderBuilder.gameDownloader().registerHook(id, 100, 100, hook1);
-
-    FakeHook *hook2 = new FakeHook("hook_2", &this->_gameDownloaderBuilder.gameDownloader());
+    this->_gameDownloaderService.registerHook(id, 100, 100, hook1);
+    
+    FakeHook *hook2 = new FakeHook("hook_2", &this->_gameDownloaderService);
     hook2->setBeforeProgressWeight(75);
     hook2->setAfterProgressWeight(25);
-    this->_gameDownloaderBuilder.gameDownloader().registerHook(id, 0, 0, hook2);
+    this->_gameDownloaderService.registerHook(id, 0, 0, hook2);
   }
 }
 
@@ -238,7 +261,6 @@ void Program::initDatabase()
   GGS::Settings::Settings::setConnection(db.connectionName());
 }
 
-
 void Program::torrentChangePort()
 {
   qDebug() << "trying to change torrent port to " << this->_port;
@@ -247,7 +269,7 @@ void Program::torrentChangePort()
   if (!ok)
     return;
 
-  this->_gameDownloaderBuilder.torrentWrapper().changeListeningPort(port);
+  this->_gameDownloaderService.changeListeningPort(port);
 }
 
 void Program::progressChanged( QString serviceId, qint8 progress )
@@ -258,7 +280,14 @@ void Program::progressChanged( QString serviceId, qint8 progress )
 
 void Program::progressDownloadChanged( QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args )
 {
-  QString str = QString("id %1 progress %2 status %3 d_rate %4 u_rate %5 twd %6 tw %7").arg(args.id()).arg(args.progress()).arg(args.status()).arg(args.downloadRate()).arg(args.uploadRate()).arg(args.totalWantedDone()).arg(args.totalWanted());
+  QString str = QString("id %1 progress %2 status %3 d_rate %4 u_rate %5 twd %6 tw %7").arg(args.id())
+    .arg(args.progress())
+    .arg(args.status())
+    .arg(args.downloadRate())
+    .arg(args.uploadRate())
+    .arg(args.totalWantedDone())
+    .arg(args.totalWanted());
+
   emit this->serviceProgressChanged(serviceId, progress);
   emit this->serviceStatusChanged(serviceId, str);
 }
@@ -273,31 +302,31 @@ void Program::progressExtractionChanged( QString serviceId, qint8 progress, qint
 
 }
 
-void Program::gameDownloaderStarted( const GGS::Core::Service *service )
+void Program::gameDownloaderStarted(const GGS::Core::Service *service)
 {
   QString serviceId = service->id();
   emit this->serviceStatusChanged(serviceId, "Started");
 }
 
-void Program::gameDownloaderFinished( const GGS::Core::Service *service )
+void Program::gameDownloaderFinished(const GGS::Core::Service *service)
 {
   QString serviceId = service->id();
   emit this->serviceStatusChanged(serviceId, "Finished");
 }
 
-void Program::gameDownloaderStopped( const GGS::Core::Service *service )
+void Program::gameDownloaderStopped(const GGS::Core::Service *service)
 {
   QString serviceId = service->id();
   emit this->serviceStatusChanged(serviceId, "Stopped");
 }
 
-void Program::gameDownloaderStopping( const GGS::Core::Service *service )
+void Program::gameDownloaderStopping(const GGS::Core::Service *service)
 {
   QString serviceId = service->id();
   emit this->serviceStatusChanged(serviceId, "Stopping");
 }
 
-void Program::gameDownloaderFailed( const GGS::Core::Service *service )
+void Program::gameDownloaderFailed(const GGS::Core::Service *service)
 {
   QString serviceId = service->id();
   emit this->serviceStatusChanged(serviceId, "Failed");
@@ -305,12 +334,11 @@ void Program::gameDownloaderFailed( const GGS::Core::Service *service )
 
 void Program::shutdown()
 {
-  this->_gameDownloaderBuilder.gameDownloader().shutdown();
+  this->_gameDownloaderService.shutdown();
 }
 
 void Program::shutdownCompleted()
 {
-  this->_gameDownloaderBuilder.torrentWrapper().shutdown();
   QCoreApplication::quit();
 }
 
@@ -328,5 +356,33 @@ void Program::changeDirectory(QString serviceId, QString downloadPath, QString i
   service->setTorrentFilePath(service->downloadPath());
   service->setInstallPath(installPath);
 
-  this->_gameDownloaderBuilder.gameDownloader().directoryChanged(service);
+  this->_gameDownloaderService.directoryChanged(service);
+}
+
+void Program::gameDownloaderStatusChanged(const GGS::Core::Service *service, const QString& message)
+{
+  QString serviceId = service->id();
+  emit this->serviceStatusChanged(serviceId, message);
+}
+
+void Program::totalProgressChanged(const GGS::Core::Service *service, qint8 progress)
+{
+  emit this->serviceProgressChanged2(service->id(), progress);
+}
+
+void Program::downloadProgressChanged(
+  const GGS::Core::Service *service, 
+  qint8 progress, 
+  GGS::Libtorrent::EventArgs::ProgressEventArgs args)
+{
+  QString str = QString("id %1 progress %2 status %3 d_rate %4 u_rate %5 twd %6 tw %7").arg(args.id())
+    .arg(args.progress())
+    .arg(args.status())
+    .arg(args.downloadRate())
+    .arg(args.uploadRate())
+    .arg(args.totalWantedDone())
+    .arg(args.totalWanted());
+
+  emit this->serviceStatusChanged(service->id(), str);
+  emit this->serviceProgressChanged2(service->id(), progress);
 }

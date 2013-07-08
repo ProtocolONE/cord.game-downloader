@@ -1,10 +1,9 @@
-#ifndef _GGS_GAMEDOWNLOADER_SAMPLE_PROGRAM_H_
-#define _GGS_GAMEDOWNLOADER_SAMPLE_PROGRAM_H_
+#pragma once
 
-#include <GameDownloader/Builder.h>
+#include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/StartType.h>
 
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/Wrapper.h>
 #include <LibtorrentWrapper/TorrentConfig>
 #include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
 
@@ -71,6 +70,12 @@ public slots:
   void progressDownloadChanged(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
   void progressExtractionChanged(QString serviceId, qint8 progress, qint64 current, qint64 total);
 
+  void totalProgressChanged(const GGS::Core::Service *service, qint8 progress);
+  void downloadProgressChanged(
+    const GGS::Core::Service *service, 
+    qint8 progress, 
+    GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+
   void gameDownloaderStarted(const GGS::Core::Service *service);
   void gameDownloaderFinished(const GGS::Core::Service *service);
   void gameDownloaderStopped(const GGS::Core::Service *service);
@@ -78,6 +83,8 @@ public slots:
   void gameDownloaderFailed(const GGS::Core::Service *service);
 
   void changeDirectory(QString serviceId, QString downloadPath, QString installPath);
+
+  void gameDownloaderStatusChanged(const GGS::Core::Service *service, const QString& message);
 
 signals:
   void progress1Changed();
@@ -87,6 +94,9 @@ signals:
   void portChanged();
 
   void serviceProgressChanged(QString id, int progress);
+
+  void serviceProgressChanged2(QString id, int progress);
+
   void serviceStatusChanged(QString id, QString status);
 
 private:
@@ -110,9 +120,7 @@ private:
   QString _statusText2;
 
   QDeclarativeView *nQMLContainer;
-  GGS::GameDownloader::Builder _gameDownloaderBuilder;
+  GGS::GameDownloader::GameDownloadService _gameDownloaderService;
   QHash<QString, GGS::Core::Service *> _serviceMap;
 
 };
-
-#endif // _GGS_GAMEDOWNLOADER_SAMPLE_PROGRAM_H_

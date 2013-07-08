@@ -7,20 +7,15 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_EXTRACTOR_DUMMYEXTRACTOR_H_
-#define _GGS_GAMEDOWNLOADER_EXTRACTOR_DUMMYEXTRACTOR_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/ExtractorBase.h>
 
 namespace GGS {
-  namespace Core {
-    class Service;
-  }
-
   namespace GameDownloader {
     namespace Extractor {
+
       class DOWNLOADSERVICE_EXPORT DummyExtractor : public GGS::GameDownloader::ExtractorBase
       {
         Q_OBJECT
@@ -28,11 +23,12 @@ namespace GGS {
         explicit DummyExtractor(QObject *parent = 0);
         ~DummyExtractor();
 
-        void extract(const GGS::Core::Service *service, StartType startType);
+        virtual void extract(GGS::GameDownloader::ServiceState* state, StartType startType) override;
+        virtual void compress(GGS::GameDownloader::ServiceState* state) override;
+        virtual void setAllUnpacked(ServiceState* state) override;
+
       };
 
     }
   }
 }
-
-#endif // _GGS_GAMEDOWNLOADER_EXTRACTOR_DUMMYEXTRACTOR_H_

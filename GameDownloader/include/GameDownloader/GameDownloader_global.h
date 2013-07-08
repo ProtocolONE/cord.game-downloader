@@ -7,10 +7,10 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-#ifndef _GGS_DOWNLOADSERVICE_GLOBAL_H
-#define _GGS_DOWNLOADSERVICE_GLOBAL_H
+#pragma once
 
 #include <QtCore/qglobal.h>
+#include <QtCore/QDebug>
 
 // Необходимо для отладки утечек памяти.
 #ifdef VLD_CHECK_ENABLED
@@ -29,5 +29,3 @@
 #define DEBUG_LOG qDebug() << __FILE__ << __LINE__ << __FUNCTION__
 
 #define SIGNAL_CONNECT_CHECK(X) { bool result = X; Q_ASSERT_X(result, __FUNCTION__ , #X); }
-
-#endif // _GGS_DOWNLOADSERVICE_GLOBAL_H

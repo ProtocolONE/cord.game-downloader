@@ -7,9 +7,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_STARTTYPE_H_
-#define _GGS_GAMEDOWNLOADER_STARTTYPE_H_
+#pragma once
 
 #include <QtCore/QMetaType>
 
@@ -29,5 +27,3 @@ namespace GGS {
 }
 
 Q_DECLARE_METATYPE(GGS::GameDownloader::StartType);
-
-#endif // _GGS_GAMEDOWNLOADER_STARTTYPE_H_

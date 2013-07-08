@@ -6,15 +6,18 @@
 #include <QtCore/QString>
 #include <QtCore/QObject>
 
+using GGS::GameDownloader::HookBase;
+using GGS::GameDownloader::ServiceState;
+using GGS::GameDownloader::GameDownloadService;
+
 class FakeHook : public GGS::GameDownloader::HookBase
 {
 public:
   FakeHook(const QString& id, QObject *parent = 0);
   ~FakeHook();
 
-  virtual GGS::GameDownloader::HookBase::HookResult beforeDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service);
-
-  virtual GGS::GameDownloader::HookBase::HookResult afterDownload(GGS::GameDownloader::GameDownloadService *, const GGS::Core::Service *service);
+  virtual HookBase::HookResult beforeDownload(GameDownloadService *, ServiceState *state) override;
+  virtual HookBase::HookResult afterDownload(GameDownloadService *, ServiceState *state) override;
 
 };
 

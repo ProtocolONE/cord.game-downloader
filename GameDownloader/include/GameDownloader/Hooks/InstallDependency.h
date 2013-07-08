@@ -7,9 +7,7 @@
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
 ** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
 ****************************************************************************/
-
-#ifndef _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_
-#define _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_
+#pragma once
 
 #include <GameDownloader/GameDownloader_global>
 #include <GameDownloader/HookBase.h>
@@ -21,14 +19,14 @@ namespace GGS {
     namespace Hooks {
       class DOWNLOADSERVICE_EXPORT InstallDependency : public HookBase
       {
+        Q_OBJECT
       public:
-        InstallDependency();
+        explicit InstallDependency(QObject *parent = 0);
         virtual ~InstallDependency();
 
-        virtual HookResult beforeDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service);
-        virtual HookResult afterDownload(GameDownloadService *gameDownloader, const GGS::Core::Service *service);
+        virtual HookResult beforeDownload(GameDownloadService *gameDownloader, ServiceState *state) override;
+        virtual HookResult afterDownload(GameDownloadService *gameDownloader, ServiceState *state) override;
       };
     }
   }
 }
-#endif // _GGS_GAMEDOWNLOADER_HOOKS_INSTALLDEPENDENCY_H_

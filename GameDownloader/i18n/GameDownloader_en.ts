@@ -5,15 +5,15 @@
     <name>QObject</name>
     <message>
         <source>TITLE_WARNING</source>
-        <translation type="unfinished">Warning</translation>
+        <translation type="obsolete">Warning</translation>
     </message>
     <message>
         <source>INFO_OLD_GAME_CLIENT_MIGRATE</source>
-        <translation type="unfinished">TRANSLATE_ME</translation>
+        <translation type="obsolete">TRANSLATE_ME</translation>
     </message>
     <message>
         <source>ERROR_NO_DISK_SPACE</source>
-        <translation type="unfinished">Not enough space on drive %1</translation>
+        <translation type="obsolete">Not enough space on drive %1</translation>
     </message>
     <message>
         <source>PRE_HOOK_DEFAULT_MESSAGE</source>
@@ -21,11 +21,31 @@
     </message>
     <message>
         <source>OLD_GAME_CLIENT_MEGRATE_HOOK</source>
-        <translation type="unfinished">Copy files</translation>
+        <translation type="obsolete">Copy files</translation>
     </message>
     <message>
         <source>POST_HOOK_DEFAULT_MESSAGE</source>
-        <translation>Prepare for launch</translation>
+        <translation type="obsolete">Prepare for launch</translation>
+    </message>
+    <message>
+        <source>NOT_ENOUGH_SPACE_ON_THE_DISK %1</source>
+        <translation>Not enough space on drive %1</translation>
+    </message>
+    <message>
+        <source>COMPRESS_PROGRESS_STATUS_MESSAGE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PATCH_APPLY_BINDIFF_STATUS_MESSAGE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>REHASH_CURRENT_CLIENT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>EXTRACT_PROGRESS_STATUS_MESSAGE</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

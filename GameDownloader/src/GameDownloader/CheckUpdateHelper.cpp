@@ -9,6 +9,7 @@
 ****************************************************************************/
 
 #include <GameDownloader/CheckUpdateHelper.h>
+#include <GameDownloader/ServiceState.h>
 
 #include <UpdateSystem/Downloader/downloadmanager>
 #include <UpdateSystem/Downloader/DynamicRetryTimeout>
@@ -49,22 +50,23 @@ namespace GGS {
 
     QUrl CheckUpdateHelper::getTorrentUrlWithArchiveExtension()
     {
-      QUrl url = this->_service->torrentUrlWithArea();
-      QString fileName = QString("%1.torrent.7z").arg(this->_service->id());
+      QUrl url = this->_state->service()->torrentUrlWithArea();
+      QString fileName = QString("%1.torrent.7z").arg(this->_state->id());
       url = url.resolved(QUrl(fileName));
       return url;
     }
 
     QString CheckUpdateHelper::getTorrentUrlWithoutArchiveExtension()
     {
-      QUrl url = this->_service->torrentUrlWithArea();
-      QString fileName = QString("%1.torrent").arg(this->_service->id());
+      QUrl url = this->_state->service()->torrentUrlWithArea();
+      QString fileName = QString("%1.torrent").arg(this->_state->id());
       url = url.resolved(QUrl(fileName));
       return url.toString();
     }
 
-    QString CheckUpdateHelper::getTorrentPath(const GGS::Core::Service *service)
+    QString CheckUpdateHelper::getTorrentPath(GGS::GameDownloader::ServiceState *state)
     {
+      const GGS::Core::Service *service = state->service();
       return QString("%1/%2/%3.torrent")
         .arg(service->torrentFilePath())
         .arg(service->areaString())
@@ -77,14 +79,14 @@ namespace GGS {
       if (!reply)
         return;
 
-      CRITICAL_LOG << "Error on head request in check update. Error: " << error << " service " << this->_service->id();
+      CRITICAL_LOG << "Error on head request in check update. Error: " << error << " service " << this->_state->id();
       reply->deleteLater();
 
       this->_headRequestRetryCount++;
       if (this->_headRequestRetryCount < this->_maxHeadRequestRetryCount)
-        this->startCheck(this->_service, this->_checkUpdateType);
+        this->startCheck(this->_state, this->_checkUpdateType);
       else
-        emit this->error(this->_service);
+        emit this->error(this->_state);
     }
 
     void CheckUpdateHelper::slotReplyDownloadFinished()
@@ -101,13 +103,13 @@ namespace GGS {
       // 304 Not Modified
       if (httpCode != 304 && httpCode != 200) {
         CRITICAL_LOG << "Http error" << httpCode;
-        emit this->error(this->_service);
+        emit this->error(this->_state);
         return;
       }
 
       this->_lastModified = QString::fromAscii(reply->rawHeader(QByteArray("Last-Modified")));
 
-      QString torrentPath = CheckUpdateHelper::getTorrentPath(this->_service);
+      QString torrentPath = CheckUpdateHelper::getTorrentPath(this->_state);
       Md5FileHasher hasher;
 
       bool isDownloadRequired = this->_checkUpdateType == ForceDownloadTorrent 
@@ -120,16 +122,18 @@ namespace GGS {
         return;
       }
 
-      emit this->checkUpdateProgressChanged(this->_service->id(), 100);
-      emit this->result(this->_service, false);
+      emit this->checkUpdateProgressChanged(this->_state, 100);
+      emit this->result(this->_state, false);
     }
 
-    void CheckUpdateHelper::startCheck(const GGS::Core::Service *service, CheckUpdateType checkUpdateType)
+    void CheckUpdateHelper::startCheck(GGS::GameDownloader::ServiceState *state, CheckUpdateType checkUpdateType)
     {
-      Q_ASSERT(service);
+      Q_CHECK_PTR(state);
+      Q_CHECK_PTR(state->service());
+
       this->_checkUpdateType = checkUpdateType;
-      this->_service = service;
-      emit this->checkUpdateProgressChanged(service->id(), 0);
+      this->_state = state;
+      emit this->checkUpdateProgressChanged(state, 0);
       QNetworkRequest request(this->getTorrentUrlWithArchiveExtension());
 
       QString oldLastModifed = this->loadLastModifiedDate();
@@ -161,7 +165,7 @@ namespace GGS {
       multiExtractor->setResultCallback(this);
 
       QString url = this->getTorrentUrlWithoutArchiveExtension();
-      QString path = CheckUpdateHelper::getTorrentPath(this->_service);
+      QString path = CheckUpdateHelper::getTorrentPath(this->_state);
       multiExtractor->addFile(url, path);
       multiExtractor->start();
     }
@@ -181,23 +185,23 @@ namespace GGS {
         if (progress > 100)
            progress = 100;
 
-        emit this->checkUpdateProgressChanged(this->_service->id(), static_cast<quint8>(progress));
+        emit this->checkUpdateProgressChanged(this->_state, static_cast<quint8>(progress));
       }
     }
 
     void CheckUpdateHelper::downloadResult(bool isError, DownloadResults error)
     {
       if (isError) {
-        emit this->error(this->_service);
+        emit this->error(this->_state);
       } else {
-        emit this->checkUpdateProgressChanged(this->_service->id(), 100);
-        emit this->result(this->_service, true);
+        emit this->checkUpdateProgressChanged(this->_state, 100);
+        emit this->result(this->_state, true);
         
         Md5FileHasher hasher;
-        QString hash = hasher.getFileHash(this->getTorrentPath(this->_service));
+        QString hash = hasher.getFileHash(CheckUpdateHelper::getTorrentPath(this->_state));
 
-        this->saveLastModifiedDate(this->_lastModified);
-        this->saveTorrenthash(hash);
+        CheckUpdateHelper::saveLastModifiedDate(this->_lastModified, this->_state);
+        CheckUpdateHelper::saveTorrenthash(hash, this->_state);
       }
     }
 
@@ -205,12 +209,12 @@ namespace GGS {
     {
     }
 
-    void CheckUpdateHelper::saveLastModifiedDate(const QString& date)
+    void CheckUpdateHelper::saveLastModifiedDate(const QString& date, GGS::GameDownloader::ServiceState *state)
     {
      Settings::Settings settings; 
      settings.beginGroup("GameDownloader");
      settings.beginGroup("CheckUpdate");
-     settings.beginGroup(this->_service->id());
+     settings.beginGroup(state->id());
      settings.setValue("LastModified", date, true);
     }
 
@@ -219,7 +223,7 @@ namespace GGS {
       Settings::Settings settings; 
       settings.beginGroup("GameDownloader");
       settings.beginGroup("CheckUpdate");
-      settings.beginGroup(this->_service->id());
+      settings.beginGroup(this->_state->id());
       return settings.value("LastModified", "").toString();
     }
 
@@ -228,12 +232,12 @@ namespace GGS {
       this->_maxHeadRequestRetryCount = count;
     }
 
-    void CheckUpdateHelper::saveTorrenthash(const QString& date)
+    void CheckUpdateHelper::saveTorrenthash(const QString& date, GGS::GameDownloader::ServiceState *state)
     {
       Settings::Settings settings; 
       settings.beginGroup("GameDownloader");
       settings.beginGroup("CheckUpdate");
-      settings.beginGroup(this->_service->id());
+      settings.beginGroup(state->id());
       settings.setValue("TorrentHash", date, true);
     }
 
@@ -242,7 +246,7 @@ namespace GGS {
       Settings::Settings settings; 
       settings.beginGroup("GameDownloader");
       settings.beginGroup("CheckUpdate");
-      settings.beginGroup(this->_service->id());
+      settings.beginGroup(this->_state->id());
       return settings.value("TorrentHash", "").toString();
     }
 
