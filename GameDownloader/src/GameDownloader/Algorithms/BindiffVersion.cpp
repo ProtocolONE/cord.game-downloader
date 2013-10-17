@@ -35,10 +35,10 @@ namespace GGS {
       {
         this->_gameDownloader = gameDownloader;
 
-        this->_rehashClient.setTorrentWrapper(&this->_gameDownloader->_wrapper);
-        this->_torrentDownloadGame.setTorrentWrapper(&this->_gameDownloader->_wrapper);
-        this->_getPatchVersion.setTorrentWrapper(&this->_gameDownloader->_wrapper);
-        this->_downloadBindiff.setTorrentWrapper(&this->_gameDownloader->_wrapper);
+        this->_rehashClient.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_torrentDownloadGame.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_getPatchVersion.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_downloadBindiff.setTorrentWrapper(this->_gameDownloader->_wrapper);
 
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
         this->registerExtractor(new Extractor::SevenZipGameExtractor(this->_gameDownloader));

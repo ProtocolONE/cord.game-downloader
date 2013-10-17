@@ -35,7 +35,7 @@ namespace GGS {
       void SimpleVersion::build(GameDownloadService* gameDownloader)
       {
         this->_gameDownloader = gameDownloader;
-        this->_downloadBehavior.setTorrentWrapper(&this->_gameDownloader->_wrapper);
+        this->_downloadBehavior.setTorrentWrapper(this->_gameDownloader->_wrapper);
 
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
         this->registerExtractor(new Extractor::SevenZipGameExtractor(this->_gameDownloader));

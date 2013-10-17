@@ -30,6 +30,7 @@ namespace GGS {
       : QObject(parent)
       , _isShuttingDown(false)
       , _isShutdownFinished(false)
+      , _wrapper(new GGS::Libtorrent::Wrapper)
     {
     }
 
@@ -114,13 +115,13 @@ namespace GGS {
       if (this->_machine.stop(state))
         emit this->stopping(service);
     }
-    
+
     void GameDownloadService::init()
     {
-      this->_wrapper.initEngine();
+      this->_wrapper->initEngine();
       this->_downloadAlgorithm.build(this);
 
-      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_wrapper, SIGNAL(listeningPortChanged(unsigned short)),
+      SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(listeningPortChanged(unsigned short)),
         this, SIGNAL(listeningPortChanged(unsigned short))));
 
       SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)),
@@ -354,37 +355,37 @@ namespace GGS {
 
     void GameDownloadService::setListeningPort(unsigned short port)
     {
-      this->_wrapper.setListeningPort(port);
+      this->_wrapper->setListeningPort(port);
     }
 
     void GameDownloadService::setTorrentConfigDirectoryPath(const QString& path)
     {
-      this->_wrapper.setTorrentConfigDirectoryPath(path);
+      this->_wrapper->setTorrentConfigDirectoryPath(path);
     }
 
     void GameDownloadService::changeListeningPort(unsigned short port)
     {
-      this->_wrapper.changeListeningPort(port);
+      this->_wrapper->changeListeningPort(port);
     }
 
     void GameDownloadService::setUploadRateLimit(int bytesPerSecond)
     {
-      this->_wrapper.setUploadRateLimit(bytesPerSecond);
+      this->_wrapper->setUploadRateLimit(bytesPerSecond);
     }
 
     void GameDownloadService::setDownloadRateLimit(int bytesPerSecond)
     {
-      this->_wrapper.setDownloadRateLimit(bytesPerSecond);
+      this->_wrapper->setDownloadRateLimit(bytesPerSecond);
     }
 
     void GameDownloadService::setMaxConnection(int maxConnection)
     {
-      this->_wrapper.setMaxConnection(maxConnection);
+      this->_wrapper->setMaxConnection(maxConnection);
     }
 
     void GameDownloadService::setSeedEnabled(bool value)
     {
-      this->_wrapper.setSeedEnabled(value);
+      this->_wrapper->setSeedEnabled(value);
     }
 
     void GameDownloadService::internalShuttingDownComplete()
@@ -393,8 +394,13 @@ namespace GGS {
         return;
 
       this->_isShutdownFinished = true;
-      this->_wrapper.shutdown();
       emit this->shutdownCompleted();
+    }
+
+    void GameDownloadService::release()
+    {
+      this->_wrapper->shutdown();
+      delete _wrapper;
     }
 
     bool GameDownloadService::isAllStopped()
@@ -422,12 +428,12 @@ namespace GGS {
 
     void GameDownloadService::pauseSession()
     {
-      this->_wrapper.pauseSession();
+      this->_wrapper->pauseSession();
     }
 
     void GameDownloadService::resumeSession()
     {
-      this->_wrapper.resumeSession();
+      this->_wrapper->resumeSession();
     }
 
     void GameDownloadService::internalTotalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress)

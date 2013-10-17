@@ -99,6 +99,8 @@ namespace GGS {
       bool isInstalled(const QString& serviceId);
       bool isInstalled(const GGS::Core::Service *service);
 
+      void release();
+
     public slots:
       void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
       void stop(const GGS::Core::Service *service);
@@ -166,7 +168,7 @@ namespace GGS {
       //Algorithms::SimpleVersion _downloadAlgorithm;
       Algorithms::BindiffVersion _downloadAlgorithm;
 
-      GGS::Libtorrent::Wrapper _wrapper;
+      GGS::Libtorrent::Wrapper* _wrapper;
 
       Behavior::PreHookBehavior _preHookBehavior;
       Behavior::PostHookBehavior _postHook;
