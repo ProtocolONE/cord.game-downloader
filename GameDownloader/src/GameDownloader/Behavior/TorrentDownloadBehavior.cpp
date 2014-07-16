@@ -157,24 +157,19 @@ namespace GGS {
         float size = 0.0f;
         float total = 60.0f;
 
-        bool isRehashing;
         if (arg.status() == ProgressEventArgs::CheckingFiles) {
           startPoint = 0;
           size = 20;
-          isRehashing = true;
         } else if (arg.status() == ProgressEventArgs::Downloading) {
           startPoint = 20;
           size = 40;
-          isRehashing = false;
         } else {
           return;
         }
 
         qint8 res = static_cast<qint8>(100.0f * (startPoint + arg.progress() * size) / total);
-        if (isRehashing)
-          emit this->totalProgressChanged(state, res);
-        else
-          emit this->downloadProgressChanged(state, res, arg);
+
+        emit this->downloadProgressChanged(state, res, arg);
       }
 
     }
