@@ -82,6 +82,8 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
 
+xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plugins\sqldrivers\"
+
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
 
@@ -124,6 +126,8 @@ xcopy /Y /I /R /E "$(QTDIR)\bin\QtCore%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
+
+xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plugins\sqldrivers\"
 
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"

@@ -64,6 +64,12 @@ void initDatabase()
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    QStringList plugins;
+    QString path = QCoreApplication::applicationDirPath();
+
+    plugins << path + "/plugins";
+    a.setLibraryPaths(plugins);
+
     initDatabase();
 
     qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookBase::HookResult");
