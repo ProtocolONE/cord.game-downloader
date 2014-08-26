@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="en_US">
+<TS version="2.1" language="en_US">
 <context>
     <name>QObject</name>
     <message>
@@ -32,10 +32,6 @@
         <translation>Not enough space on drive %1</translation>
     </message>
     <message>
-        <source>COMPRESS_PROGRESS_STATUS_MESSAGE</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>PATCH_APPLY_BINDIFF_STATUS_MESSAGE</source>
         <translation type="unfinished"></translation>
     </message>
@@ -45,6 +41,10 @@
     </message>
     <message>
         <source>EXTRACT_PROGRESS_STATUS_MESSAGE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>COMPRESS_PROGRESS_STATUS_MESSAGE</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

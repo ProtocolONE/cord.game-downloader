@@ -11,7 +11,7 @@
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/XdeltaWrapper/XdeltaDecoder.h>
 
-#include <QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 #include <Settings/Settings.h>
 #include <Core/Service>
 

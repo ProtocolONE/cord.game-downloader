@@ -11,7 +11,7 @@
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
 
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 
 #include <Core/Service.h>
 

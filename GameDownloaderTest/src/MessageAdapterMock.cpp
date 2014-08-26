@@ -2,7 +2,7 @@
 #include <TestEventLoopFinisher.h>
 
 #include <QtCore/QTimer>
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QDateTime>
 
 MessageAdapterMock::MessageAdapterMock(QObject *parent)

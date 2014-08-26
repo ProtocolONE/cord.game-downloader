@@ -1,6 +1,6 @@
 #include "Program.h"
 #include <QtCore/QCoreApplication>
-#include <QtGui/QApplication>
+#include <QtWidgets/QApplication>
 #include <Windows.h>
 
 #include <BugTrap\BugTrap.h>

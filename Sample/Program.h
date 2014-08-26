@@ -24,7 +24,7 @@
 #include <QtDeclarative/QDeclarativeContext>
 #include <QtDeclarative/QDeclarativeView>
 #include <QtDeclarative/QDeclarativeEngine>
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 
 class Program : public QObject

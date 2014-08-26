@@ -50,7 +50,7 @@ TEST(CompressorBindiff, CompressorBindiffTest)
   compressor.start(&state);
 
   QEventLoop loop;
-  TestEventLoopFinisher killer(&loop, 6000);
+  TestEventLoopFinisher killer(&loop, 16000);
   killer.setTerminateSignal(&compressor, SIGNAL(next(int, GGS::GameDownloader::ServiceState *)));
   loop.exec();
 

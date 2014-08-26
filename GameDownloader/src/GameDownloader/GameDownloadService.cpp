@@ -19,7 +19,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QEventLoop>
 
 using GGS::Core::Marketing;

@@ -1,5 +1,6 @@
 #include "Program.h"
 #include "FakeHook.h"
+#include <Core/Service>
 
 using namespace GGS::Core;
 using namespace GGS::GameDownloader;

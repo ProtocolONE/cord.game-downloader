@@ -16,7 +16,7 @@
 
 #include <Core/Service.h>
 
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QFile>
 
 using namespace GGS::Libtorrent;

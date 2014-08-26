@@ -68,7 +68,7 @@ namespace GGS {
           
           QStringList argumentList = args.split(' ', QString::SkipEmptyParts);
           process.start(fullPath, argumentList);
-          process.waitForFinished();
+          process.waitForFinished(-1);
         }
 
         return HookBase::Continue;

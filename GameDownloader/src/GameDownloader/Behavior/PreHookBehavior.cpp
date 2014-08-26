@@ -13,7 +13,7 @@
 
 #include <Core/Service.h>
 
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 
 namespace GGS {
   namespace GameDownloader {

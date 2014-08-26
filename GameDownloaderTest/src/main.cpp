@@ -16,6 +16,7 @@
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/CheckUpdateHelper.h>
+#include <Core/Service>
 
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>

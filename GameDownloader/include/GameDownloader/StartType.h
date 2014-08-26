@@ -23,7 +23,6 @@ namespace GGS {
     };
 
     Q_ENUMS(GGS::GameDownloader::StartType);
+    Q_DECLARE_METATYPE(GGS::GameDownloader::StartType);
   }
 }
-
-Q_DECLARE_METATYPE(GGS::GameDownloader::StartType);

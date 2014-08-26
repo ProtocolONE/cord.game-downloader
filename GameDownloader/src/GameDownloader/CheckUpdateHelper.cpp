@@ -107,7 +107,7 @@ namespace GGS {
         return;
       }
 
-      this->_lastModified = QString::fromAscii(reply->rawHeader(QByteArray("Last-Modified")));
+      this->_lastModified = QString::fromLatin1(reply->rawHeader(QByteArray("Last-Modified")));
 
       QString torrentPath = CheckUpdateHelper::getTorrentPath(this->_state);
       Md5FileHasher hasher;
@@ -137,7 +137,7 @@ namespace GGS {
       QNetworkRequest request(this->getTorrentUrlWithArchiveExtension());
 
       QString oldLastModifed = this->loadLastModifiedDate();
-      request.setRawHeader("If-Modified-Since", oldLastModifed.toAscii());
+      request.setRawHeader("If-Modified-Since", oldLastModifed.toLatin1());
 
       QNetworkReply *reply = this->_manager->head(request);
       connect(reply, SIGNAL(finished()), this, SLOT(slotReplyDownloadFinished()));

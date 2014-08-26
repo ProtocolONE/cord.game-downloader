@@ -19,7 +19,7 @@
 
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 
 using namespace GGS::Libtorrent;
 using GGS::Core::Marketing;

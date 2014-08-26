@@ -18,7 +18,7 @@
 #include <Core/Service>
 
 #include <QtCore/QMutexLocker>
-#include <QtCore/QtConcurrentRun>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QFile>
 
 #include <UpdateSystem/Hasher/Md5FileHasher>

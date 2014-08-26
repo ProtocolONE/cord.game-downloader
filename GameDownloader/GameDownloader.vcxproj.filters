@@ -16,11 +16,9 @@
     <ClCompile Include="src\GameDownloader\Behavior\OnlyCheckUpdateBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\DownloadBindiffBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_DownloadFileHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_GetBindiffTorrentBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_GetNewTorrentBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_RehashClientBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_DownloadFileHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_GetBindiffTorrentBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_GetNewTorrentBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_RehashClientBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\GetNewTorrentBehavior.cpp" />
@@ -31,12 +29,10 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_InstallDependency.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_PreHookBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleVerison.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_InstallDependency.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_PreHookBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_SimpleVerison.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\BindiffBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\ExtractorBehavior.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateBehavior.cpp" />
