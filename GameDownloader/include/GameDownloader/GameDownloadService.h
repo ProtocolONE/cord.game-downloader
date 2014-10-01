@@ -50,8 +50,8 @@ namespace GGS {
       friend class Algorithms::SimpleVersion;
       friend class Algorithms::BindiffVersion;
 
-      GameDownloadService(QObject *parent = 0);
-      ~GameDownloadService();
+      explicit GameDownloadService(QObject *parent = 0);
+      virtual ~GameDownloadService();
 
       // Управление настройками торрента теперь осуществялется через GameDownloadService
       void setListeningPort(unsigned short port);
@@ -96,8 +96,8 @@ namespace GGS {
 
       void setTimeoutForResume(quint32 seconds);
 
-      bool isInstalled(const QString& serviceId);
-      bool isInstalled(const GGS::Core::Service *service);
+      virtual bool isInstalled(const QString& serviceId);
+      virtual bool isInstalled(const GGS::Core::Service *service);
 
       void release();
 
