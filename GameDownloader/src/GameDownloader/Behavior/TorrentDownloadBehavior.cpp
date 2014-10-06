@@ -15,14 +15,12 @@
 #include <LibtorrentWrapper/Wrapper>
 
 #include <Core/Service>
-#include <Core/Marketing.h>
 
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
 #include <QtConcurrent/QtConcurrentRun>
 
 using namespace GGS::Libtorrent;
-using GGS::Core::Marketing;
 using GGS::Libtorrent::EventArgs::ProgressEventArgs;
 
 namespace GGS {
@@ -77,7 +75,7 @@ namespace GGS {
         if (!state || state->currentBehavior() != this)
           return;
 
-        Marketing::sendOnceByService(Marketing::FinishDownloadService, id);
+        emit this->downloadFinished(state);
         emit this->next(Downloaded, state);
       }
 

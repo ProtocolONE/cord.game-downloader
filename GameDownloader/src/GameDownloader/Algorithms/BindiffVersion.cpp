@@ -129,6 +129,9 @@ namespace GGS {
           SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
           &this->_gameDownloader->_progressCalculator, 
           SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+          
+        QObject::connect(&this->_torrentDownloadGame, &Behavior::TorrentDownloadBehavior::downloadFinished,
+          this->_gameDownloader, &GameDownloadService::internalTorrentDownloadFinished, Qt::QueuedConnection);
       }
 
       void BindiffVersion::registerExtractor(ExtractorBase *extractor)

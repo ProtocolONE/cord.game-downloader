@@ -42,7 +42,7 @@ namespace GGS {
         Q_OBJECT
       public:
         explicit BindiffVersion(QObject *parent = 0);
-        ~BindiffVersion();
+        virtual ~BindiffVersion();
 
         void build(GameDownloadService* gameDownloader);
 

@@ -14,15 +14,12 @@
 #include <Settings/Settings>
 
 #include <Core/Service>
-#include <Core/Marketing.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
 #include <QtConcurrent/QtConcurrentRun>
 #include <QEventLoop>
-
-using GGS::Core::Marketing;
 
 namespace GGS {
   namespace GameDownloader {
@@ -92,10 +89,8 @@ namespace GGS {
           startType = GameDownloader::Recheck;
       }
 
-      if (this->_machine.start(state)) {
-        Marketing::send(Marketing::StartDownloadService, service->id());
+      if (this->_machine.start(state))
         emit this->started(service, startType);
-      }
     }
 
     void GameDownloadService::stop(const GGS::Core::Service *service)
@@ -301,7 +296,6 @@ namespace GGS {
         emit this->serviceUpdated(service); 
       }
 
-      Marketing::sendOnceByService(Marketing::FinishInstallService, service->id());
       emit this->finished(service);
     }
 
@@ -447,6 +441,15 @@ namespace GGS {
       GGS::Libtorrent::EventArgs::ProgressEventArgs args)
     {
       emit this->downloadProgressChanged(state->service(), progress, args);
+    }
+
+    void GameDownloadService::internalTorrentDownloadFinished(GGS::GameDownloader::ServiceState *state)
+    {
+      QMutexLocker lock(&this->_stateLock);
+      if (!state)
+        return;
+
+      emit this->finishedDownloading(state->service());
     }
 
   }

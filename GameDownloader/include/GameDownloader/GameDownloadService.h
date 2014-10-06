@@ -91,8 +91,8 @@ namespace GGS {
       */
       void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
       
-      bool isInProgress(const GGS::Core::Service *service);
-      bool isAnyServiceInProgress();
+      virtual bool isInProgress(const GGS::Core::Service *service);
+      virtual bool isAnyServiceInProgress();
 
       void setTimeoutForResume(quint32 seconds);
 
@@ -102,11 +102,11 @@ namespace GGS {
       void release();
 
     public slots:
-      void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
-      void stop(const GGS::Core::Service *service);
-      void directoryChanged(const GGS::Core::Service *service);
-      void pauseSession();
-      void resumeSession();
+      virtual void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
+      virtual void stop(const GGS::Core::Service *service);
+      virtual void directoryChanged(const GGS::Core::Service *service);
+      virtual void pauseSession();
+      virtual void resumeSession();
 
     signals:
       void started(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
@@ -131,6 +131,7 @@ namespace GGS {
         GGS::Libtorrent::EventArgs::ProgressEventArgs args);
 
       void listeningPortChanged(unsigned short port);
+      void finishedDownloading(const GGS::Core::Service *service);
 
     private slots:
       void internalStatusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
@@ -148,6 +149,7 @@ namespace GGS {
       void internalFinished(GGS::GameDownloader::ServiceState *state);
       void internalStopped(GGS::GameDownloader::ServiceState *state);
       void internalFailed(GGS::GameDownloader::ServiceState *state);
+      void internalTorrentDownloadFinished(GGS::GameDownloader::ServiceState *state);
 
     private:
       ServiceState* getStateById(const QString& id);

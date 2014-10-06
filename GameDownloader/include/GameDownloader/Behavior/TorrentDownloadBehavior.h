@@ -53,8 +53,10 @@ namespace GGS {
         void setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper);
 
       signals:
+        void downloadFinished(GGS::GameDownloader::ServiceState *state);
+
         void downloadProgressChanged(
-          GGS::GameDownloader::ServiceState *state, 
+          GGS::GameDownloader::ServiceState *state,
           qint8 progress, 
           GGS::Libtorrent::EventArgs::ProgressEventArgs args);
 
