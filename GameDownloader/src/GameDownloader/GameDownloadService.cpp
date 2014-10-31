@@ -116,6 +116,9 @@ namespace GGS {
       this->_wrapper->initEngine();
       this->_downloadAlgorithm.build(this);
 
+      this->_preHookBehavior.setGameDownloaderService(this);
+      this->_postHook.setGameDownloaderService(this);
+
       SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(listeningPortChanged(unsigned short)),
         this, SIGNAL(listeningPortChanged(unsigned short))));
 
