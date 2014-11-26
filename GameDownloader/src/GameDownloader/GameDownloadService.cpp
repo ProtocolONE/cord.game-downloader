@@ -89,6 +89,8 @@ namespace GGS {
           startType = GameDownloader::Recheck;
       }
 
+      this->_progressCalculator.resetProgress(state);
+
       if (this->_machine.start(state))
         emit this->started(service, startType);
     }

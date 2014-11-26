@@ -56,7 +56,7 @@ namespace GGS {
           extractor, 
           "pauseRequestSlot", 
           Qt::QueuedConnection, 
-          Q_ARG(GGS::GameDownloader::ServiceState *, state));        
+          Q_ARG(GGS::GameDownloader::ServiceState *, state));
       }
 
       void ExtractorBehavior::registerExtractor(ExtractorBase *extractor)
@@ -68,21 +68,17 @@ namespace GGS {
 
         this->_extractorMap[type] = extractor;
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(extractFinished(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(extractionCompleted(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        QObject::connect(extractor, &ExtractorBase::extractFinished,
+          this, &ExtractorBehavior::extractionCompleted, Qt::QueuedConnection);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(extractPaused(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(pauseRequestCompleted(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        QObject::connect(extractor, &ExtractorBase::extractPaused,
+          this, &ExtractorBehavior::pauseRequestCompleted, Qt::QueuedConnection);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(extractFailed(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(extractionFailed(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        QObject::connect(extractor, &ExtractorBase::extractFailed,
+          this, &ExtractorBehavior::extractionFailed, Qt::QueuedConnection);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          extractor, 
-          SIGNAL(extractionProgressChanged(GGS::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
-          this, 
-          SLOT(extractionProgressChanged(GGS::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
-          Qt::QueuedConnection));
+        QObject::connect(extractor, &ExtractorBase::extractionProgressChanged,
+          this, &ExtractorBehavior::extractionProgressChanged, Qt::QueuedConnection);
       }
 
       ExtractorBase* ExtractorBehavior::getExtractorByType(const QString& type)

@@ -25,10 +25,17 @@ namespace GGS {
     {
       Q_OBJECT
     public:
-      explicit ProgressCalculator(QObject *parent = 0);
-      ~ProgressCalculator();
+      enum ProgressType {
+        UpdateGame = 0,
+        InstallGameWithArchive = 1,
+        InstallGameWithoutArchive = 2
+      };
 
-      void registerBehavior(Behavior::BaseBehavior *behavior, float size);
+      explicit ProgressCalculator(QObject *parent = 0);
+      virtual ~ProgressCalculator();
+
+      void registerBehavior(Behavior::BaseBehavior *behavior);
+      void setBehaviorValue(ProgressType type, Behavior::BaseBehavior *behavior, float size);
       void resetProgress(GGS::GameDownloader::ServiceState *state);
 
     public slots:
@@ -46,17 +53,32 @@ namespace GGS {
         GGS::Libtorrent::EventArgs::ProgressEventArgs args);
 
     private:
-      typedef struct ProgressBlock_ {
+      struct ProgressBlock 
+      {
+        ProgressBlock();
+
         float startPoint;
         float size;
-      } ProgressBlock;
+      };
 
-      QMap<Behavior::BaseBehavior *, ProgressBlock> _map;
-      QMap<QString, qint8> _lastProgress;
-      float _currentMax;
+      struct ProgressStrategy 
+      {
+        ProgressStrategy();
 
-      qint8 lastProgress(GGS::GameDownloader::ServiceState *state);
-      void setLastProgress(GGS::GameDownloader::ServiceState *state, qint8 value);
+        float total;
+        QMap<Behavior::BaseBehavior *, ProgressBlock> map;
+      };
+
+      struct ItemProgress
+      {
+        ItemProgress();
+
+        qint8 lastProgress;
+        ProgressType progressType;
+      };
+
+      QMap<ProgressType, ProgressStrategy> _strategies;
+      QMap<QString, ItemProgress> _itemStates;
 
       qint8 getProgress(GGS::GameDownloader::ServiceState *state, Behavior::BaseBehavior* behavior, qint8 progress);
     };

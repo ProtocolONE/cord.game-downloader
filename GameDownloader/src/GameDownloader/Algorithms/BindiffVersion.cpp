@@ -98,6 +98,7 @@ namespace GGS {
 
         this->setRoute(&this->_bindDiffFailed, BindiffFailedBehavior::Finished, &this->_getNewTorrent);
 
+<<<<<<< HEAD
         // Setup progress
         this->setProgress(&this->_gameDownloader->_preHookBehavior, 1);
         this->setProgress(&this->_bindiff1, 10);
@@ -130,6 +131,19 @@ namespace GGS {
           &this->_gameDownloader->_progressCalculator, 
           SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
           
+=======
+        this->setupProgress();
+
+        QObject::connect(&this->_torrentDownloadGame, &TorrentDownloadBehavior::downloadProgressChanged,
+          &this->_gameDownloader->_progressCalculator, &ProgressCalculator::downloadSlot);
+
+        QObject::connect(&this->_downloadBindiff, &DownloadBindiffBehavior::downloadProgressChanged,
+          &this->_gameDownloader->_progressCalculator, &ProgressCalculator::downloadSlot);
+
+        QObject::connect(&this->_rehashClient, &RehashClientBehavior::downloadProgressChanged,
+          &this->_gameDownloader->_progressCalculator, &ProgressCalculator::downloadSlot);
+
+>>>>>>> aca8d54... QGNA-1027 При первой установке игры прогрес бар масштабируется в основном на скачивание и распаковку игнорируя "плохие" случаи.
         QObject::connect(&this->_torrentDownloadGame, &Behavior::TorrentDownloadBehavior::downloadFinished,
           this->_gameDownloader, &GameDownloadService::internalTorrentDownloadFinished, Qt::QueuedConnection);
       }
@@ -148,12 +162,8 @@ namespace GGS {
       {
         this->_gameDownloader->_machine.registerBehavior(behavior);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          behavior, 
-          SIGNAL(statusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
-          this->_gameDownloader, 
-          SLOT(internalStatusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
-          Qt::QueuedConnection));
+        QObject::connect(behavior, &BaseBehavior::statusMessageChanged,
+          this->_gameDownloader, &GameDownloadService::internalStatusMessageChanged, Qt::QueuedConnection);
       }
 
       void BindiffVersion::setStartBehavior(BaseBehavior *behavior)
@@ -163,7 +173,44 @@ namespace GGS {
 
       void BindiffVersion::setProgress(Behavior::BaseBehavior *behavior, int size)
       {
-        this->_gameDownloader->_progressCalculator.registerBehavior(behavior, static_cast<float>(size));
+        this->_gameDownloader->_progressCalculator.registerBehavior(behavior);
+      }
+
+      void BindiffVersion::setupProgress()
+      {
+        ProgressCalculator& calc(this->_gameDownloader->_progressCalculator);
+        calc.registerBehavior(&this->_gameDownloader->_preHookBehavior);
+        calc.registerBehavior(&this->_bindiff1);
+        calc.registerBehavior(&this->_compressor1);
+        calc.registerBehavior(&this->_rehashClient);
+
+        calc.registerBehavior(&this->_downloadBindiff);
+        calc.registerBehavior(&this->_bindiff2);
+        calc.registerBehavior(&this->_compressor2);
+
+        calc.registerBehavior(&this->_torrentDownloadGame);
+        calc.registerBehavior(&this->_extraction);
+        calc.registerBehavior(&this->_gameDownloader->_postHook);
+
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_gameDownloader->_preHookBehavior, 1);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_bindiff1, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_compressor1, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_rehashClient, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_downloadBindiff, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_bindiff2, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_compressor2, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_torrentDownloadGame, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_extraction, 10);
+        calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_gameDownloader->_postHook, 1);
+
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithArchive, &this->_gameDownloader->_preHookBehavior, 1);
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithArchive, &this->_torrentDownloadGame, 50);
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithArchive, &this->_extraction, 40);
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithArchive, &this->_gameDownloader->_postHook, 1);
+
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_gameDownloader->_preHookBehavior, 1);
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_torrentDownloadGame, 90);
+        calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_gameDownloader->_postHook, 1);
       }
 
     }

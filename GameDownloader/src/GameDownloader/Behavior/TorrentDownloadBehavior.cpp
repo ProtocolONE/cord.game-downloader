@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (Â©) 2011 - 2012, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -92,6 +92,7 @@ namespace GGS {
       {
         QMutexLocker lock(&this->_mutex);
         this->_stateMap[state->id()] = state;
+        this->_installedStateMap[state->id()] = state->isInstalled();
       }
 
       GGS::GameDownloader::ServiceState* TorrentDownloadBehavior::state(const QString& id)
@@ -103,28 +104,35 @@ namespace GGS {
         return this->_stateMap[id];
       }
 
+      bool TorrentDownloadBehavior::isInstalled(const QString& id)
+      {
+        QMutexLocker lock(&this->_mutex);
+        if (!this->_installedStateMap.contains(id))
+          return false;
+
+        return this->_installedStateMap[id];
+      }
+
       void TorrentDownloadBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
       {
         this->_wrapper = wrapper;
-        SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(torrentPaused(QString)), 
-          this, SLOT(torrentPausedSlot(QString)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(torrentDownloadFinished(QString)), 
-          this, SLOT(torrentDownloadFinishedSlot(QString)), Qt::QueuedConnection));
+        QObject::connect(this->_wrapper, &Wrapper::torrentPaused,
+          this, &TorrentDownloadBehavior::torrentPausedSlot, Qt::QueuedConnection);
 
-        // Ïðîñòî ðååìèòèì îøèáêó áåçëèêóþ, ïðè æåëàíèè ìîæíî ÷òî-íèòü ïîêîíêðåòíåå ïðîáðîñèòü
-        SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(torrentError(QString)), 
-          this, SLOT(torrentDownloadFailedSlot(QString)), Qt::QueuedConnection));
-        SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(fileError(QString, QString, int)), 
-          this, SLOT(torrentDownloadFailedSlot(QString)), Qt::QueuedConnection));
-        SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(startTorrentFailed(QString, int)), 
-          this, SLOT(torrentDownloadFailedSlot(QString)), Qt::QueuedConnection));
+        QObject::connect(this->_wrapper, &Wrapper::torrentDownloadFinished,
+          this, &TorrentDownloadBehavior::torrentDownloadFinishedSlot, Qt::QueuedConnection);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          wrapper, 
-          SIGNAL(progressChanged(GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
-          this,
-          SLOT(torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+        // ÐŸÑ€Ð¾ÑÑ‚Ð¾ Ñ€ÐµÐµÐ¼Ð¸Ñ‚Ð¸Ð¼ Ð¾ÑˆÐ¸Ð±ÐºÑƒ Ð±ÐµÐ·Ð»Ð¸ÐºÑƒÑŽ, Ð¿Ñ€Ð¸ Ð¶ÐµÐ»Ð°Ð½Ð¸Ð¸ Ð¼Ð¾Ð¶Ð½Ð¾ Ñ‡Ñ‚Ð¾-Ð½Ð¸Ñ‚ÑŒ Ð¿Ð¾ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½ÐµÐµ Ð¿Ñ€Ð¾Ð±Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ
+        QObject::connect(this->_wrapper, &Wrapper::torrentError,
+          this, &TorrentDownloadBehavior::torrentDownloadFailedSlot, Qt::QueuedConnection);
+        QObject::connect(this->_wrapper, &Wrapper::fileError,
+          this, &TorrentDownloadBehavior::torrentDownloadFailedSlot, Qt::QueuedConnection);
+        QObject::connect(this->_wrapper, &Wrapper::startTorrentFailed,
+          this, &TorrentDownloadBehavior::torrentDownloadFailedSlot, Qt::QueuedConnection);
+
+        QObject::connect(this->_wrapper, &Wrapper::progressChanged,
+          this, &TorrentDownloadBehavior::torrentProgress);
       }
 
       void TorrentDownloadBehavior::syncStartTorrent(GGS::GameDownloader::ServiceState* state)
@@ -151,16 +159,18 @@ namespace GGS {
         if (!state || state->currentBehavior() != this)
           return;
 
+        bool installed = this->isInstalled(arg.id());
+
         float startPoint = 0.0f;
         float size = 0.0f;
         float total = 60.0f;
 
         if (arg.status() == ProgressEventArgs::CheckingFiles) {
           startPoint = 0;
-          size = 20;
+          size = installed ? 20 : 1;
         } else if (arg.status() == ProgressEventArgs::Downloading) {
-          startPoint = 20;
-          size = 40;
+          startPoint = installed ? 20 : 1;
+          size = installed ? 40 : 59;
         } else {
           return;
         }

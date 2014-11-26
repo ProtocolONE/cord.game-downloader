@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (Â©) 2011 - 2015, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -20,7 +20,6 @@ namespace GGS {
 
     ProgressCalculator::ProgressCalculator(QObject *parent)
       : QObject(parent)
-      , _currentMax(0)
     {
     }
 
@@ -28,17 +27,22 @@ namespace GGS {
     {
     }
 
-    void ProgressCalculator::registerBehavior(BaseBehavior *behavior, float size)
+    void ProgressCalculator::registerBehavior(BaseBehavior *behavior)
     {
-      ProgressBlock block;
-      block.startPoint = this->_currentMax;
-      block.size = size;
-      this->_currentMax += size;
-      this->_map[behavior] = block;
+      QObject::connect(behavior, &BaseBehavior::totalProgressChanged,
+        this, &ProgressCalculator::totalProgressSlot);
+    }
 
-      SIGNAL_CONNECT_CHECK(QObject::connect(
-        behavior, SIGNAL(totalProgressChanged(GGS::GameDownloader::ServiceState *, qint8)),
-        this, SLOT(totalProgressSlot(GGS::GameDownloader::ServiceState *, qint8))));
+    void ProgressCalculator::setBehaviorValue(ProgressType type, Behavior::BaseBehavior *behavior, float size)
+    {
+      ProgressStrategy& strategy(this->_strategies[type]);
+
+      ProgressBlock block;
+      block.startPoint = strategy.total;
+      block.size = size;
+
+      strategy.total += size;
+      strategy.map[behavior] = block;
     }
 
     void ProgressCalculator::totalProgressSlot(GGS::GameDownloader::ServiceState *state, qint8 progress)
@@ -47,7 +51,6 @@ namespace GGS {
       if (!behavior)
         return;
 
-      Q_ASSERT(this->_map.contains(behavior));
       qint8 totalProgress = this->getProgress(state, behavior, progress);
       emit this->totalProgressChanged(state, totalProgress);
     }
@@ -59,44 +62,62 @@ namespace GGS {
       if (!behavior)
         return;
 
-      Q_ASSERT(this->_map.contains(behavior));
       qint8 totalProgress = this->getProgress(state, behavior, progress);
       emit this->downloadProgressChanged(state, totalProgress, args);
     }
 
     qint8 ProgressCalculator::getProgress(GGS::GameDownloader::ServiceState *state, BaseBehavior *behavior, qint8 progress)
     {
-      ProgressBlock block = this->_map[behavior];
-      float resultTmp = block.startPoint + block.size * (static_cast<float>(progress) / 100.0f);
-      resultTmp = 100 * (resultTmp / this->_currentMax);
-      qint8 result = static_cast<qint8>(resultTmp);
+      const QString& id(state->id());
 
-      qint8 lastResult = this->lastProgress(state);
-      if (lastResult <= result) {
-        this->setLastProgress(state, result);
-        lastResult = result;
+      ItemProgress &itemProgress(this->_itemStates[id]);
+      Q_ASSERT(this->_strategies.contains(itemProgress.progressType));
+
+      const ProgressStrategy& strategy(this->_strategies[itemProgress.progressType]);
+
+      if (strategy.map.contains(behavior)) {
+        const ProgressBlock& block(strategy.map[behavior]);
+        float resultTmp = block.startPoint + block.size * (static_cast<float>(progress) / 100.0f);
+        resultTmp = 100 * (resultTmp / strategy.total);
+        qint8 result = static_cast<qint8>(resultTmp);
+
+        if (itemProgress.lastProgress < result)
+          itemProgress.lastProgress = result;
       }
-        
-      return lastResult;
-    }
 
-    qint8 ProgressCalculator::lastProgress(GGS::GameDownloader::ServiceState *state)
-    {
-      if (this->_lastProgress.contains(state->id()))
-        return this->_lastProgress[state->id()];
-
-      this->_lastProgress[state->id()] = 0;
-      return 0;
-    }
-
-    void ProgressCalculator::setLastProgress(GGS::GameDownloader::ServiceState *state, qint8 value)
-    {
-      this->_lastProgress[state->id()] = value;
+      return itemProgress.lastProgress;
     }
 
     void ProgressCalculator::resetProgress(GGS::GameDownloader::ServiceState *state)
     {
-      this->_lastProgress[state->id()] = 0;
+      ItemProgress &itemProgress(this->_itemStates[state->id()]);
+
+      itemProgress.lastProgress = 0;
+
+      if (state->isInstalled()) {
+        itemProgress.progressType = ProgressCalculator::UpdateGame;
+      } else {
+        itemProgress.progressType = (state->service()->extractorType() == "3A3AC78E-0332-45F4-A466-89C2B8E8BB9C") // DummyExtractor
+          ? ProgressCalculator::InstallGameWithoutArchive
+          : ProgressCalculator::InstallGameWithArchive;
+      }
+    }
+
+    ProgressCalculator::ProgressBlock::ProgressBlock()
+    {
+      this->startPoint = 0.0f;
+      this->size = 0.0f;
+    }
+
+    ProgressCalculator::ProgressStrategy::ProgressStrategy()
+    {
+      this->total = 0.0f;
+    }
+
+    ProgressCalculator::ItemProgress::ItemProgress()
+    {
+      this->lastProgress = 0;
+      this->progressType = ProgressCalculator::UpdateGame;
     }
 
   }

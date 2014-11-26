@@ -73,6 +73,8 @@ namespace GGS {
         void registerBehavior(Behavior::BaseBehavior *behavior);
         void setProgress(Behavior::BaseBehavior *behavior, int size);
 
+        void setupProgress();
+
         // Эта функция проверяет на этапе компиляции соответствие аргументов
         template <typename T>
         void setRoute(T *from, typename T::Results result, Behavior::BaseBehavior *to) {

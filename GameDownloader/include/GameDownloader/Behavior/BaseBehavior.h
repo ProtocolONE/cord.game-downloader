@@ -25,7 +25,7 @@ namespace GGS {
         Q_OBJECT
       public:
         explicit BaseBehavior(QObject *parent = 0);
-        ~BaseBehavior();
+        virtual ~BaseBehavior();
 
       public slots:
         virtual void start(GGS::GameDownloader::ServiceState *state) = 0;

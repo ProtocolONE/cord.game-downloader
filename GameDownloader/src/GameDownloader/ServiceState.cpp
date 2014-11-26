@@ -139,7 +139,7 @@ namespace GGS {
       GGS::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
-      settings.beginGroup(this->id());          
+      settings.beginGroup(this->id());
         
       settings.setValue("patchFiles", serialize(files));
     }
@@ -149,7 +149,7 @@ namespace GGS {
       GGS::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
-      settings.beginGroup(this->id());          
+      settings.beginGroup(this->id());
 
       settings.setValue("patchVersion", version);
     }
@@ -159,9 +159,9 @@ namespace GGS {
       GGS::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
-      settings.beginGroup(this->id());          
+      settings.beginGroup(this->id());
 
-      return this->deserialize(settings.value("patchFiles", QByteArray()).toByteArray());       
+      return this->deserialize(settings.value("patchFiles", QByteArray()).toByteArray());
     }
 
     QString ServiceState::patchVersion()
@@ -169,9 +169,9 @@ namespace GGS {
       GGS::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
-      settings.beginGroup(this->id());          
+      settings.beginGroup(this->id());
 
-      return settings.value("patchVersion", QString()).toString();     
+      return settings.value("patchVersion", QString()).toString();
     }
 
     void ServiceState::setPackingFiles(const QStringList& files)
@@ -190,7 +190,7 @@ namespace GGS {
       settings.beginGroup("7zCompressor");
       settings.beginGroup(this->id());
 
-     return this->deserialize(settings.value("Files", QByteArray()).toByteArray());    
+     return this->deserialize(settings.value("Files", QByteArray()).toByteArray());
     }
 
     QStringList ServiceState::deserialize(QByteArray serialized)

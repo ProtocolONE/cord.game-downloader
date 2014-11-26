@@ -85,7 +85,10 @@ namespace GGS {
 
       void SimpleVersion::setProgress(Behavior::BaseBehavior *behavior, int size)
       {
-        this->_gameDownloader->_progressCalculator.registerBehavior(behavior, static_cast<float>(size));
+        this->_gameDownloader->_progressCalculator.registerBehavior(behavior);
+        this->_gameDownloader->_progressCalculator.setBehaviorValue(ProgressCalculator::UpdateGame, behavior, static_cast<float>(size));
+        this->_gameDownloader->_progressCalculator.setBehaviorValue(ProgressCalculator::InstallGameWithArchive, behavior, static_cast<float>(size));
+        this->_gameDownloader->_progressCalculator.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, behavior, static_cast<float>(size));
       }
 
     }

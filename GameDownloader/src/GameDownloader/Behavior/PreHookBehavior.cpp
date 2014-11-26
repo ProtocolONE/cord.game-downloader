@@ -53,7 +53,7 @@ namespace GGS {
         emit this->statusMessageChanged(state, QObject::tr("PRE_HOOK_DEFAULT_MESSAGE"));
 
         HookBase::HookResult result = HookBase::Continue;
-        if(this->_beforeDownloadHookMap.contains(service->id())) {
+        if (this->_beforeDownloadHookMap.contains(service->id())) {
           Q_FOREACH(HookBase *hook, this->_beforeDownloadHookMap[service->id()]) {
             if (state->state() != ServiceState::Started) {
               emit this->preHooksCompleted(state, HookBase::Continue); // Походу надо будет урезать результаты хуков 
@@ -71,8 +71,17 @@ namespace GGS {
         emit this->preHooksCompleted(state, result);
       }
 
-      void PreHookBehavior::preHooksCompletedSlot(GGS::GameDownloader::ServiceState *state, GGS::GameDownloader::HookBase::HookResult result)
+      void PreHookBehavior::preHooksCompletedSlot(
+        GGS::GameDownloader::ServiceState *state, 
+        GGS::GameDownloader::HookBase::HookResult result)
       {
+        // INFO Этот случай используется для интеграции сторонней системы скачивания
+        // Вся логика по скачивания реализуется в PRE-хуке в том числе прогресс и статусы. 
+        if (result == HookBase::Finish) {
+          emit this->finished(state);
+          return;
+        }
+
         // Можно тут кстати обработать разные выходы с хуков и вызвать либо фейли либо разные выходы
         if (result == HookBase::Continue)
           emit this->next(Finished, state);
@@ -88,6 +97,12 @@ namespace GGS {
       void PreHookBehavior::registerHook(const QString& serviceId, int preHookPriority, HookBase *hook)
       {
         this->_beforeDownloadHookMap[serviceId].insert(-preHookPriority, hook);
+
+        if (this->_registredHooks.contains(hook))
+          return;
+
+        this->_registredHooks.insert(hook);
+        QObject::connect(this, &PreHookBehavior::stopping, hook, &HookBase::pauseRequestSlot);
       }
 
     }

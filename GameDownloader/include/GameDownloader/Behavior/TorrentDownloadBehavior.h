@@ -45,7 +45,7 @@ namespace GGS {
         };
 
         explicit TorrentDownloadBehavior(QObject *parent = 0);
-        ~TorrentDownloadBehavior();
+        virtual ~TorrentDownloadBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;
@@ -69,13 +69,15 @@ namespace GGS {
       private:
         void setState(GGS::GameDownloader::ServiceState *state);
         ServiceState* state(const QString& id);
-        
+        bool isInstalled(const QString& id);
+
         void syncStartTorrent(GGS::GameDownloader::ServiceState *state);
         void syncStopTorrent(GGS::GameDownloader::ServiceState *state);
 
         GGS::Libtorrent::Wrapper *_wrapper;
         QMutex _mutex;
         QHash<QString, GGS::GameDownloader::ServiceState*> _stateMap;
+        QHash<QString, bool> _installedStateMap;
 
       };
 
