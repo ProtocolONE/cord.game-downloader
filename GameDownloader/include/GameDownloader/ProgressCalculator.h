@@ -28,7 +28,8 @@ namespace GGS {
       enum ProgressType {
         UpdateGame = 0,
         InstallGameWithArchive = 1,
-        InstallGameWithoutArchive = 2
+        InstallGameWithoutArchive = 2,
+        UninstallGame = 3
       };
 
       explicit ProgressCalculator(QObject *parent = 0);

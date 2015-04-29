@@ -47,5 +47,17 @@
         <source>COMPRESS_PROGRESS_STATUS_MESSAGE</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>STATE_PREPARE_UNINSTALL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>STATUS_INPROGESS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>STATUS_FINISHED</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -39,10 +39,12 @@ namespace GGS {
         this->_torrentDownloadGame.setTorrentWrapper(this->_gameDownloader->_wrapper);
         this->_getPatchVersion.setTorrentWrapper(this->_gameDownloader->_wrapper);
         this->_downloadBindiff.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_uninstall.setTorrentWrapper(this->_gameDownloader->_wrapper);
 
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
         this->registerExtractor(new Extractor::SevenZipGameExtractor(this->_gameDownloader));
 
+        this->registerBehavior(&this->_uninstall);
         this->registerBehavior(&this->_gameDownloader->_preHookBehavior);
         this->registerBehavior(&this->_gameDownloader->_postHook);
         this->registerBehavior(&this->_bindiff1);
@@ -62,7 +64,9 @@ namespace GGS {
 
         this->setStartBehavior(&this->_gameDownloader->_preHookBehavior);
 
-        this->setRoute(&this->_gameDownloader->_preHookBehavior, PreHookBehavior::Finished, &this->_bindiff1);
+        this->setRoute(&this->_gameDownloader->_preHookBehavior, PreHookBehavior::Finished, &this->_uninstall);
+        this->setRoute(&this->_uninstall, UninstallBehavior::ContinueInstall, &this->_bindiff1);
+        this->setRoute(&this->_uninstall, UninstallBehavior::Finished, &this->_gameDownloader->_postHook);
 
         this->setRoute(&this->_bindiff1, BindiffBehavior::CRCFailed, &this->_bindDiffFailed);
         this->setRoute(&this->_bindiff1, BindiffBehavior::Finished, &this->_compressor1);
@@ -158,6 +162,8 @@ namespace GGS {
         calc.registerBehavior(&this->_extraction);
         calc.registerBehavior(&this->_gameDownloader->_postHook);
 
+        calc.registerBehavior(&this->_uninstall);
+
         calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_gameDownloader->_preHookBehavior, 1);
         calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_bindiff1, 10);
         calc.setBehaviorValue(ProgressCalculator::UpdateGame, &this->_compressor1, 10);
@@ -177,6 +183,9 @@ namespace GGS {
         calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_gameDownloader->_preHookBehavior, 1);
         calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_torrentDownloadGame, 90);
         calc.setBehaviorValue(ProgressCalculator::InstallGameWithoutArchive, &this->_gameDownloader->_postHook, 1);
+
+        calc.setBehaviorValue(ProgressCalculator::UninstallGame, &this->_uninstall, 100);
+
       }
 
     }

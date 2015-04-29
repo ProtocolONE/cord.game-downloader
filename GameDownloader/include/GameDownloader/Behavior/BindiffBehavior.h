@@ -37,7 +37,7 @@ namespace GGS {
         };
 
         explicit BindiffBehavior(QObject *parent = 0);
-        ~BindiffBehavior();
+        virtual ~BindiffBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

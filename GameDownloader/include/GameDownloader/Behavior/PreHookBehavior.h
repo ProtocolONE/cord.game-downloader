@@ -39,7 +39,7 @@ namespace GGS {
         };
 
         explicit PreHookBehavior(QObject *parent = 0);
-        ~PreHookBehavior(void);
+        virtual ~PreHookBehavior(void);
         
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

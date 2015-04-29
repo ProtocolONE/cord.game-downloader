@@ -31,7 +31,7 @@ namespace GGS {
         };
 
         explicit CheckUnfinishedPackBehavior(QObject *parent = 0);
-        ~CheckUnfinishedPackBehavior();
+        virtual ~CheckUnfinishedPackBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

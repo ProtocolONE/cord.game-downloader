@@ -40,7 +40,7 @@ namespace GGS {
         };
 
         explicit DownloadBindiffBehavior(QObject *parent = 0);
-        ~DownloadBindiffBehavior();
+        virtual ~DownloadBindiffBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

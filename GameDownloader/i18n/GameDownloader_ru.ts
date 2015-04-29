@@ -48,5 +48,17 @@
         <source>EXTRACT_PROGRESS_STATUS_MESSAGE</source>
         <translation>Установка файлов игры: %1 из %2</translation>
     </message>
+    <message>
+        <source>STATE_PREPARE_UNINSTALL</source>
+        <translation>Подготовка к удалению игры %1</translation>
+    </message>
+    <message>
+        <source>STATUS_INPROGESS</source>
+        <translation>Удаление файлов игры %1</translation>
+    </message>
+    <message>
+        <source>STATUS_FINISHED</source>
+        <translation>Игра %1 успешно удалена</translation>
+    </message>
 </context>
 </TS>

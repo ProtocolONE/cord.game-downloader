@@ -41,7 +41,7 @@ namespace GGS {
         };
 
         explicit PostHookBehavior(QObject *parent = 0);
-        ~PostHookBehavior(void);
+        virtual ~PostHookBehavior(void);
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

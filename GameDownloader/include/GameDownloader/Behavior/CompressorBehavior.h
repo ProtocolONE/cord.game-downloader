@@ -33,7 +33,7 @@ namespace GGS {
         };
 
         explicit CompressorBehavior(QObject *parent = 0);
-        ~CompressorBehavior();
+        virtual ~CompressorBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

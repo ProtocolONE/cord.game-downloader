@@ -297,11 +297,16 @@ namespace GGS {
       const GGS::Core::Service *service = state->service();
       emit this->totalProgressChanged(service, 100);
 
-      if (!this->isInstalled(service)) {
-        state->setIsInstalled(true);
-        emit this->serviceInstalled(service);
-      } else { 
-        emit this->serviceUpdated(service); 
+      if (state->startType() == Uninstall) {
+        state->setIsInstalled(false);
+        emit this->serviceUninstalled(service);
+      } else {
+        if (!this->isInstalled(service)) {
+          state->setIsInstalled(true);
+          emit this->serviceInstalled(service);
+        } else { 
+          emit this->serviceUpdated(service); 
+        }
       }
 
       emit this->finished(service);

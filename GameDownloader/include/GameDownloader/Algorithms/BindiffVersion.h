@@ -26,6 +26,7 @@
 #include <GameDownloader/Behavior/BindiffFailedBehavior.h>
 #include <GameDownloader/Behavior/DownloadBindiffBehavior.h>
 #include <GameDownloader/Behavior/SetAllPackedBehavior.h>
+#include <GameDownloader/Behavior/UninstallBehavior.h>
 
 #include <GameDownloader/Behavior/FinishBehavior.h>
 
@@ -65,6 +66,8 @@ namespace GGS {
         Behavior::SetAllPackedBehavior _setAllPacked;
 
         Behavior::BindiffBehavior _bindiff2;
+
+        Behavior::UninstallBehavior _uninstall;
 
         Behavior::FinishBehavior _finish;
 

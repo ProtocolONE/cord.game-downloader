@@ -117,6 +117,7 @@ namespace GGS {
       void shutdownCompleted();
       void serviceInstalled(const GGS::Core::Service *service);
       void serviceUpdated(const GGS::Core::Service *service);
+      void serviceUninstalled(const GGS::Core::Service *service);
 
       void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
 
@@ -135,6 +136,8 @@ namespace GGS {
 
       void listeningPortChanged(unsigned short port);
       void finishedDownloading(const GGS::Core::Service *service);
+
+      void accessRequired(const GGS::Core::Service *service);
 
     private slots:
       void internalStatusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);

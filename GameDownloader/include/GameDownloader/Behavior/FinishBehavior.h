@@ -23,7 +23,7 @@ namespace GGS {
         Q_OBJECT
       public:
         explicit FinishBehavior(QObject *parent = 0);
-        ~FinishBehavior();
+        virtual ~FinishBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

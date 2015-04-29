@@ -82,6 +82,12 @@ namespace GGS {
           return;
         }
 
+        // INFO Помечаем сервис на остановку, и стейт машина остановить работу.
+        if (result == HookBase::Abort) {
+          state->setState(GGS::GameDownloader::ServiceState::Stopping);
+          emit this->next(Paused, state);
+        }
+
         // Можно тут кстати обработать разные выходы с хуков и вызвать либо фейли либо разные выходы
         if (result == HookBase::Continue)
           emit this->next(Finished, state);

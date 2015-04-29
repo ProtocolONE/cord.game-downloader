@@ -94,6 +94,11 @@ namespace GGS {
 
       itemProgress.lastProgress = 0;
 
+      if (state->startType() == GGS::GameDownloader::Uninstall) {
+        itemProgress.progressType = ProgressCalculator::UninstallGame;
+        return;
+      }
+
       if (state->isInstalled()) {
         itemProgress.progressType = ProgressCalculator::UpdateGame;
       } else {

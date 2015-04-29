@@ -31,7 +31,7 @@ namespace GGS {
         };
 
         explicit OnlyCheckUpdateBehavior(QObject *parent = 0);
-        ~OnlyCheckUpdateBehavior();
+        virtual ~OnlyCheckUpdateBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

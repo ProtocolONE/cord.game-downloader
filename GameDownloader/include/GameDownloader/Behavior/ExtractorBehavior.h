@@ -32,7 +32,7 @@ namespace GGS {
         };
 
         explicit ExtractorBehavior(QObject *parent = 0);
-        ~ExtractorBehavior();
+        virtual ~ExtractorBehavior();
 
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;

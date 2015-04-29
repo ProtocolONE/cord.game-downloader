@@ -19,7 +19,8 @@ namespace GGS {
       Normal = 0,
       Force,
       Recheck, // Заставили перепроверить клиент из настроек
-      Shadow
+      Shadow,
+      Uninstall
     };
 
     Q_ENUMS(GGS::GameDownloader::StartType);
