@@ -60,5 +60,13 @@
         <source>STATUS_FINISHED</source>
         <translation>Игра %1 успешно удалена</translation>
     </message>
+    <message>
+        <source>TITLE_ATTENTION</source>
+        <translation>Внимание</translation>
+    </message>
+    <message>
+        <source>PREVENT_XP_LAUNCH_WARNING</source>
+        <translation>Игра %1 не может быть запущена в Windows XP</translation>
+    </message>
 </context>
 </TS>

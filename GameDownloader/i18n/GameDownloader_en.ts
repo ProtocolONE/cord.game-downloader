@@ -59,5 +59,13 @@
         <source>STATUS_FINISHED</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TITLE_ATTENTION</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PREVENT_XP_LAUNCH_WARNING</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>
