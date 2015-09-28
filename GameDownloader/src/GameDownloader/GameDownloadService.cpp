@@ -410,6 +410,16 @@ namespace GGS {
       delete _wrapper;
     }
 
+    void GameDownloadService::setCredentials(const QString &userId, const QString &hash)
+    {
+      this->_wrapper->setCredentials(userId, hash);
+    }
+
+    void GameDownloadService::resetCredentials()
+    {
+      this->_wrapper->resetCredentials();
+    }
+
     bool GameDownloadService::isAllStopped()
     {
       bool result = true;

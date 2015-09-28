@@ -101,6 +101,21 @@ namespace GGS {
 
       void release();
 
+      /*!
+      \fn GameDownloadService::setCredentials(const QString &userId, const QString &hash);
+      \brief Устанавливает идентификатор пользователя, выполняеющего загрузку торрента. Подробнее в QGNA-1319.
+
+      \param userId Идентификатор пользователя
+      \param hash Хеш для текущего идентификатора
+      */
+      void setCredentials(const QString &userId, const QString &hash);
+
+      /*!
+      \fn GameDownloadService::resetCredentials();
+      \brief Сбрасывает выставленные с помощью setCredentials данные пользователя.
+      */
+      void resetCredentials();
+
     public slots:
       virtual void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
       virtual void stop(const GGS::Core::Service *service);
