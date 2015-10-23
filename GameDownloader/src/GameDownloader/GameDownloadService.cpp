@@ -81,13 +81,13 @@ namespace GGS {
         this->_stateMap[state->id()] = state;
       }
 
-      state->setStartType(startType);
-
       if (state->isDirectoryChanged()) {
         state->setIsDirectoryChanged(false);
         if (startType != GameDownloader::Force)
           startType = GameDownloader::Recheck;
       }
+
+      state->setStartType(startType);
 
       this->_progressCalculator.resetProgress(state);
 
