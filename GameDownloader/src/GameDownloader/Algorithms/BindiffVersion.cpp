@@ -40,6 +40,10 @@ namespace GGS {
         this->_getPatchVersion.setTorrentWrapper(this->_gameDownloader->_wrapper);
         this->_downloadBindiff.setTorrentWrapper(this->_gameDownloader->_wrapper);
         this->_uninstall.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_bindiff1.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_bindiff2.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_createFastResume.setTorrentWrapper(this->_gameDownloader->_wrapper);
+        this->_createFastResume2.setTorrentWrapper(this->_gameDownloader->_wrapper);
 
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
         this->registerExtractor(new Extractor::SevenZipGameExtractor(this->_gameDownloader));
@@ -61,6 +65,8 @@ namespace GGS {
         this->registerBehavior(&this->_bindiff2);
         this->registerBehavior(&this->_rehashClient);
         this->registerBehavior(&this->_setAllPacked);
+        this->registerBehavior(&this->_createFastResume);
+        this->registerBehavior(&this->_createFastResume2);
 
         this->setStartBehavior(&this->_gameDownloader->_preHookBehavior);
 
@@ -71,7 +77,8 @@ namespace GGS {
         this->setRoute(&this->_bindiff1, BindiffBehavior::CRCFailed, &this->_bindDiffFailed);
         this->setRoute(&this->_bindiff1, BindiffBehavior::Finished, &this->_compressor1);
 
-        this->setRoute(&this->_compressor1, CompressorBehavior::Finished, &this->_headT1);
+        this->setRoute(&this->_compressor1, CompressorBehavior::Finished, &this->_createFastResume);
+        this->setRoute(&this->_createFastResume, CreateFastResumeBehavior::Created, &this->_headT1);
 
         // Обновлений не найден, проходимя по торренту(начинаем сидировать), 
         // распаковываем недораспакованной и на финиш
@@ -96,7 +103,8 @@ namespace GGS {
         this->setRoute(&this->_bindiff2, BindiffBehavior::CRCFailed, &this->_bindDiffFailed);
         this->setRoute(&this->_bindiff2, BindiffBehavior::Finished, &this->_compressor2);
 
-        this->setRoute(&this->_compressor2, CompressorBehavior::Finished, &this->_gameDownloader->_postHook);
+        this->setRoute(&this->_compressor2, CompressorBehavior::Finished, &this->_createFastResume2);
+        this->setRoute(&this->_createFastResume2, CreateFastResumeBehavior::Created, &this->_gameDownloader->_postHook);
 
         this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::Finished, &this->_finish);
         this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::ReturnToStart, &this->_gameDownloader->_preHookBehavior);

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (ñ) 2011 - 2015, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -20,6 +20,10 @@
 namespace GGS {
   namespace Core {
     class Service;
+  }
+
+  namespace Libtorrent {
+    class Wrapper;
   }
 
   namespace GameDownloader {
@@ -42,6 +46,8 @@ namespace GGS {
         virtual void start(GGS::GameDownloader::ServiceState *state) override;
         virtual void stop(GGS::GameDownloader::ServiceState *state) override;
 
+        void setTorrentWrapper(GGS::Libtorrent::Wrapper * value);
+
       private slots:
         void xdeltaFinished(BindiffBehaviorPrivate* data);
 
@@ -49,6 +55,7 @@ namespace GGS {
 
       private:
         bool apply(const QString& file, BindiffBehaviorPrivate* data);
+        GGS::Libtorrent::Wrapper *_wrapper;
       };
 
     }

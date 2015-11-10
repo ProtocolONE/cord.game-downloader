@@ -4,6 +4,7 @@
 #include <GameDownloader/ServiceState>
 #include <UpdateSystem/Hasher/Md5FileHasher.h>
 #include <Core/Service>
+#include <LibtorrentWrapper/Wrapper.h>
 
 #include <gtest/gtest.h>
 #include <QtCore/QStringList>
@@ -51,7 +52,8 @@ void scanDir(int removeLength, QStringList &result, QDir dir)
     }
 }
 
-QStringList getFileList(const QString& directory) {
+QStringList getFileList(const QString& directory) 
+{
     QStringList result;
 
     scanDir(directory.size(), result, directory);
@@ -60,7 +62,9 @@ QStringList getFileList(const QString& directory) {
 
 TEST(BehaviorBindiff, BehaviorBindiffTest)
 {
+  GGS::Libtorrent::Wrapper torrentWrapper;
   GGS::GameDownloader::Behavior::BindiffBehavior bindiff;
+  bindiff.setTorrentWrapper(&torrentWrapper);
 
   PREPAIR_WORK_SPACE(Bindiff, BehaviorBindiffTest);
   QString root = WORKSPACE_ROOT(Bindiff, BehaviorBindiffTest);

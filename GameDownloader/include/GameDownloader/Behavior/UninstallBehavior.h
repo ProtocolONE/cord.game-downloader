@@ -48,6 +48,9 @@ namespace GGS {
 
       private:
         void uninstall(GGS::GameDownloader::ServiceState *state);
+
+        void removeEmptyFolders(const GGS::Core::Service * service);
+
         QStringList getDirectoriesToRemove(const GGS::Core::Service *service);
         int getFilesCount(const QString &directory);
 

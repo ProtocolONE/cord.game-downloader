@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (�) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (c) 2011 - 2015, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -11,10 +11,11 @@
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/XdeltaWrapper/XdeltaDecoder.h>
 
-#include <QtConcurrent/QtConcurrentRun>
 #include <Settings/Settings.h>
 #include <Core/Service>
+#include <LibtorrentWrapper/Wrapper>
 
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QByteArray>
 #include <QtCore/QDir>
 
@@ -23,7 +24,8 @@ namespace GGS {
     namespace Behavior {
 
       BindiffBehavior::BindiffBehavior(QObject *parent)
-        : BaseBehavior(parent)
+        : BaseBehavior(parent),
+          _wrapper(nullptr)
       {
       }
 
@@ -34,6 +36,7 @@ namespace GGS {
       void BindiffBehavior::start(GGS::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
+        Q_CHECK_PTR(this->_wrapper);
         
         emit this->totalProgressChanged(state, 0);
 
@@ -56,13 +59,19 @@ namespace GGS {
         if (data->_totalFileCount > 200) {
           data->_skipMode = true;
           data->_progressMod = static_cast<int>(data->_totalFileCount / 100);
-        }
+        }      
 
         QtConcurrent::run(this, &GGS::GameDownloader::Behavior::BindiffBehavior::run, data);
       }
 
       void BindiffBehavior::run(BindiffBehaviorPrivate* data) 
       {
+        if (!data->_patchFiles.isEmpty()) {
+          //INFO QGNA-1377 Смысл в том, чтобы гарантировать остановку торрента перед тем, как применять биндиф. Все файлы должны быть без 
+          //блокировок. Более того, после применения бин дифа торрент будет по определению не валидный.
+          this->_wrapper->remove(data->_state->id());
+        }
+
         while(!data->_patchFiles.isEmpty()) {
           QString workingFile = data->_patchFiles.takeFirst();
 
@@ -105,6 +114,12 @@ namespace GGS {
       {
       }
 
+      void BindiffBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *value)
+      {
+        Q_CHECK_PTR(value);
+        this->_wrapper = value;
+      }
+
       void BindiffBehavior::xdeltaFinished(BindiffBehaviorPrivate* data)
       {
         DEBUG_LOG << data->_workingFile << "finished";
@@ -112,7 +127,7 @@ namespace GGS {
         QString actualFile = data->_workingFile.left(data->_workingFile.size() - QString(".diff").size());
         QString source = QString("%1/%2").arg(data->_rootDir, actualFile);
         QString actualTarget = source + ".new";
-        // UNDONE �������� ���� �� ��� ��������������� � .old.123.old ��� 123 ������
+        // UNDONE Подумать надо ли тут переименовывать а .old.123.old где 123 рандом
         QString oldSource = source + ".old";
         
         QFile::remove(oldSource);

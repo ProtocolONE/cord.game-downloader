@@ -113,12 +113,16 @@ namespace GGS {
           dir.removeRecursively();
         }
 
+        //INFO QGNA-1371
+        this->removeEmptyFolders(service);
+
         emit statusMessageChanged(state, QObject::tr("STATUS_FINISHED").arg(service->displayName()));
         emit finished(state);
       }
 
       QStringList UninstallBehavior::getDirectoriesToRemove(const GGS::Core::Service *service) 
       {
+        //INFO Блокер баг QGNA-1371. Пытается удалить только то, что поставили мы сами.
         QStringList result;
 
         QString installPath = service->installPath();
@@ -128,22 +132,15 @@ namespace GGS {
 
         QString distribPath = service->downloadPath();
         if (!service->hashDownloadPath() || distribPath == installPath) {
-          result << installPath;
+          result << installPath + "/" + service->areaString();
           return result;
         }
+        
+        installPath += "/" + service->areaString();
+        distribPath += "/" + service->areaString();
 
-        QDir installDir(installPath);
-        QDir distribDir(distribPath);
-        bool installContainsDistrib = QDir::toNativeSeparators(installDir.relativeFilePath(distribPath)).indexOf("..\\") == -1;
-        bool distribContainsInstall = QDir::toNativeSeparators(distribDir.relativeFilePath(installPath)).indexOf("..\\") == -1;
-
-        if (!installContainsDistrib && !distribContainsInstall) {
-          result << installPath << distribPath;
-        } else if(installContainsDistrib) {
-          result << installPath;
-        } else if(distribContainsInstall) {
-          result << distribPath;
-        }
+        result << installPath << distribPath;
+      
         return result;
       }
 
@@ -157,6 +154,17 @@ namespace GGS {
         }
 
         return result;
+      }
+
+      void UninstallBehavior::removeEmptyFolders(const GGS::Core::Service *service)
+      {
+        QDir installDir(service->installPath());
+        if (installDir.count() == 0)
+          installDir.removeRecursively();
+
+        QDir downloadDir(service->downloadPath());
+        if (downloadDir.count() == 0)
+          downloadDir.removeRecursively();
       }
     }
   }
