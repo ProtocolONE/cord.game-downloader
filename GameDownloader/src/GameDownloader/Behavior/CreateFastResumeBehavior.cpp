@@ -35,13 +35,17 @@ namespace GGS {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(this->_wrapper);
 
-        TorrentConfig config;
-        config.setPathToTorrentFile(CheckUpdateHelper::getTorrentPath(state));
-        config.setDownloadPath(state->service()->downloadPath());
-        config.setIsForceRehash(false);
-        config.setIsReloadRequired(false);
+        if (state->shouldGenerateFastResume()) {
+          state->setGenerateFastResume(false);
 
-        this->_wrapper->createFastResume(state->id(), config);
+          TorrentConfig config;
+          config.setPathToTorrentFile(CheckUpdateHelper::getTorrentPath(state));
+          config.setDownloadPath(state->service()->downloadPath());
+          config.setIsForceRehash(false);
+          config.setIsReloadRequired(false);
+
+          this->_wrapper->createFastResume(state->id(), config);
+        }
 
         emit this->next(CreateFastResumeBehavior::Created, state);
       }

@@ -53,6 +53,12 @@ namespace GGS {
       explicit GameDownloadService(QObject *parent = 0);
       virtual ~GameDownloadService();
 
+      enum TorrentProfile {
+        DEFAULT_PROFILE = 0,
+        HIGH_PERFORMANCE_SEED = 1,
+        MIN_MEMORY_USAGE = 2
+      };
+
       // Управление настройками торрента теперь осуществялется через GameDownloadService
       void setListeningPort(unsigned short port);
       void setTorrentConfigDirectoryPath(const QString& path);
@@ -61,7 +67,8 @@ namespace GGS {
       void setDownloadRateLimit(int bytesPerSecond);
       void setMaxConnection(int maxConnection);
       void setSeedEnabled(bool value);
-
+      void setTorrentProfile(GameDownloadService::TorrentProfile value);
+      
       /*!
         \fn void GameDownloadService::init();
         \brief Инициализация этого объекта. Необходимо вызвать перед любой работой с объектом.
@@ -201,6 +208,5 @@ namespace GGS {
 
       StateMachine _machine;
     };
-
   }
 }

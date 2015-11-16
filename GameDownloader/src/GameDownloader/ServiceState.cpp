@@ -236,5 +236,25 @@ namespace GGS {
       return ok && result == 1;
     }
 
+    bool ServiceState::shouldGenerateFastResume() const
+    {
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup("FastResume");
+      settings.beginGroup(this->id());
+      bool ok;
+      int result = settings.value("generate", 0).toInt(&ok);
+      return ok && result == 1;
+    }
+
+    void ServiceState::setGenerateFastResume(bool value)
+    {
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup("FastResume");
+      settings.beginGroup(this->id());
+      settings.setValue("generate", value ? 1 : 0);
+    }
+
   }
 }

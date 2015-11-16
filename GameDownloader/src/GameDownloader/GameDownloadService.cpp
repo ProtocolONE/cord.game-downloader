@@ -23,6 +23,21 @@
 
 namespace GGS {
   namespace GameDownloader {
+
+    GGS::Libtorrent::Wrapper::Profile fromGameDownloadProfile(GameDownloadService::TorrentProfile profile)
+    {
+      using GGS::Libtorrent::Wrapper;
+
+      if (profile == GameDownloadService::TorrentProfile::HIGH_PERFORMANCE_SEED) {
+        return Wrapper::Profile::HIGH_PERFORMANCE_SEED;
+      }
+      else if (profile == GameDownloadService::TorrentProfile::MIN_MEMORY_USAGE) {
+        return Wrapper::Profile::MIN_MEMORY_USAGE;
+      }
+
+      return Wrapper::Profile::DEFAULT_PROFILE;
+    }
+
     GameDownloadService::GameDownloadService(QObject *parent)
       : QObject(parent)
       , _isShuttingDown(false)
@@ -112,7 +127,6 @@ namespace GGS {
       if (this->_machine.stop(state))
         emit this->stopping(service);
     }
-
     void GameDownloadService::init()
     {
       this->_wrapper->initEngine();
@@ -153,7 +167,6 @@ namespace GGS {
         SIGNAL(statusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
         this, 
         SLOT(internalStatusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&))));
-
     }
 
     // INFO 01.09.2014 Функция не вызывается нигде - надо удлаить в том числе с сигналом progressChanged
@@ -394,6 +407,11 @@ namespace GGS {
     {
       this->_wrapper->setSeedEnabled(value);
     }
+    
+    void GameDownloadService::setTorrentProfile(TorrentProfile value)
+    {
+      this->_wrapper->setProfile(fromGameDownloadProfile(value));
+    }
 
     void GameDownloadService::internalShuttingDownComplete()
     {
@@ -474,6 +492,5 @@ namespace GGS {
 
       emit this->finishedDownloading(state->service());
     }
-
   }
 }

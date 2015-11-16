@@ -109,6 +109,24 @@ namespace GGS {
       */
       static bool isInstalled(const QString& serviceId);
 
+      /*!
+       \fn  bool ServiceState::shouldGenerateFastResume() const;
+       \brief Queries if we should generate fast resume.
+       \author  "Ilya Tkachenko"
+       \date  10.11.2015
+       \return  true if it succeeds, false if it fails.
+       */
+      bool shouldGenerateFastResume() const;
+
+      /*!
+       \fn  void ServiceState::setGenerateFastResume(bool value);
+       \brief Sets a generate fast resume.
+       \author  "Ilya Tkachenko"
+       \date  10.11.2015
+       \param value true if we want to generate fast resume.
+       */
+      void setGenerateFastResume(bool value);
+
     private:
       QStringList deserialize(QByteArray serialized);
       QByteArray serialize(QStringList stringList);
