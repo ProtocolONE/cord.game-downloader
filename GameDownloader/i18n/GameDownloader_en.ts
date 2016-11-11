@@ -67,5 +67,9 @@
         <source>PREVENT_XP_LAUNCH_WARNING</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>PREVENT_WIN32_LAUNCH_WARNING</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 </TS>

@@ -137,7 +137,6 @@ namespace GGS {
         QFile::remove(oldSource);
       }
 
-
       bool BindiffBehavior::apply(const QString& file, BindiffBehaviorPrivate* data)
       {
         QString actualFile = file.left(file.size() - QString(".diff").size());

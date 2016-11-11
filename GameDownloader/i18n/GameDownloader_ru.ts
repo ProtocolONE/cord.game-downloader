@@ -68,5 +68,9 @@
         <source>PREVENT_XP_LAUNCH_WARNING</source>
         <translation>Игра %1 не может быть запущена в Windows XP</translation>
     </message>
+    <message>
+        <source>PREVENT_WIN32_LAUNCH_WARNING</source>
+        <translation>Игра %1 не может быть запущена в 32-битной Windows</translation>
+    </message>
 </context>
 </TS>

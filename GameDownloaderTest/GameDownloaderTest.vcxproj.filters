@@ -94,7 +94,7 @@
     <ClCompile Include="GeneratedFiles\Release\moc_TestBehavior.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderAsyncTest.cpp">
+    <ClCompile Include="src\Tests\RemoveFileHookTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\Behavior\BindiffTest.cpp">
@@ -104,6 +104,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\StateMachine\StateMachineTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderAsyncTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderTest.cpp">

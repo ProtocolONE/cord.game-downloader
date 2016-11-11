@@ -36,7 +36,7 @@ namespace GGS {
         const GGS::Core::Service *service = state->service();
 
         QString gameRoot = QString("%1/%2").arg(service->installPath(), service->areaString());
-        QString filePath = QString("%1/%2/Dependency/%3").arg(service->installPath(), service->areaString(), "removeFile.xml");
+        QString removeFilePath = QString("%1/%2/Dependency/%3").arg(service->installPath(), service->areaString(), "removeFile.xml");
 
         QString downloadRoot;
         
@@ -45,11 +45,14 @@ namespace GGS {
         if (hasArchive)
           downloadRoot = QString("%1/%2").arg(service->downloadPath(), service->areaString());
 
-        if (!this->shouldDelete(state->id(), filePath))
+        StartType startType = state->startType();
+        bool forceRecheck = startType == Force || startType == Recheck;
+
+        if (!forceRecheck && !this->shouldDelete(state->id(), removeFilePath))
           return GGS::GameDownloader::HookBase::Continue;
 
         QDomDocument doc;
-        QFile file(filePath);
+        QFile file(removeFilePath);
         if (!file.open(QIODevice::ReadOnly))
           return GGS::GameDownloader::HookBase::Continue;
 
@@ -85,13 +88,13 @@ namespace GGS {
           
           if (hasArchive) {
             // INFO Удалять желательно но не критично
-            filePath = QString("%1/%2.7z").arg(downloadRoot, relativePath);
-            QFile::remove(filePath);
+            QString archiveFilePath = QString("%1/%2.7z").arg(downloadRoot, relativePath);
+            QFile::remove(archiveFilePath);
           }
         }
 
         if (canSaveInfo)
-          this->saveDataInfo(state->id(), filePath);
+          this->saveDataInfo(state->id(), removeFilePath);
 
         return GGS::GameDownloader::HookBase::Continue;
       }
@@ -120,7 +123,7 @@ namespace GGS {
         settings.beginGroup("Hooks");
         settings.beginGroup("RemoveFileHook");
         settings.beginGroup(id);
-        settings.setValue("Hash", hash, true);
+        settings.setValue("hash", hash, true);
       }
 
     }
