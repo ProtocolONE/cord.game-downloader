@@ -34,7 +34,6 @@ TEST(ReadOnlyTester, ReadOnlyBehaviorTest)
 
   Q_FOREACH(QString file, files) {
     QString probeFile = root + file;
-    ASSERT_TRUE(QFile::exists(probeFile));
     std::wstring fName = probeFile.toStdWString();
 
     DWORD currAttr = GetFileAttributes(fName.c_str());
@@ -51,7 +50,6 @@ TEST(ReadOnlyTester, ReadOnlyBehaviorTest)
 
   Q_FOREACH(QString file, files) {
     QString probeFile = root + file;
-    ASSERT_TRUE(QFile::exists(probeFile));
     std::wstring fName = probeFile.toStdWString();
 
     DWORD currAttr = GetFileAttributes(fName.c_str());

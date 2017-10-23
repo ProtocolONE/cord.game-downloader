@@ -166,12 +166,9 @@ namespace GGS {
       Q_CHECK_PTR(behavior);
       CHECK_NOT_REGISTER_BEHAVIOR(behavior);
 
-      SIGNAL_CONNECT_CHECK(QObject::connect(behavior, SIGNAL(finished(GGS::GameDownloader::ServiceState*)),
-        this, SLOT(internalFinished(GGS::GameDownloader::ServiceState*)), Qt::QueuedConnection));
-      SIGNAL_CONNECT_CHECK(QObject::connect(behavior, SIGNAL(failed(GGS::GameDownloader::ServiceState*)),
-        this, SLOT(internalFailed(GGS::GameDownloader::ServiceState*)), Qt::QueuedConnection));
-      SIGNAL_CONNECT_CHECK(QObject::connect(behavior, SIGNAL(next(int, GGS::GameDownloader::ServiceState*)),
-        this, SLOT(internalNext(int, GGS::GameDownloader::ServiceState*)), Qt::QueuedConnection));
+      QObject::connect(behavior, &Behavior::BaseBehavior::finished, this, &StateMachine::internalFinished, Qt::QueuedConnection);
+      QObject::connect(behavior, &Behavior::BaseBehavior::failed, this, &StateMachine::internalFailed, Qt::QueuedConnection);
+      QObject::connect(behavior, &Behavior::BaseBehavior::next, this, &StateMachine::internalNext, Qt::QueuedConnection);
         
       this->_registeredBahavior.insert(behavior);
     }

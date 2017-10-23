@@ -30,6 +30,7 @@ namespace GGS {
       , _isDirectoryChanged(false)
       , _currentBehavior(NULL)
       , _isGameClientComplete(false)
+      , _shouldReload(false)
     {
     }
 
@@ -51,6 +52,16 @@ namespace GGS {
     QString ServiceState::torrentLastModifedDate() const
     {
       return this->_lastTorrentModifedDate;
+    }
+
+    void ServiceState::setForceReaload(bool value)
+    {
+      this->_shouldReload = value;
+    }
+
+    bool ServiceState::isForceReload()
+    {
+      return this->_shouldReload;
     }
 
     void ServiceState::setState(const State state)

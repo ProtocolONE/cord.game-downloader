@@ -33,6 +33,7 @@ namespace GGS {
 
       void DirProcessor::processFolders(const QStringList & folders, GGS::GameDownloader::ServiceState *state) {
         bool messageFired = false;
+        bool foundBadFlag = false;
 
         // If it was already paused
         if (state->state() != GGS::GameDownloader::ServiceState::Started) {
@@ -42,26 +43,23 @@ namespace GGS {
 
         for (const auto & folder : folders) {
 
-          size_t numOfEntries = QDir(folder).entryInfoList(QDir::NoDotAndDotDot |
-            QDir::AllEntries | QDir::System | QDir::Hidden).count();
-
-          if (!numOfEntries)
-            continue;
-
-          if (numOfEntries && !messageFired) {
+          if (!messageFired) {
             messageFired = true;
             emit this->showMessage(state);
           }
 
-          if (!dropFileFlags(folder, state))
+          if (!dropFileFlags(folder, state, foundBadFlag))
             return;
         }
+
+        if (foundBadFlag)
+          state->setForceReaload(true);
 
         emit this->resultReady(ReadOnlyBehavior::Finished, state);
       }
 
 
-      bool DirProcessor::dropFileFlags(const QString & dirStr, GGS::GameDownloader::ServiceState *state) {
+      bool DirProcessor::dropFileFlags(const QString & dirStr, GGS::GameDownloader::ServiceState *state, bool & foundFlag) {
 
         QDirIterator it(dirStr, QStringList() << "*.*", QDir::Files | QDir::System | QDir::Hidden, QDirIterator::Subdirectories);
         while (it.hasNext()) {
@@ -84,6 +82,7 @@ namespace GGS {
 
           if (newAttr != currAttr) {
             SetFileAttributes(fName.c_str(), newAttr);
+            foundFlag = true;
           }
         }
 

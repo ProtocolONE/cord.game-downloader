@@ -139,11 +139,17 @@ namespace GGS {
       {
         this->setState(state);
 
+        bool needReload = state->isForceReload();
+
         TorrentConfig config;
         config.setPathToTorrentFile(CheckUpdateHelper::getTorrentPath(state));
         config.setDownloadPath(state->service()->downloadPath());
         config.setIsForceRehash(state->startType() == Recheck);
-        config.setIsReloadRequired(state->startType() == Recheck || state->isFoundNewUpdate());
+        config.setIsReloadRequired(state->startType() == Recheck || state->isFoundNewUpdate() || needReload);
+
+        if (needReload)
+          state->setForceReaload(!needReload);
+
         this->_wrapper->start(state->id(), config);
       }
 

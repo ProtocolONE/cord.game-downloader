@@ -79,6 +79,9 @@ namespace GGS {
       void setTorrentLastModifedDate(const QString& date);
       QString torrentLastModifedDate() const;
 
+      void setForceReaload(bool);
+      bool isForceReload();
+
 
       /*!
         \fn bool ServiceState::isInstalled() const;
@@ -144,6 +147,7 @@ namespace GGS {
 
       Behavior::BaseBehavior *_currentBehavior;
       bool _isGameClientComplete;
+      bool _shouldReload;
     };
 
   }

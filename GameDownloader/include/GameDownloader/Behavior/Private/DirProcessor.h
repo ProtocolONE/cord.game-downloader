@@ -36,7 +36,7 @@ namespace GGS {
         void resultReady(int result, GGS::GameDownloader::ServiceState *state);
 
       private:
-        bool dropFileFlags(const QString & dirStr, GGS::GameDownloader::ServiceState *state);
+        bool dropFileFlags(const QString & dirStr, GGS::GameDownloader::ServiceState *state, bool & flag);
 
       };
     }
