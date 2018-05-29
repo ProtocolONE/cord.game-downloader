@@ -112,6 +112,9 @@
     <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tests\Behavior\ReadOnlyTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\LambdaHook.h">

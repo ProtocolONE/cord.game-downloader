@@ -211,6 +211,20 @@
     <ClCompile Include="src\GameDownloader\Hooks\PreventWin32Download.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\ReadOnlyBehavior.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DirProcessor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DirProcessor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\Private\DirProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
@@ -294,6 +308,11 @@
     <CustomBuild Include="include\GameDownloader\Hooks\PreventWin32Download.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ReadOnlyBehavior.h" />
+    <CustomBuild Include="GeneratedFiles\Release\ReadOnlyBehavior.moc">
+      <Filter>Generated Files\Release</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DirProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gamedownloader_ru.ts" />

@@ -151,18 +151,32 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DirProcessor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_PreventWin32Download.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyBehavior.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_RemoveFileHook.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DirProcessor.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_PreventWin32Download.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyBehavior.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_RemoveFileHook.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\Private\DirProcessor.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\ReadOnlyBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\PreventWin32Download.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\RemoveFileHook.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\CreateFastResumeBehavior.cpp" />
@@ -679,6 +693,26 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms"</Command>
     </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ReadOnlyBehavior.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ReadOnlyBehavior.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DVLD_CHECK_ENABLED_NO -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -DQT_XML_LIB -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms" "-I$(QTDIR)\include\QtXml"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ReadOnlyBehavior.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -DQT_XML_LIB -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms" "-I$(QTDIR)\include\QtXml"</Command>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DirProcessor.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing DirProcessor.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DVLD_CHECK_ENABLED_NO -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -DQT_XML_LIB -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms" "-I$(QTDIR)\include\QtXml"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing DirProcessor.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -DQT_XML_LIB -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms" "-I$(QTDIR)\include\QtXml"</Command>
+    </CustomBuild>
     <ClInclude Include="include\GameDownloader\Common\FileUtils.h" />
     <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
     <CustomBuild Include="include\GameDownloader\HookBase.h">
@@ -866,6 +900,13 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
   </ItemGroup>
   <ItemGroup>
     <None Include="gamedownloader_ru.ts" />
+    <CustomBuild Include="GeneratedFiles\Release\ReadOnlyBehavior.moc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;.\src\GameDownloader\Behavior\ReadOnlyBehavior.cpp</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ReadOnlyBehavior.cpp...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\%(Filename).moc</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "src\GameDownloader\Behavior\ReadOnlyBehavior.cpp" -o ".\GeneratedFiles\$(ConfigurationName)\%(Filename).moc"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DDOWNLOADSERVICE_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DXD3_DEBUG=0 -DXD3_USE_LARGEFILE64=1 -DXD3_WIN32=1 -DEXTERNAL_COMPRESSION=0 -DSHELL_TESTS=0 -DNOMINMAX -DQT_DLL -DQT_XML_LIB -D_WINDLL -D_UNICODE "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I." "-I$(ProjectDir)include" "-I$(VLDDIR)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I.\include\Core" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QTDIR)\include\QtNetwork" "-I$(QTDIR)\include\QtSql" "-I$(QGNACOMMONDIR)\xdelta\$(XdeltaArea)\." "-I.\include\GameDownloader\XdeltaWrapper" "-I.\src\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior" "-I.\include\GameDownloader\Behavior\Private" "-I.\include\GameDownloader\Algorithms" "-I$(QTDIR)\include\QtXml"</Command>
+    </CustomBuild>
     <None Include="i18n\GameDownloader_en.ts" />
     <None Include="i18n\GameDownloader_ru.ts" />
   </ItemGroup>

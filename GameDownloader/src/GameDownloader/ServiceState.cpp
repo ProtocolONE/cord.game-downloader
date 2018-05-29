@@ -146,6 +146,24 @@ namespace GGS {
       this->_isGameClientComplete = value;
     }
 
+    bool ServiceState::isDownloadSuccess()
+    {
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup(this->id());
+      bool ok;
+      int result = settings.value("DistrProcessed", 0).toInt(&ok);
+      return ok && result == 1;
+    }
+
+    void ServiceState::setDownloadSuccess(bool value)
+    {
+      GGS::Settings::Settings settings;
+      settings.beginGroup("GameDownloader");
+      settings.beginGroup(this->id());
+      settings.setValue("DistrProcessed", value ? 1 : 0);
+    }
+
     void ServiceState::setPatchFiles(const QStringList& files)
     {
       GGS::Settings::Settings settings;

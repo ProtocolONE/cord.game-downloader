@@ -29,6 +29,7 @@
 #include <GameDownloader/Behavior/UninstallBehavior.h>
 #include <GameDownloader/Behavior/FinishBehavior.h>
 #include <GameDownloader/Behavior/CreateFastResumeBehavior.h>
+#include <GameDownloader/Behavior/ReadOnlyBehavior.h>
 
 #include <QtCore/QObject>
 
@@ -72,6 +73,8 @@ namespace GGS {
         Behavior::FinishBehavior _finish;
         Behavior::CreateFastResumeBehavior _createFastResume;
         Behavior::CreateFastResumeBehavior _createFastResume2;
+        
+        Behavior::ReadOnlyBehavior _readOnlyCheck;
 
         void registerExtractor(ExtractorBase *extractor);
         void setStartBehavior(Behavior::BaseBehavior *behavior);

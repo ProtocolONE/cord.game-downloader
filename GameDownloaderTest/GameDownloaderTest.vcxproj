@@ -219,6 +219,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetD
     <ClCompile Include="src\TestEventLoopFinisher.cpp" />
     <ClCompile Include="src\Tests\Behavior\BindiffTest.cpp" />
     <ClCompile Include="src\Tests\Behavior\CompressorBehaviorTest.cpp" />
+    <ClCompile Include="src\Tests\Behavior\ReadOnlyTest.cpp" />
     <ClCompile Include="src\Tests\RemoveFileHookTest.cpp" />
     <ClCompile Include="src\Tests\StateMachine\StateMachineTest.cpp" />
     <ClCompile Include="src\Tests\Xdelta\XdeltaDecoderAsyncTest.cpp" />

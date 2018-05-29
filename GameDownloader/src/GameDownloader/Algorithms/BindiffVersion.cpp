@@ -48,6 +48,7 @@ namespace GGS {
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
         this->registerExtractor(new Extractor::SevenZipGameExtractor(this->_gameDownloader));
 
+        this->registerBehavior(&this->_readOnlyCheck);
         this->registerBehavior(&this->_uninstall);
         this->registerBehavior(&this->_gameDownloader->_preHookBehavior);
         this->registerBehavior(&this->_gameDownloader->_postHook);
@@ -70,7 +71,9 @@ namespace GGS {
 
         this->setStartBehavior(&this->_gameDownloader->_preHookBehavior);
 
-        this->setRoute(&this->_gameDownloader->_preHookBehavior, PreHookBehavior::Finished, &this->_uninstall);
+        this->setRoute(&this->_gameDownloader->_preHookBehavior, PreHookBehavior::Finished, &this->_readOnlyCheck);
+
+        this->setRoute(&this->_readOnlyCheck, ReadOnlyBehavior::Finished, &this->_uninstall);
         this->setRoute(&this->_uninstall, UninstallBehavior::ContinueInstall, &this->_bindiff1);
         this->setRoute(&this->_uninstall, UninstallBehavior::Finished, &this->_gameDownloader->_postHook);
 

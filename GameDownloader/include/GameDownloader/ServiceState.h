@@ -67,6 +67,9 @@ namespace GGS {
       bool isGameClientComplete() const;
       void setIsGameClientComplete(bool value);
 
+      bool isDownloadSuccess();
+      void setDownloadSuccess(bool value);
+
       void setPackingFiles(const QStringList& files);
       QStringList packingFiles();
 

@@ -47,6 +47,7 @@ namespace GGS {
 
       void FinishBehavior::start(GGS::GameDownloader::ServiceState *state)
       {
+        state->setDownloadSuccess(true);
         QString patchDir = QString("%1/patch").arg(state->service()->downloadPath());
         this->removeDir(patchDir);
 

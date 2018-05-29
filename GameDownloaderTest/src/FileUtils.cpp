@@ -2,6 +2,7 @@
 
 #include <QtCore/QDirIterator>
 #include <QtCore/QCoreApplication>
+#include <QtCore/QIODevice>
 
 /*!
    Delete a directory along with all of its contents.
@@ -20,7 +21,9 @@ bool FileUtils::removeDir(const QString &dirName)
                 result = removeDir(info.absoluteFilePath());
             }
             else {
-                result = QFile::remove(info.absoluteFilePath());
+              QFile file(info.absoluteFilePath());
+              file.setPermissions(QFile::ReadOther | QFile::WriteOther);
+              result = file.remove();
             }
  
             if (!result) {

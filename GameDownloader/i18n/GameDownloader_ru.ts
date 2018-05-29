@@ -72,5 +72,9 @@
         <source>PREVENT_WIN32_LAUNCH_WARNING</source>
         <translation>Игра %1 не может быть запущена в 32-битной Windows</translation>
     </message>
+    <message>
+        <source>FOLDER_PROCESSING_MESSAGE</source>
+        <translation>Подготовка папки</translation>
+    </message>
 </context>
 </TS>

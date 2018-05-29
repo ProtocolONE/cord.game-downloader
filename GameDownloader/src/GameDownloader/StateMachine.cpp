@@ -116,6 +116,8 @@ namespace GGS {
       if (!sender || sender != state->currentBehavior())
         return;
 
+      state->setDownloadSuccess(false);
+
       if (!this->checkState(state))
         return;
 
