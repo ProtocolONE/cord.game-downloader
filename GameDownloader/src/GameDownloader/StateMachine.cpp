@@ -198,7 +198,7 @@ namespace GGS {
         return false;
 
       StartType startType = state->startType();
-      if (startType == Force || startType == Recheck)
+      if (startType == Force || startType == Recheck || startType == Uninstall)
         return false;
 
       qint64 elapsedTime = QDateTime::currentMSecsSinceEpoch() - state->lastDateStateChanged();
