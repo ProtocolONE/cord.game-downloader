@@ -1,19 +1,10 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/BindiffFailedBehavior.h>
 #include <GameDownloader/ServiceState.h>
-#include <Settings/Settings>
+#include <Settings/Settings.h>
 #include <Core/Service.h>
 #include <QtCore/QStringList>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -26,7 +17,7 @@ namespace GGS {
       {
       }
 
-      void BindiffFailedBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void BindiffFailedBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
 
@@ -34,7 +25,7 @@ namespace GGS {
         state->setPatchFiles(QStringList());
         state->setPackingFiles(QStringList());
 
-        GGS::Settings::Settings settings;
+        P1::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
         settings.beginGroup("SevenZipGameExtractor");
         if (settings.value(state->id(), QByteArray()) != QByteArray())
@@ -43,7 +34,7 @@ namespace GGS {
         emit this->next(Finished, state);
       }
 
-      void BindiffFailedBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void BindiffFailedBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 

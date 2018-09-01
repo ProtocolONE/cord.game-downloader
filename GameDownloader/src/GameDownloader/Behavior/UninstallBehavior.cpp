@@ -1,19 +1,9 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Behavior/UninstallBehavior.h>
 #include <GameDownloader/ServiceState.h>
 
 #include <Core/Service.h>
 
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/Wrapper.h>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
@@ -22,7 +12,7 @@
 #include <QtCore/QStringList>
 #include <QtConcurrent/QtConcurrentRun>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -37,13 +27,13 @@ namespace GGS {
       }
 
 
-      void UninstallBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void UninstallBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         Q_ASSERT(wrapper);
         this->_wrapper = wrapper;
       }
 
-      void UninstallBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void UninstallBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -61,15 +51,15 @@ namespace GGS {
         QtConcurrent::run(this, &UninstallBehavior::uninstall, state);
       }
 
-      void UninstallBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void UninstallBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
 
       }
 
-      void UninstallBehavior::uninstall(GGS::GameDownloader::ServiceState *state)
+      void UninstallBehavior::uninstall(P1::GameDownloader::ServiceState *state)
       {
         Q_ASSERT(this->_wrapper);
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         Q_ASSERT(service);
         
         qint8 progressValue = 0;
@@ -120,7 +110,7 @@ namespace GGS {
         emit finished(state);
       }
 
-      QStringList UninstallBehavior::getDirectoriesToRemove(const GGS::Core::Service *service) 
+      QStringList UninstallBehavior::getDirectoriesToRemove(const P1::Core::Service *service) 
       {
         //INFO Блокер баг QGNA-1371. Пытается удалить только то, что поставили мы сами.
         QStringList result;
@@ -156,7 +146,7 @@ namespace GGS {
         return result;
       }
 
-      void UninstallBehavior::removeEmptyFolders(const GGS::Core::Service *service)
+      void UninstallBehavior::removeEmptyFolders(const P1::Core::Service *service)
       {
         QDir installDir(service->installPath());
         if (installDir.count() == 0)

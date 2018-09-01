@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
@@ -14,14 +5,14 @@
 
 #include <QtCore/QObject>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
     class GameDownloadService;
     class DOWNLOADSERVICE_EXPORT HookBase : public QObject
     {
       Q_OBJECT
-      Q_ENUMS(GGS::GameDownloader::HookBase::HookResult);
+      Q_ENUMS(P1::GameDownloader::HookBase::HookResult);
     public:
       
       // UNDONE Пересмотреть и вохможно уменьшить число результатов
@@ -55,14 +46,14 @@ namespace GGS {
       void setAfterProgressWeight(quint8 weight);
 
     public slots:
-      void pauseRequestSlot(GGS::GameDownloader::ServiceState *state);
+      void pauseRequestSlot(P1::GameDownloader::ServiceState *state);
 
     signals:
       void beforeProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
       void afterProgressChanged(const QString& serviceId, const QString& hookId, quint8 progress);
-      void statusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
+      void statusMessageChanged(P1::GameDownloader::ServiceState *state, const QString& message);
 
-      void pauseRequest(GGS::GameDownloader::ServiceState *state);
+      void pauseRequest(P1::GameDownloader::ServiceState *state);
 
     protected:
       quint8 _beforeProgressWeight;

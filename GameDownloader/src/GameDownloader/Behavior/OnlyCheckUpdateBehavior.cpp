@@ -3,7 +3,7 @@
 
 #include <GameDownloader/Behavior/Private/CheckTorrentModify.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -16,27 +16,27 @@ namespace GGS {
       {
       }
 
-      void OnlyCheckUpdateBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void OnlyCheckUpdateBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
 
         CheckTorrentModify * helper = new CheckTorrentModify(this);
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(result(GGS::GameDownloader::ServiceState *, bool)),
-          this, SLOT(checkUpdateResult(GGS::GameDownloader::ServiceState *, bool)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(result(P1::GameDownloader::ServiceState *, bool)),
+          this, SLOT(checkUpdateResult(P1::GameDownloader::ServiceState *, bool)),
           Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(checkUpdateError(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(P1::GameDownloader::ServiceState *)),
+          this, SLOT(checkUpdateError(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
         helper->start(state);
       }
 
-      void OnlyCheckUpdateBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void OnlyCheckUpdateBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 
-      void OnlyCheckUpdateBehavior::checkUpdateResult(GGS::GameDownloader::ServiceState *state, bool isModified)
+      void OnlyCheckUpdateBehavior::checkUpdateResult(P1::GameDownloader::ServiceState *state, bool isModified)
       {
         CheckTorrentModify *helper = qobject_cast<CheckTorrentModify *>(QObject::sender());
         if (!helper)
@@ -49,7 +49,7 @@ namespace GGS {
         emit this->next(isModified ? UpdateFound : UpdateNotFound, state);
       }
 
-      void OnlyCheckUpdateBehavior::checkUpdateError(GGS::GameDownloader::ServiceState *state)
+      void OnlyCheckUpdateBehavior::checkUpdateError(P1::GameDownloader::ServiceState *state)
       {
         CheckTorrentModify *helper = qobject_cast<CheckTorrentModify *>(QObject::sender());
         if (!helper)

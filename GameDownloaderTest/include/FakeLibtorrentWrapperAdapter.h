@@ -1,5 +1,4 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_FAKELIBTORRENTWRAPPERADAPTER_H_
-#define _GGS_GAMEDOWNLOADER_TEST_FAKELIBTORRENTWRAPPERADAPTER_H_
+#pragma once
 
 #include "SingleShotFunctor.h"
 
@@ -16,8 +15,8 @@ class FakeLibtorrentWrapperAdapter : public QObject
 {
   Q_OBJECT
 public:
-  FakeLibtorrentWrapperAdapter(GGS::GameDownloader::GameDownloadService *service);
-  ~FakeLibtorrentWrapperAdapter();
+  explicit FakeLibtorrentWrapperAdapter(P1::GameDownloader::GameDownloadService *service);
+  virtual ~FakeLibtorrentWrapperAdapter();
 
   int downloadEventCount() const;
   int pauseEventCount() const;
@@ -25,8 +24,8 @@ public:
   void setDownloadTime(int msec);
 
 private slots:
-  void downloadRequestCounter(const GGS::Core::Service *service);
-  void pauseRequestCounter(const GGS::Core::Service *service);
+  void downloadRequestCounter(const P1::Core::Service *service);
+  void pauseRequestCounter(const P1::Core::Service *service);
   void downloadCompletedTimerTick();
 
 private:
@@ -36,11 +35,9 @@ private:
   int _downloadTimeInMs;
 
   bool _downloadInProgress;
-  GGS::GameDownloader::GameDownloadService *_downloadService;
-  const GGS::Core::Service *_service;
+  P1::GameDownloader::GameDownloadService *_downloadService;
+  const P1::Core::Service *_service;
 
   QTimer _timer;
   QMutex _mutex;
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_FAKELIBTORRENTWRAPPERADAPTER_H_

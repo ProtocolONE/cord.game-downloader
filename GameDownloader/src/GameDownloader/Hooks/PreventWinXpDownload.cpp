@@ -1,24 +1,14 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Hooks/PreventWinXpDownload.h>
-#include <GameDownloader/GameDownloadService>
+#include <GameDownloader/GameDownloadService.h>
 
 #include <Core/Service.h>
-#include <Core/UI/Message>
+#include <Core/UI/Message.h>
 
 #include <QtCore/QSysInfo>
 
-using GGS::GameDownloader::HookBase;
+using P1::GameDownloader::HookBase;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Hooks {
 

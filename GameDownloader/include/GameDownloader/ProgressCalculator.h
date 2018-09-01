@@ -1,19 +1,10 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
-#include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
+#include <LibtorrentWrapper/EventArgs/ProgressEventArgs.h>
 #include <QtCore/QMap>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     class ServiceState;
 
@@ -37,21 +28,21 @@ namespace GGS {
 
       void registerBehavior(Behavior::BaseBehavior *behavior);
       void setBehaviorValue(ProgressType type, Behavior::BaseBehavior *behavior, float size);
-      void resetProgress(GGS::GameDownloader::ServiceState *state);
+      void resetProgress(P1::GameDownloader::ServiceState *state);
 
     public slots:
-      void totalProgressSlot(GGS::GameDownloader::ServiceState *state, qint8 progress);
+      void totalProgressSlot(P1::GameDownloader::ServiceState *state, qint8 progress);
       void downloadSlot(
-        GGS::GameDownloader::ServiceState *state, 
+        P1::GameDownloader::ServiceState *state, 
         qint8 progress, 
-        GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+        P1::Libtorrent::EventArgs::ProgressEventArgs args);
 
     signals:
-      void totalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress);
+      void totalProgressChanged(P1::GameDownloader::ServiceState *state, qint8 progress);
       void downloadProgressChanged(
-        GGS::GameDownloader::ServiceState *state, 
+        P1::GameDownloader::ServiceState *state, 
         qint8 progress, 
-        GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+        P1::Libtorrent::EventArgs::ProgressEventArgs args);
 
     private:
       struct ProgressBlock 
@@ -81,7 +72,7 @@ namespace GGS {
       QMap<ProgressType, ProgressStrategy> _strategies;
       QMap<QString, ItemProgress> _itemStates;
 
-      qint8 getProgress(GGS::GameDownloader::ServiceState *state, Behavior::BaseBehavior* behavior, qint8 progress);
+      qint8 getProgress(P1::GameDownloader::ServiceState *state, Behavior::BaseBehavior* behavior, qint8 progress);
     };
 
   }

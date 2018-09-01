@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
@@ -19,7 +10,7 @@
 #include <GameDownloader/Algorithms/SimpleVersion.h>
 #include <GameDownloader/Algorithms/BindiffVersion.h>
 
-#include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
+#include <LibtorrentWrapper/EventArgs/ProgressEventArgs.h>
 #include <LibtorrentWrapper/Wrapper.h>
 
 #include <GameDownloader/StateMachine.h>
@@ -34,7 +25,7 @@
 
 #include <windows.h>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -98,13 +89,13 @@ namespace GGS {
       */
       virtual void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
       
-      virtual bool isInProgress(const GGS::Core::Service *service);
+      virtual bool isInProgress(const P1::Core::Service *service);
       virtual bool isAnyServiceInProgress();
 
       void setTimeoutForResume(quint32 seconds);
 
       virtual bool isInstalled(const QString& serviceId);
-      virtual bool isInstalled(const GGS::Core::Service *service);
+      virtual bool isInstalled(const P1::Core::Service *service);
 
       void release();
 
@@ -124,63 +115,63 @@ namespace GGS {
       void resetCredentials();
 
     public slots:
-      virtual void start(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
-      virtual void stop(const GGS::Core::Service *service);
-      virtual void directoryChanged(const GGS::Core::Service *service);
+      virtual void start(const P1::Core::Service *service, P1::GameDownloader::StartType startType);
+      virtual void stop(const P1::Core::Service *service);
+      virtual void directoryChanged(const P1::Core::Service *service);
       virtual void pauseSession();
       virtual void resumeSession();
 
     signals:
-      void started(const GGS::Core::Service *service, GGS::GameDownloader::StartType startType);
-      void finished(const GGS::Core::Service *service);
-      void stopped(const GGS::Core::Service *service);
-      void stopping(const GGS::Core::Service *service);
-      void failed(const GGS::Core::Service *service);
+      void started(const P1::Core::Service *service, P1::GameDownloader::StartType startType);
+      void finished(const P1::Core::Service *service);
+      void stopped(const P1::Core::Service *service);
+      void stopping(const P1::Core::Service *service);
+      void failed(const P1::Core::Service *service);
       void shutdownCompleted();
-      void serviceInstalled(const GGS::Core::Service *service);
-      void serviceUpdated(const GGS::Core::Service *service);
-      void serviceUninstalled(const GGS::Core::Service *service);
+      void serviceInstalled(const P1::Core::Service *service);
+      void serviceUpdated(const P1::Core::Service *service);
+      void serviceUninstalled(const P1::Core::Service *service);
 
-      void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
+      void statusMessageChanged(const P1::Core::Service *service, const QString& message);
 
       // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
       void progressChanged(QString serviceId, qint8 progress); 
       // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
-      void progressDownloadChanged(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      void progressDownloadChanged(QString serviceId, qint8 progress, P1::Libtorrent::EventArgs::ProgressEventArgs args);
       // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
       void progressExtractionChanged(QString serviceId, qint8 progress, qint64 current, qint64 total);
 
-      void totalProgressChanged(const GGS::Core::Service *service, qint8 progress);
+      void totalProgressChanged(const P1::Core::Service *service, qint8 progress);
       void downloadProgressChanged(
-        const GGS::Core::Service *service, 
+        const P1::Core::Service *service, 
         qint8 progress, 
-        GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+        P1::Libtorrent::EventArgs::ProgressEventArgs args);
 
       void listeningPortChanged(unsigned short port);
-      void finishedDownloading(const GGS::Core::Service *service);
+      void finishedDownloading(const P1::Core::Service *service);
 
-      void accessRequired(const GGS::Core::Service *service);
+      void accessRequired(const P1::Core::Service *service);
 
     private slots:
-      void internalStatusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
+      void internalStatusMessageChanged(P1::GameDownloader::ServiceState *state, const QString& message);
 
       // INFO 01.09.2014 удалить - нигде не вызывается
       void internalProgressChangedSlot(QString serviceId, qint8 progress);
       // INFO 01.09.2014 удалить - нигде не вызывается
-      void internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      void internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, P1::Libtorrent::EventArgs::ProgressEventArgs args);
       // INFO 01.09.2014 удалить - нигде не вызывается
       void internalProgressExtractionChangedSlot(QString serviceId, qint8 progress, qint64 current, qint64 total);
 
-      void internalTotalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress);
+      void internalTotalProgressChanged(P1::GameDownloader::ServiceState *state, qint8 progress);
       void internalDownloadProgressChanged(
-        GGS::GameDownloader::ServiceState *state,
+        P1::GameDownloader::ServiceState *state,
         qint8 progress, 
-        GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+        P1::Libtorrent::EventArgs::ProgressEventArgs args);
 
-      void internalFinished(GGS::GameDownloader::ServiceState *state);
-      void internalStopped(GGS::GameDownloader::ServiceState *state);
-      void internalFailed(GGS::GameDownloader::ServiceState *state);
-      void internalTorrentDownloadFinished(GGS::GameDownloader::ServiceState *state);
+      void internalFinished(P1::GameDownloader::ServiceState *state);
+      void internalStopped(P1::GameDownloader::ServiceState *state);
+      void internalFailed(P1::GameDownloader::ServiceState *state);
+      void internalTorrentDownloadFinished(P1::GameDownloader::ServiceState *state);
 
     private:
       ServiceState* getStateById(const QString& id);
@@ -201,7 +192,7 @@ namespace GGS {
       //Algorithms::SimpleVersion _downloadAlgorithm;
       Algorithms::BindiffVersion _downloadAlgorithm;
 
-      GGS::Libtorrent::Wrapper* _wrapper;
+      P1::Libtorrent::Wrapper* _wrapper;
 
       Behavior::PreHookBehavior _preHookBehavior;
       Behavior::PostHookBehavior _postHook;

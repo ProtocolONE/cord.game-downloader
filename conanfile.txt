@@ -1,0 +1,11 @@
+[requires]
+UpdateSystem/1.0.0@common/stable
+LibtorrentWrapper/1.0.0@common/stable
+Core/1.0.0@common/stable
+Settings/1.0.0@common/stable
+
+[generators]
+visual_studio
+
+[imports]
+bin, *.dll -> ./ # Copies all dll files from packages bin folder to my "bin" folder

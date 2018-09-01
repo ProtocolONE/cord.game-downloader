@@ -4,7 +4,7 @@
 #include <functional>
 #include <QtCore/QDateTime>
 
-using namespace GGS::GameDownloader;
+using namespace P1::GameDownloader;
 using Behavior::BaseBehavior;
 
 class TestBehavior : public BaseBehavior

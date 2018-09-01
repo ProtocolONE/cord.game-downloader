@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/PreHookBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/GameDownloadService.h>
@@ -15,32 +6,32 @@
 
 #include <QtConcurrent/QtConcurrentRun>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
       PreHookBehavior::PreHookBehavior(QObject *parent)
         : BaseBehavior(parent)
       {
-        QObject::connect(this, SIGNAL(preHooksCompleted(GGS::GameDownloader::ServiceState *, GGS::GameDownloader::HookBase::HookResult)),
-          SLOT(preHooksCompletedSlot(GGS::GameDownloader::ServiceState *, GGS::GameDownloader::HookBase::HookResult )));
+        QObject::connect(this, SIGNAL(preHooksCompleted(P1::GameDownloader::ServiceState *, P1::GameDownloader::HookBase::HookResult)),
+          SLOT(preHooksCompletedSlot(P1::GameDownloader::ServiceState *, P1::GameDownloader::HookBase::HookResult )));
       }
 
       PreHookBehavior::~PreHookBehavior(void)
       {
       }
 
-      void PreHookBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void PreHookBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         QtConcurrent::run(this, &PreHookBehavior::preHookLoop, state);
       }
 
-      void PreHookBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void PreHookBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         emit this->stopping(state);
       }
 
-      void PreHookBehavior::preHookLoop(GGS::GameDownloader::ServiceState *state)
+      void PreHookBehavior::preHookLoop(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -49,7 +40,7 @@ namespace GGS {
           emit this->preHooksCompleted(state, HookBase::Continue); // Походу надо будет урезать результаты хуков 
         }
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         emit this->statusMessageChanged(state, QObject::tr("PRE_HOOK_DEFAULT_MESSAGE"));
 
         HookBase::HookResult result = HookBase::Continue;
@@ -72,8 +63,8 @@ namespace GGS {
       }
 
       void PreHookBehavior::preHooksCompletedSlot(
-        GGS::GameDownloader::ServiceState *state, 
-        GGS::GameDownloader::HookBase::HookResult result)
+        P1::GameDownloader::ServiceState *state, 
+        P1::GameDownloader::HookBase::HookResult result)
       {
         // INFO Этот случай используется для интеграции сторонней системы скачивания
         // Вся логика по скачивания реализуется в PRE-хуке в том числе прогресс и статусы. 
@@ -84,7 +75,7 @@ namespace GGS {
 
         // INFO Помечаем сервис на остановку, и стейт машина остановить работу.
         if (result == HookBase::Abort) {
-          state->setState(GGS::GameDownloader::ServiceState::Stopping);
+          state->setState(P1::GameDownloader::ServiceState::Stopping);
           emit this->next(Paused, state);
         }
 

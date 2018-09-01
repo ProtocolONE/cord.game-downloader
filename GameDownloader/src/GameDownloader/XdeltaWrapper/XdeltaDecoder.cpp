@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/GameDownloader_global.h>
 
 #include <GameDownloader/XdeltaWrapper/XdeltaDecoder.h>
@@ -19,27 +9,27 @@
 #include <QtCore/QScopedPointer>
 #include <xdelta3.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace XdeltaWrapper {
 
       XdeltaDecoder::XdeltaDecoder(QObject *parent) : QObject(parent)
       {
         SIGNAL_CONNECT_CHECK(QObject::connect(
-          this, SIGNAL(internalReadPatch(GGS::GameDownloader::XdeltaWrapper::DecodeState*)),
-          this, SLOT(readPatch(GGS::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
+          this, SIGNAL(internalReadPatch(P1::GameDownloader::XdeltaWrapper::DecodeState*)),
+          this, SLOT(readPatch(P1::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalDecodeInput(GGS::GameDownloader::XdeltaWrapper::DecodeState*)),
-          this, SLOT(decodeInput(GGS::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalDecodeInput(P1::GameDownloader::XdeltaWrapper::DecodeState*)),
+          this, SLOT(decodeInput(P1::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalReadPatchFinished(GGS::GameDownloader::XdeltaWrapper::DecodeState*)),
-          this, SLOT(decodeInput(GGS::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalReadPatchFinished(P1::GameDownloader::XdeltaWrapper::DecodeState*)),
+          this, SLOT(decodeInput(P1::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalFailed(GGS::GameDownloader::XdeltaWrapper::DecodeState*)),
-          this, SLOT(internalFailedSlot(GGS::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalFailed(P1::GameDownloader::XdeltaWrapper::DecodeState*)),
+          this, SLOT(internalFailedSlot(P1::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalFinished(GGS::GameDownloader::XdeltaWrapper::DecodeState*)),
-          this, SLOT(internalFinishedSlot(GGS::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(this, SIGNAL(internalFinished(P1::GameDownloader::XdeltaWrapper::DecodeState*)),
+          this, SLOT(internalFinishedSlot(P1::GameDownloader::XdeltaWrapper::DecodeState *)), Qt::QueuedConnection));
       }
 
       XdeltaDecoder::~XdeltaDecoder()
@@ -204,7 +194,7 @@ process:  // Кому не нравиться goto предлагаю на до�
         emit this->internalReadPatch(state);
       }
 
-      void XdeltaDecoder::readPatch(GGS::GameDownloader::XdeltaWrapper::DecodeState *state)
+      void XdeltaDecoder::readPatch(P1::GameDownloader::XdeltaWrapper::DecodeState *state)
       {
         int patchReaded = state->_d->_patchFile.read(
           reinterpret_cast<char*>(state->_d->_patchBufferPtr.data()),
@@ -219,7 +209,7 @@ process:  // Кому не нравиться goto предлагаю на до�
         emit this->internalReadPatchFinished(state);
       }
 
-      void XdeltaDecoder::decodeInput(GGS::GameDownloader::XdeltaWrapper::DecodeState *state)
+      void XdeltaDecoder::decodeInput(P1::GameDownloader::XdeltaWrapper::DecodeState *state)
       {
         int r = 0;
         int ret = xd3_decode_input(&state->_d->_stream);
@@ -295,14 +285,14 @@ process:  // Кому не нравиться goto предлагаю на до�
         };
       }
 
-      void XdeltaDecoder::internalFailedSlot(GGS::GameDownloader::XdeltaWrapper::DecodeState *state)
+      void XdeltaDecoder::internalFailedSlot(P1::GameDownloader::XdeltaWrapper::DecodeState *state)
       {
         state->_d->close();
         state->deleteLater();
         emit this->failed();
       }
 
-      void XdeltaDecoder::internalFinishedSlot(GGS::GameDownloader::XdeltaWrapper::DecodeState *state)
+      void XdeltaDecoder::internalFinishedSlot(P1::GameDownloader::XdeltaWrapper::DecodeState *state)
       {
         state->_d->close();
         state->deleteLater();

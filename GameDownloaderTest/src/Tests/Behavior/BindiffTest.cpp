@@ -1,24 +1,24 @@
 #include <TestEventLoopFinisher.h>
 #include <FileUtils.h>
 #include <GameDownloader/Behavior/BindiffBehavior.h>
-#include <GameDownloader/ServiceState>
+#include <GameDownloader/ServiceState.h>
 #include <UpdateSystem/Hasher/Md5FileHasher.h>
-#include <Core/Service>
+#include <Core/Service.h>
 #include <LibtorrentWrapper/Wrapper.h>
 
 #include <gtest/gtest.h>
 #include <QtCore/QStringList>
 #include <QtCore/QDataStream>
-#include <Settings/Settings>
+#include <Settings/Settings.h>
 #include <QEventLoop>
 
 #define assertFileEqual(f1, f2) { \
-  GGS::Hasher::Md5FileHasher hasher; \
+  P1::Hasher::Md5FileHasher hasher; \
   ASSERT_EQ(hasher.getFileHash(f1), hasher.getFileHash(f2)); \
 }
 
 #define assertFileUnEqual(f1, f2) { \
-  GGS::Hasher::Md5FileHasher hasher; \
+  P1::Hasher::Md5FileHasher hasher; \
   ASSERT_NE(hasher.getFileHash(f1), hasher.getFileHash(f2)); \
 }
 
@@ -62,8 +62,8 @@ QStringList getFileList(const QString& directory)
 
 TEST(BehaviorBindiff, BehaviorBindiffTest)
 {
-  GGS::Libtorrent::Wrapper torrentWrapper;
-  GGS::GameDownloader::Behavior::BindiffBehavior bindiff;
+  P1::Libtorrent::Wrapper torrentWrapper;
+  P1::GameDownloader::Behavior::BindiffBehavior bindiff;
   bindiff.setTorrentWrapper(&torrentWrapper);
 
   PREPAIR_WORK_SPACE(Bindiff, BehaviorBindiffTest);
@@ -72,14 +72,14 @@ TEST(BehaviorBindiff, BehaviorBindiffTest)
 
   QStringList files = getFileList(root + "/OriginalFiles/patch/" + patchVersion + "/live");
 
-  GGS::GameDownloader::ServiceState state;
-  GGS::Core::Service service;
+  P1::GameDownloader::ServiceState state;
+  P1::Core::Service service;
   service.setId("123");
   service.setInstallPath(root + "OriginalFiles");
   service.setDownloadPath(root + "OriginalFiles");
-  service.setArea(GGS::Core::Service::Live);
+  service.setArea(P1::Core::Service::Live);
   
-  state.setState(GGS::GameDownloader::ServiceState::Started);
+  state.setState(P1::GameDownloader::ServiceState::Started);
   state.setService(&service);
   state.setPatchFiles(files);
   state.setPatchVersion(patchVersion);
@@ -88,7 +88,7 @@ TEST(BehaviorBindiff, BehaviorBindiffTest)
 
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 60000);
-  killer.setTerminateSignal(&bindiff, SIGNAL(next(int, GGS::GameDownloader::ServiceState *)));
+  killer.setTerminateSignal(&bindiff, SIGNAL(next(int, P1::GameDownloader::ServiceState *)));
   loop.exec();
 
   ASSERT_FALSE(killer.isKilledByTimeout());

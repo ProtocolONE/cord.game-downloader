@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Algorithms/SimpleVersion.h>
 
 #include <GameDownloader/GameDownloadService.h>
@@ -17,9 +7,9 @@
 #include <GameDownloader/Extractor/DummyExtractor.h>
 #include <GameDownloader/Extractor/SevenZipGameExtractor.h>
 
-using namespace GGS::GameDownloader::Behavior;
+using namespace P1::GameDownloader::Behavior;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Algorithms {
 
@@ -55,9 +45,9 @@ namespace GGS {
 
         SIGNAL_CONNECT_CHECK(QObject::connect(
           &this->_downloadBehavior, 
-          SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
+          SIGNAL(downloadProgressChanged(P1::GameDownloader::ServiceState *, qint8, P1::Libtorrent::EventArgs::ProgressEventArgs)),
           &this->_gameDownloader->_progressCalculator, 
-          SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+          SLOT(downloadSlot(P1::GameDownloader::ServiceState *, qint8, P1::Libtorrent::EventArgs::ProgressEventArgs))));
 
         this->setStartBehavior(&this->_checkUpdateBehavior);
 

@@ -1,19 +1,10 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
-#include <GameDownloader/GameDownloader_global>
+#include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 
 #include <QtCore/QObject>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -36,13 +27,13 @@ namespace GGS {
         explicit CheckUpdateBehavior(QObject *parent = 0);
         virtual ~CheckUpdateBehavior();
 
-        virtual void start(GGS::GameDownloader::ServiceState *state) override;  
-        virtual void stop(GGS::GameDownloader::ServiceState *state) override;
+        virtual void start(P1::GameDownloader::ServiceState *state) override;  
+        virtual void stop(P1::GameDownloader::ServiceState *state) override;
 
       private slots:
-        void checkUpdateResult(GGS::GameDownloader::ServiceState *state, bool isUpdated);
-        void checkUpdateError(GGS::GameDownloader::ServiceState *state);
-        void checkUpdateProgressChanged(GGS::GameDownloader::ServiceState *state, quint8 progress);
+        void checkUpdateResult(P1::GameDownloader::ServiceState *state, bool isUpdated);
+        void checkUpdateError(P1::GameDownloader::ServiceState *state);
+        void checkUpdateProgressChanged(P1::GameDownloader::ServiceState *state, quint8 progress);
 
       };
     }

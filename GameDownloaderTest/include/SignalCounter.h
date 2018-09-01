@@ -1,5 +1,4 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_SIGNALCOUNTER_H_
-#define _GGS_GAMEDOWNLOADER_TEST_SIGNALCOUNTER_H_
+#pragma once
 
 #include <QtCore/QObject>
 
@@ -10,7 +9,7 @@ class SignalCounter : public QObject
   Q_OBJECT
 public:
   explicit SignalCounter(QObject *parent = 0);
-  ~SignalCounter();
+  virtual ~SignalCounter();
 
   int eventCount() const;
 
@@ -20,5 +19,3 @@ public slots:
 private:
   int _eventCount;
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_SIGNALCOUNTER_H_

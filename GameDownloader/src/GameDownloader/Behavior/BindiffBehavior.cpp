@@ -1,25 +1,16 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (c) 2011 - 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/BindiffBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/XdeltaWrapper/XdeltaDecoder.h>
 
 #include <Settings/Settings.h>
-#include <Core/Service>
-#include <LibtorrentWrapper/Wrapper>
+#include <Core/service.h>
+#include <LibtorrentWrapper/Wrapper.h>
 
 #include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QByteArray>
 #include <QtCore/QDir>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -33,7 +24,7 @@ namespace GGS {
       {
       }
 
-      void BindiffBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void BindiffBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(this->_wrapper);
@@ -41,7 +32,7 @@ namespace GGS {
         emit this->totalProgressChanged(state, 0);
 
         QString id = state->id();
-        const GGS::Core::Service* service = state->service();
+        const P1::Core::Service* service = state->service();
 
         BindiffBehaviorPrivate* data = new BindiffBehaviorPrivate();
         data->_state = state;
@@ -61,7 +52,7 @@ namespace GGS {
           data->_progressMod = static_cast<int>(data->_totalFileCount / 100);
         }      
 
-        QtConcurrent::run(this, &GGS::GameDownloader::Behavior::BindiffBehavior::run, data);
+        QtConcurrent::run(this, &P1::GameDownloader::Behavior::BindiffBehavior::run, data);
       }
 
       void BindiffBehavior::run(BindiffBehaviorPrivate* data) 
@@ -76,7 +67,7 @@ namespace GGS {
         while(!data->_patchFiles.isEmpty()) {
           QString workingFile = data->_patchFiles.takeFirst();
 
-          if (data->_state->state() != GGS::GameDownloader::ServiceState::Started) {
+          if (data->_state->state() != P1::GameDownloader::ServiceState::Started) {
             data->deleteLater();
             emit this->next(Paused, data->_state);
             return;
@@ -111,11 +102,11 @@ namespace GGS {
         data->deleteLater();
       }
 
-      void BindiffBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void BindiffBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 
-      void BindiffBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *value)
+      void BindiffBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *value)
       {
         Q_CHECK_PTR(value);
         this->_wrapper = value;
@@ -151,7 +142,7 @@ namespace GGS {
           return true;
         }
 
-        using namespace GGS::GameDownloader::XdeltaWrapper;
+        using namespace P1::GameDownloader::XdeltaWrapper;
         XdeltaDecoder::Result result = data->_decoder.applySync(source, patch, actualTarget);     
 
         switch(result) {

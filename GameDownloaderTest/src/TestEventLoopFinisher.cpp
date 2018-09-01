@@ -13,6 +13,11 @@ TestEventLoopFinisher::~TestEventLoopFinisher(void)
 {
 }
 
+bool TestEventLoopFinisher::isKilledByTimeout() const
+{
+  return this->_timeoutKill;
+}
+
 void TestEventLoopFinisher::terminateLoop()
 {
   if (this->_loop) {

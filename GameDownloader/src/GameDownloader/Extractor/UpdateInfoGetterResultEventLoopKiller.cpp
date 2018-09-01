@@ -1,16 +1,6 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Extractor/UpdateInfoGetterResultEventLoopKiller.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Extractor {
 
@@ -24,7 +14,7 @@ namespace GGS {
       {
       }
 
-      void UpdateInfoGetterResultEventLoopKiller::updateInfoCallback(GGS::UpdateSystem::UpdateInfoGetterResults error)
+      void UpdateInfoGetterResultEventLoopKiller::updateInfoCallback(P1::UpdateSystem::UpdateInfoGetterResults error)
       {
         Q_ASSERT(this->_loop != 0);
         this->_result = error;
@@ -40,7 +30,7 @@ namespace GGS {
         this->_loop = loop;
       }
 
-      GGS::UpdateSystem::UpdateInfoGetterResults UpdateInfoGetterResultEventLoopKiller::result() const
+      P1::UpdateSystem::UpdateInfoGetterResults UpdateInfoGetterResultEventLoopKiller::result() const
       {
         return this->_result;
       }

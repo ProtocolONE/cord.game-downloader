@@ -1,7 +1,7 @@
 #include "SingleShotFunctor.h"
 #include <QtCore/QTimer>
 
-SingleShotFunctor::SingleShotFunctor(int ms, std::tr1::function<void ()> f, QObject *parent)
+SingleShotFunctor::SingleShotFunctor(int ms, std::function<void ()> f, QObject *parent)
   : QObject(parent)
   , _functor(f)
 {
@@ -24,7 +24,7 @@ void SingleShotFunctor::internalFunctorCaller()
     this->_functor();
 }
 
-void SingleShotFunctor::setCallback(std::tr1::function<void ()> f)
+void SingleShotFunctor::setCallback(std::function<void ()> f)
 {
   this->_functor = f;
 }

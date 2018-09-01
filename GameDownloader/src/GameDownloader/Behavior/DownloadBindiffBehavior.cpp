@@ -1,32 +1,23 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/DownloadBindiffBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 
-#include <LibtorrentWrapper/TorrentConfig>
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/TorrentConfig.h>
+#include <LibtorrentWrapper/Wrapper.h>
 
-#include <Settings/Settings>
-#include <Core/Service>
+#include <Settings/Settings.h>
+#include <Core/Service.h>
 
 #include <QtCore/QMutexLocker>
 #include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QFile>
 
-#include <UpdateSystem/Hasher/Md5FileHasher>
+#include <UpdateSystem/Hasher/Md5FileHasher.h>
 
-using namespace GGS::Libtorrent;
-using GGS::Libtorrent::EventArgs::ProgressEventArgs;
+using namespace P1::Libtorrent;
+using P1::Libtorrent::EventArgs::ProgressEventArgs;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -39,7 +30,7 @@ namespace GGS {
       {
       }
 
-      void DownloadBindiffBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -54,7 +45,7 @@ namespace GGS {
         QtConcurrent::run(this, &DownloadBindiffBehavior::syncStartTorrent, state);
       }
 
-      void DownloadBindiffBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -63,7 +54,7 @@ namespace GGS {
         QtConcurrent::run(this, &DownloadBindiffBehavior::syncStopTorrent, state);
       }
 
-      void DownloadBindiffBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void DownloadBindiffBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         this->_wrapper = wrapper;
         SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(torrentPaused(QString)), 
@@ -82,14 +73,14 @@ namespace GGS {
 
         SIGNAL_CONNECT_CHECK(QObject::connect(
           wrapper, 
-          SIGNAL(progressChanged(GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
+          SIGNAL(progressChanged(P1::Libtorrent::EventArgs::ProgressEventArgs)), 
           this,
-          SLOT(torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+          SLOT(torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs))));
       }
 
       void DownloadBindiffBehavior::torrentPausedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
@@ -98,7 +89,7 @@ namespace GGS {
 
       void DownloadBindiffBehavior::torrentDownloadFinishedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
@@ -126,7 +117,7 @@ namespace GGS {
         emit this->next(Downloaded, state);
       }
 
-      void DownloadBindiffBehavior::moveT1toT0(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::moveT1toT0(P1::GameDownloader::ServiceState *state)
       {
         QString t0 = CheckUpdateHelper::getTorrentPath(state);
         QString t1 = QString("%1/patch/%3/%4.torrent")
@@ -138,7 +129,7 @@ namespace GGS {
         QFile::rename(t1, t0);
         QFile::remove(t0 + ".old");
         
-        GGS::Hasher::Md5FileHasher hasher;
+        P1::Hasher::Md5FileHasher hasher;
         QString hash = hasher.getFileHash(CheckUpdateHelper::getTorrentPath(state));
 
         CheckUpdateHelper::saveTorrenthash(hash, state);
@@ -147,14 +138,14 @@ namespace GGS {
 
       void DownloadBindiffBehavior::torrentDownloadFailedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
         emit this->failed(state);
       }
 
-      void DownloadBindiffBehavior::setState(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::setState(P1::GameDownloader::ServiceState *state)
       {
         QMutexLocker lock(&this->_mutex);
         this->_stateMap[this->getPatchId(state)] = state;
@@ -169,12 +160,12 @@ namespace GGS {
         return this->_stateMap[id];
       }
 
-      void DownloadBindiffBehavior::syncStartTorrent(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::syncStartTorrent(P1::GameDownloader::ServiceState *state)
       {
         // UNDONE
         this->setState(state);
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         QString torrentFilePath = this->getPatchTorrentPath(state);
 
@@ -192,15 +183,15 @@ namespace GGS {
         this->_wrapper->start(this->getPatchId(state), config);
       }
 
-      void DownloadBindiffBehavior::syncStopTorrent(GGS::GameDownloader::ServiceState *state)
+      void DownloadBindiffBehavior::syncStopTorrent(P1::GameDownloader::ServiceState *state)
       {
         this->setState(state);
         this->_wrapper->stop(this->getPatchId(state));
       }
 
-      QString DownloadBindiffBehavior::getPatchTorrentPath(GGS::GameDownloader::ServiceState *state)
+      QString DownloadBindiffBehavior::getPatchTorrentPath(P1::GameDownloader::ServiceState *state)
       {
-        const GGS::Core::Service* service = state->service();
+        const P1::Core::Service* service = state->service();
         QString torrentFilePath = QString("%1/patch/%2/%3/%4.torrent")
           .arg(service->torrentFilePath())
           .arg(state->patchVersion())
@@ -209,9 +200,9 @@ namespace GGS {
         return torrentFilePath;
       }
 
-      void DownloadBindiffBehavior::torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs arg)
+      void DownloadBindiffBehavior::torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs arg)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(arg.id());
+        P1::GameDownloader::ServiceState *state = this->state(arg.id());
         if (!state || state->currentBehavior() != this)
           return;
 
@@ -240,7 +231,7 @@ namespace GGS {
           emit this->downloadProgressChanged(state, res, arg);
       }
 
-      QString DownloadBindiffBehavior::getPatchId(const GGS::GameDownloader::ServiceState* state)
+      QString DownloadBindiffBehavior::getPatchId(const P1::GameDownloader::ServiceState* state)
       {
         return "Patch_" + state->id();
       }

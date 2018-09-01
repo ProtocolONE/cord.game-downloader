@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/ExtractorBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
@@ -15,7 +6,7 @@
 
 #include <Core/Service.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -28,7 +19,7 @@ namespace GGS {
       {
       }
 
-      void ExtractorBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void ExtractorBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -38,17 +29,17 @@ namespace GGS {
           return;
         }
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
         QtConcurrent::run(extractor, &ExtractorBase::extract, state, state->startType());
       }
 
-      void ExtractorBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void ExtractorBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
         Q_CHECK_PTR(extractor);
 
@@ -56,7 +47,7 @@ namespace GGS {
           extractor, 
           "pauseRequestSlot", 
           Qt::QueuedConnection, 
-          Q_ARG(GGS::GameDownloader::ServiceState *, state));
+          Q_ARG(P1::GameDownloader::ServiceState *, state));
       }
 
       void ExtractorBehavior::registerExtractor(ExtractorBase *extractor)
@@ -89,22 +80,22 @@ namespace GGS {
         return this->_extractorMap[type];
       }
 
-      void ExtractorBehavior::extractionCompleted(GGS::GameDownloader::ServiceState *state)
+      void ExtractorBehavior::extractionCompleted(P1::GameDownloader::ServiceState *state)
       {
         emit this->next(Finished, state);
       }
 
-      void ExtractorBehavior::extractionFailed(GGS::GameDownloader::ServiceState *state)
+      void ExtractorBehavior::extractionFailed(P1::GameDownloader::ServiceState *state)
       {
         emit this->failed(state);
       }
 
-      void ExtractorBehavior::pauseRequestCompleted(GGS::GameDownloader::ServiceState *state)
+      void ExtractorBehavior::pauseRequestCompleted(P1::GameDownloader::ServiceState *state)
       {
         emit this->next(Paused, state);
       }
 
-      void ExtractorBehavior::extractionProgressChanged(GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total)
+      void ExtractorBehavior::extractionProgressChanged(P1::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total)
       {
         if (state->currentBehavior() != this)
           return;

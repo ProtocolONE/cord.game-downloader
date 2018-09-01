@@ -1,29 +1,20 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/RehashClientBehavior.h>
 #include <GameDownloader/ServiceState.h>
-#include <GameDownloader/CheckUpdateHelper>
+#include <GameDownloader/CheckUpdateHelper.h>
 
-#include <LibtorrentWrapper/TorrentConfig>
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/TorrentConfig.h>
+#include <LibtorrentWrapper/Wrapper.h>
 
 #include <Core/Service.h>
 
 #include <QtConcurrent/QtConcurrentRun>
 #include <QtCore/QFile>
 
-using namespace GGS::Libtorrent;
-using GGS::Libtorrent::EventArgs::ProgressEventArgs;
+using namespace P1::Libtorrent;
+using P1::Libtorrent::EventArgs::ProgressEventArgs;
 
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -36,7 +27,7 @@ namespace GGS {
       {
       }
 
-      void RehashClientBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void RehashClientBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -66,13 +57,13 @@ namespace GGS {
         QtConcurrent::run(this, &RehashClientBehavior::syncStartTorrent, state);
       }
 
-      void RehashClientBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void RehashClientBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         // We have to run this in new thread
         QtConcurrent::run(this, &RehashClientBehavior::syncStopTorrent, state);
       }
 
-      void RehashClientBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void RehashClientBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         this->_wrapper = wrapper;
 
@@ -95,9 +86,9 @@ namespace GGS {
 
         SIGNAL_CONNECT_CHECK(QObject::connect(
           wrapper, 
-          SIGNAL(progressChanged(GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
+          SIGNAL(progressChanged(P1::Libtorrent::EventArgs::ProgressEventArgs)), 
           this,
-          SLOT(torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+          SLOT(torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs))));
       }
 
       void RehashClientBehavior::torrentPausedSlot(QString id)
@@ -138,13 +129,13 @@ namespace GGS {
         emit this->next(isComplete ? GameFine : GameBroken, state);
       }
 
-      void RehashClientBehavior::setState(GGS::GameDownloader::ServiceState *state)
+      void RehashClientBehavior::setState(P1::GameDownloader::ServiceState *state)
       {
         QMutexLocker lock(&this->_mutex);
         this->_stateMap[state->id()] = state;
       }
 
-      GGS::GameDownloader::ServiceState* RehashClientBehavior::state(const QString& id)
+      P1::GameDownloader::ServiceState* RehashClientBehavior::state(const QString& id)
       {
         QMutexLocker lock(&this->_mutex);
         if (!this->_stateMap.contains(id))
@@ -153,7 +144,7 @@ namespace GGS {
         return this->_stateMap[id];
       }
 
-      void RehashClientBehavior::syncStartTorrent(GGS::GameDownloader::ServiceState *state)
+      void RehashClientBehavior::syncStartTorrent(P1::GameDownloader::ServiceState *state)
       {
         // UNDONE подумать - какой результат должен быть у этого шщага в случаи рехеша - возмонжо GameBroken
         this->setState(state);
@@ -170,15 +161,15 @@ namespace GGS {
         this->_wrapper->start(state->id(), config);
       }
 
-      void RehashClientBehavior::syncStopTorrent(GGS::GameDownloader::ServiceState *state)
+      void RehashClientBehavior::syncStopTorrent(P1::GameDownloader::ServiceState *state)
       {
         this->setState(state);
         this->_wrapper->stop(state->id());
       }
 
-      void RehashClientBehavior::torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs arg)
+      void RehashClientBehavior::torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs arg)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(arg.id());
+        P1::GameDownloader::ServiceState *state = this->state(arg.id());
         if (!state || state->currentBehavior() != this)
           return;
 

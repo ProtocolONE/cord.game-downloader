@@ -18,15 +18,15 @@
 #include <gtest/gtest.h>
 #include <Windows.h>
 
-using namespace GGS::GameDownloader::XdeltaWrapper;
+using namespace P1::GameDownloader::XdeltaWrapper;
 
 #define assertFileEqual(f1, f2) { \
-  GGS::Hasher::Md5FileHasher hasher; \
+  P1::Hasher::Md5FileHasher hasher; \
   ASSERT_EQ(hasher.getFileHash(f1), hasher.getFileHash(f2)); \
 }
 
 #define assertFileUnEqual(f1, f2) { \
-  GGS::Hasher::Md5FileHasher hasher; \
+  P1::Hasher::Md5FileHasher hasher; \
   ASSERT_NE(hasher.getFileHash(f1), hasher.getFileHash(f2)); \
 }
 

@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 #include <functional>
 
-using namespace GGS::GameDownloader;
+using namespace P1::GameDownloader;
 using Behavior::BaseBehavior;
 
 #define CHECK_RESULTS(finish, fail, stopped) ASSERT_EQ(finish, spyFinish.count()); \
@@ -23,9 +23,9 @@ class StateMachineTest : public ::testing::Test {
 public:
   StateMachineTest() 
     : killer(&loop, 6000)
-    , spyFinish(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)))
-    , spyFail(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)))
-    , spyStopped(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)))
+    , spyFinish(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)))
+    , spyFail(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)))
+    , spyStopped(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)))
   {
   }
 
@@ -37,16 +37,16 @@ public:
     state.setService(&service);
     state.setStartType(Normal);
 
-    killer.setTerminateSignal(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-    killer.setTerminateSignal(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-    killer.setTerminateSignal(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
+    killer.setTerminateSignal(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+    killer.setTerminateSignal(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+    killer.setTerminateSignal(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
   }
 
   StateMachine machine;
   ServiceState state;
   QEventLoop loop;
   TestEventLoopFinisher killer;
-  GGS::Core::Service service;
+  P1::Core::Service service;
 
   QSignalSpy spyFinish;
   QSignalSpy spyFail;
@@ -230,12 +230,12 @@ TEST_F(StateMachineTest, PauseContinueRouteTest)
 
   QEventLoop loop2;
   TestEventLoopFinisher killer2(&loop2, 6000);
-  QSignalSpy spyFinish2(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyFail2(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
+  QSignalSpy spyFinish2(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyFail2(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
 
   SingleShotFunctor startCaller(150, [this]() {
     machine.start(&state);
@@ -299,12 +299,12 @@ TEST_F(StateMachineTest, PauseContinueRouteTest2)
 
   QEventLoop loop2;
   TestEventLoopFinisher killer2(&loop2, 6000);
-  QSignalSpy spyFinish2(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyFail2(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
+  QSignalSpy spyFinish2(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyFail2(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
 
   SingleShotFunctor startCaller(150, [this]() {
     machine.start(&state);
@@ -369,12 +369,12 @@ TEST_F(StateMachineTest, PauseContinueRouteTest3)
 
   QEventLoop loop2;
   TestEventLoopFinisher killer2(&loop2, 6000);
-  QSignalSpy spyFinish2(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyFail2(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)));
-  killer2.setTerminateSignal(&machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)));
+  QSignalSpy spyFinish2(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyFail2(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  QSignalSpy spyStopped2(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)));
+  killer2.setTerminateSignal(&machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)));
 
   SingleShotFunctor startCaller(150, [this]() {
     qDebug() << QDateTime::currentMSecsSinceEpoch() << "Second start called";

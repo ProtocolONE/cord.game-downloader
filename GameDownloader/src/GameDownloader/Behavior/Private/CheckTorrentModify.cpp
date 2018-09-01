@@ -1,28 +1,19 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/Private/CheckTorrentModify.h>
 #include <GameDownloader/ServiceState.h>
 
 #include <GameDownloader/CheckUpdateHelper.h>
 
-#include <UpdateSystem/Hasher/Md5FileHasher>
+#include <UpdateSystem/Hasher/Md5FileHasher.h>
 
-#include <Settings/Settings>
-#include <Core/Service>
+#include <Settings/Settings.h>
+#include <Core/Service.h>
 
 #include <QtNetwork/QNetworkRequest>
 
-using namespace GGS::Core;
-using namespace GGS::Hasher;
+using namespace P1::Core;
+using namespace P1::Hasher;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -79,7 +70,7 @@ namespace GGS {
         return settings.value("TorrentHash", "").toString();
       }
 
-      void CheckTorrentModify::start(GGS::GameDownloader::ServiceState *state)
+      void CheckTorrentModify::start(P1::GameDownloader::ServiceState *state)
       {
         this->_state = state;
         QUrl torrentUrl = this->getTorrentUrlWithArchiveExtension();

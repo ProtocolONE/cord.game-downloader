@@ -1,4 +1,4 @@
-#include <GameDownloader/GameDownloadService>
+#include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/Hooks/RemoveFileHook.h>
 
 #include <Core/Service.h>
@@ -15,9 +15,9 @@
 
 #include <gtest/gtest.h>
 
-using namespace GGS::GameDownloader;
-using namespace GGS::GameDownloader::Hooks;
-using namespace GGS::Core;
+using namespace P1::GameDownloader;
+using namespace P1::GameDownloader::Hooks;
+using namespace P1::Core;
 
 class RemoveFileHookTest : public ::testing::Test
 {

@@ -2,80 +2,26 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\GameDownloader\Behavior\FinishBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckTorrentModify.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_FinishBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckTorrentModify.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_FinishBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\Private\CheckTorrentModify.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadBindiffBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_OnlyCheckUpdateBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_DownloadBindiffBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_OnlyCheckUpdateBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\OnlyCheckUpdateBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\DownloadBindiffBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadFileHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_GetNewTorrentBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_RehashClientBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_DownloadFileHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_GetNewTorrentBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_RehashClientBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\GetNewTorrentBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\Private\DownloadFileHelper.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\RehashClientBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Algorithms\BindiffVersion.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_InstallDependency.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_PreHookBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_InstallDependency.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_PreHookBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\BindiffBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\ExtractorBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_PostHookBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_TorrentDownloadBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_PostHookBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_TorrentDownloadBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\PostHookBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\CheckUpdateBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_StateMachine.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_StateMachine.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_BaseBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_BaseBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\BaseBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_DecodeState.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_DummyExtractor.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_HookBase.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_SevenZipGameExtractor.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_UpdateInfoGetterResultEventLoopKiller.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_XdeltaDecoder.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_DecodeState.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_DummyExtractor.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_HookBase.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_SevenZipGameExtractor.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\PreHookBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\private\BindiffBehaviorPrivate.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\SevenZipGameExtractor.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\DummyExtractor.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBase.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBase.cpp" />
     <ClCompile Include="src\GameDownloader\ExtractorBase.cpp" />
     <ClCompile Include="src\GameDownloader\HookBase.cpp" />
     <ClCompile Include="src\GameDownloader\CheckUpdateHelper.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_GameDownloadService.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_ServiceState.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_GameDownloadService.cpp" />
-    <ClCompile Include="GeneratedFiles\Release\moc_ServiceState.cpp" />
     <ClCompile Include="src\GameDownloader\ServiceState.cpp" />
     <ClCompile Include="src\GameDownloader\GameDownloadService.cpp" />
     <ClCompile Include="src\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.cpp" />
@@ -85,77 +31,23 @@
     <ClCompile Include="src\GameDownloader\XdeltaWrapper\XdeltaDecoder.cpp" />
     <ClCompile Include="src\GameDownloader\StateMachine.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\TorrentDownloadBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_CompressorBehavior.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CompressorBehavior.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDownloader\Behavior\CompressorBehavior.cpp">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_GetPatchVersionBehavior.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_GetPatchVersionBehavior.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\GameDownloader\Behavior\GetPatchVersionBehavior.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffVersion.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BindiffVersion.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDownloader\Behavior\BindiffFailedBehavior.cpp">
       <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffFailedBehavior.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BindiffFailedBehavior.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\GameDownloader\Behavior\SetAllPackedBehavior.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_SetAllPackedBehavior.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_SetAllPackedBehavior.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDownloader\ProgressCalculator.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ProgressCalculator.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ProgressCalculator.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CheckPatchExist.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CheckPatchExist.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDownloader\Behavior\Private\CheckPatchExist.cpp">
       <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleVersion.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_SimpleVersion.cpp">
-      <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="src\GameDownloader\Algorithms\SimpleVersion.cpp">
       <Filter>Source Files</Filter>
@@ -166,13 +58,408 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\UninstallBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\PreventWinXpDownload.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\CreateFastResumeBehavior.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\RemoveFileHook.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Hooks\PreventWin32Download.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\Behavior\ReadOnlyBehavior.cpp" />
+    <ClCompile Include="src\GameDownloader\Behavior\Private\DirProcessor.cpp" />
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDownloader\RegisterTypes.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_BindiffVersion.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_BindiffVersion.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffVersion.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffVersion.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_SimpleVersion.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_SimpleVersion.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SimpleVersion.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SimpleVersion.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehaviorPrivate.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckPatchExist.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckTorrentModify.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_DirProcessor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_DirProcessor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DirProcessor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DirProcessor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_DownloadFileHelper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_DownloadFileHelper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadFileHelper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DownloadFileHelper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_BaseBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_BaseBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BaseBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BaseBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_BindiffFailedBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CompressorBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CreateFastResumeBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CreateFastResumeBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CreateFastResumeBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CreateFastResumeBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DownloadBindiffBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_FinishBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_FinishBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_FinishBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_FinishBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GetNewTorrentBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GetPatchVersionBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_OnlyCheckUpdateBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_OnlyCheckUpdateBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_OnlyCheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_OnlyCheckUpdateBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PostHookBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PreHookBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_RehashClientBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_RehashClientBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_RehashClientBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_RehashClientBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SetAllPackedBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_TorrentDownloadBehavior.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_UninstallBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_UninstallBehavior.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_UninstallBehavior.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_UninstallBehavior.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDownloader\Behavior\UninstallBehavior.cpp">
+    <ClCompile Include="GeneratedFiles\Static Release\moc_DummyExtractor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_DummyExtractor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_DummyExtractor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_DummyExtractor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_SevenZipGameExtractor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_SevenZipGameExtractor.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_SevenZipGameExtractor.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_SevenZipGameExtractor.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_InstallDependency.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_InstallDependency.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_InstallDependency.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_InstallDependency.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_PreventWin32Download.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_PreventWin32Download.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_PreventWin32Download.cpp">
+      <Filter>Generated Files\Debug_Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_PreventWin32Download.cpp">
+      <Filter>Generated Files\Release_Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_PreventWinXpDownload.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_PreventWinXpDownload.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_PreventWinXpDownload.cpp">
@@ -181,19 +468,10 @@
     <ClCompile Include="GeneratedFiles\Release\moc_PreventWinXpDownload.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDownloader\Hooks\PreventWinXpDownload.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_RemoveFileHook.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_CreateFastResumeBehavior.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CreateFastResumeBehavior.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameDownloader\Behavior\CreateFastResumeBehavior.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameDownloader\Hooks\RemoveFileHook.cpp">
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_RemoveFileHook.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_RemoveFileHook.cpp">
@@ -202,36 +480,131 @@
     <ClCompile Include="GeneratedFiles\Release\moc_RemoveFileHook.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PreventWin32Download.cpp">
-      <Filter>Generated Files\Debug_Win32</Filter>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_DecodeState.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PreventWin32Download.cpp">
-      <Filter>Generated Files\Release_Win32</Filter>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_DecodeState.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDownloader\Hooks\PreventWin32Download.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameDownloader\Behavior\ReadOnlyBehavior.cpp" />
-    <ClCompile Include="GeneratedFiles\Debug\moc_ReadOnlyBehavior.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_DecodeState.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ReadOnlyBehavior.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_DecodeState.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_DirProcessor.cpp">
+    <ClCompile Include="GeneratedFiles\Static Release\moc_XdeltaDecoder.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_XdeltaDecoder.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_XdeltaDecoder.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_DirProcessor.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameDownloader\Behavior\Private\DirProcessor.cpp" />
+    <ClCompile Include="GeneratedFiles\Static Release\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_CheckUpdateHelper.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_ExtractorBase.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_ExtractorBase.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ExtractorBase.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ExtractorBase.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_GameDownloadService.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_GameDownloadService.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GameDownloadService.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GameDownloadService.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_HookBase.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_HookBase.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_HookBase.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_HookBase.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ProgressCalculator.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_ServiceState.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_ServiceState.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_ServiceState.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_ServiceState.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Release\moc_StateMachine.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Static Debug\moc_StateMachine.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_StateMachine.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_StateMachine.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\GameDownloader\GameDownloader_global.h" />
-    <ClInclude Include="include\GameDownloader\StartType.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="include\GameDownloader\Common\FileUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\XdeltaWrapper\DecodeStatePrivate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\GameDownloader_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\RegisterTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameDownloader\StartType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -239,83 +612,6 @@
     <ResourceCompile Include="GameDownloader.rc" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\XdeltaDecoder.h" />
-    <CustomBuild Include="include\GameDownloader\GameDownloadService.h" />
-    <CustomBuild Include="include\GameDownloader\CheckUpdateHelper.h" />
-    <CustomBuild Include="include\GameDownloader\ExtractorBase.h" />
-    <CustomBuild Include="include\GameDownloader\Extractor\DummyExtractor.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\BaseBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\CheckUpdateBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\ExtractorBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\PreHookBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\Private\DownloadFileHelper.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\GetNewTorrentBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\DownloadBindiffBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckTorrentModify.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\FinishBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\HookBase.h" />
-    <CustomBuild Include="include\GameDownloader\Hooks\InstallDependency.h" />
-    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeState.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\PostHookBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\RehashClientBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\OnlyCheckUpdateBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\ServiceState.h" />
-    <CustomBuild Include="include\GameDownloader\Extractor\SevenZipGameExtractor.h" />
-    <CustomBuild Include="include\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.h" />
-    <CustomBuild Include="include\GameDownloader\StateMachine.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\TorrentDownloadBehavior.h" />
-    <CustomBuild Include="include\GameDownloader\Behavior\CompressorBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\GetPatchVersionBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Algorithms\BindiffVersion.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\BindiffFailedBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\SetAllPackedBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\ProgressCalculator.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckPatchExist.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeStatePrivate.h" />
-    <CustomBuild Include="include\gamedownloader\behavior\private\BindiffBehaviorPrivate.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Algorithms\SimpleVersion.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\UninstallBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Hooks\PreventWinXpDownload.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\CreateFastResumeBehavior.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Hooks\RemoveFileHook.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Hooks\PreventWin32Download.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\ReadOnlyBehavior.h" />
-    <CustomBuild Include="GeneratedFiles\Release\ReadOnlyBehavior.moc">
-      <Filter>Generated Files\Release</Filter>
-    </CustomBuild>
-    <CustomBuild Include="include\GameDownloader\Behavior\Private\DirProcessor.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="gamedownloader_ru.ts" />
     <None Include="i18n\GameDownloader_en.ts" />
     <None Include="i18n\GameDownloader_ru.ts" />
   </ItemGroup>
@@ -355,5 +651,133 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="include\GameDownloader\Algorithms\BindiffVersion.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Algorithms\SimpleVersion.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\BindiffBehaviorPrivate.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckPatchExist.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\CheckTorrentModify.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DirProcessor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\Private\DownloadFileHelper.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BaseBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\BindiffFailedBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\CheckUpdateBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\CompressorBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\CreateFastResumeBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\DownloadBindiffBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ExtractorBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\FinishBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\GetNewTorrentBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\GetPatchVersionBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\OnlyCheckUpdateBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PostHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\PreHookBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\ReadOnlyBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\RehashClientBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\SetAllPackedBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\TorrentDownloadBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Behavior\UninstallBehavior.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\DummyExtractor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\SevenZipGameExtractor.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Extractor\UpdateInfoGetterResultEventLoopKiller.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Hooks\InstallDependency.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Hooks\PreventWin32Download.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Hooks\PreventWinXpDownload.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\Hooks\RemoveFileHook.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\DecodeState.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\XdeltaWrapper\XdeltaDecoder.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\CheckUpdateHelper.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\ExtractorBase.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\GameDownloadService.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\HookBase.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\ProgressCalculator.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\ServiceState.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="include\GameDownloader\StateMachine.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

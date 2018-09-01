@@ -1,14 +1,6 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (ñ) 2011 - 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
-#include <GameDownloader/GameDownloader_global>
+
+#include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 #include <GameDownloader/XdeltaWrapper/XdeltaDecoder.h>
 
@@ -17,7 +9,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -43,10 +35,10 @@ namespace GGS {
         explicit BindiffBehavior(QObject *parent = 0);
         virtual ~BindiffBehavior();
 
-        virtual void start(GGS::GameDownloader::ServiceState *state) override;
-        virtual void stop(GGS::GameDownloader::ServiceState *state) override;
+        virtual void start(P1::GameDownloader::ServiceState *state) override;
+        virtual void stop(P1::GameDownloader::ServiceState *state) override;
 
-        void setTorrentWrapper(GGS::Libtorrent::Wrapper * value);
+        void setTorrentWrapper(P1::Libtorrent::Wrapper * value);
 
       private slots:
         void xdeltaFinished(BindiffBehaviorPrivate* data);
@@ -55,7 +47,7 @@ namespace GGS {
 
       private:
         bool apply(const QString& file, BindiffBehaviorPrivate* data);
-        GGS::Libtorrent::Wrapper *_wrapper;
+        P1::Libtorrent::Wrapper *_wrapper;
       };
 
     }

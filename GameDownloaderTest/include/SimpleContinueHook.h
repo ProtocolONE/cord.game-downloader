@@ -1,25 +1,24 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_SIMPLECONTINUEHOOK_H_
-#define _GGS_GAMEDOWNLOADER_TEST_SIMPLECONTINUEHOOK_H_
+#pragma once
 
 #include <GameDownloader/HookBase.h>
 #include <QtCore/QList>
 #include <QtCore/QString>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     class GameDownloadService;
   }
 }
 
-using GGS::GameDownloader::HookBase;
-using GGS::GameDownloader::ServiceState;
-using GGS::GameDownloader::GameDownloadService;
+using P1::GameDownloader::HookBase;
+using P1::GameDownloader::ServiceState;
+using P1::GameDownloader::GameDownloadService;
 
-class SimpleContinueHook : public GGS::GameDownloader::HookBase
+class SimpleContinueHook : public P1::GameDownloader::HookBase
 {
 public:
   SimpleContinueHook(int hookId, QList<int> *preList, QList<int> *postList);
-  ~SimpleContinueHook();
+  virtual ~SimpleContinueHook();
 
   virtual HookBase::HookResult beforeDownload(GameDownloadService *, ServiceState *state) override;
   virtual HookBase::HookResult afterDownload(GameDownloadService *, ServiceState *state) override;
@@ -35,5 +34,3 @@ private:
   int _beforeCallCount;
   int _afterCallCount;
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_SIMPLECONTINUEHOOK_H_

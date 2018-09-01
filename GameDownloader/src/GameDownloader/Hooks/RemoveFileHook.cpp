@@ -10,7 +10,7 @@
 #include <QtCore/QFileInfo>
 #include <QtXml/QDomDocument>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Hooks {
 
@@ -23,17 +23,17 @@ namespace GGS {
       {
       }
 
-      GGS::GameDownloader::HookBase::HookResult RemoveFileHook::beforeDownload(GameDownloadService *gameDownloader, ServiceState *state)
+      P1::GameDownloader::HookBase::HookResult RemoveFileHook::beforeDownload(GameDownloadService *gameDownloader, ServiceState *state)
       {
         // nothing to do, really
-        return GGS::GameDownloader::HookBase::Continue;
+        return P1::GameDownloader::HookBase::Continue;
       }
 
-      GGS::GameDownloader::HookBase::HookResult RemoveFileHook::afterDownload(GameDownloadService *gameDownloader, ServiceState *state)
+      P1::GameDownloader::HookBase::HookResult RemoveFileHook::afterDownload(GameDownloadService *gameDownloader, ServiceState *state)
       {
         bool canSaveInfo = true;
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         QString gameRoot = QString("%1/%2").arg(service->installPath(), service->areaString());
         QString removeFilePath = QString("%1/%2/Dependency/%3").arg(service->installPath(), service->areaString(), "removeFile.xml");
@@ -49,16 +49,16 @@ namespace GGS {
         bool forceRecheck = startType == Force || startType == Recheck;
 
         if (!forceRecheck && !this->shouldDelete(state->id(), removeFilePath))
-          return GGS::GameDownloader::HookBase::Continue;
+          return P1::GameDownloader::HookBase::Continue;
 
         QDomDocument doc;
         QFile file(removeFilePath);
         if (!file.open(QIODevice::ReadOnly))
-          return GGS::GameDownloader::HookBase::Continue;
+          return P1::GameDownloader::HookBase::Continue;
 
         if (!doc.setContent(&file)) {
           file.close();
-          return GGS::GameDownloader::HookBase::Continue;
+          return P1::GameDownloader::HookBase::Continue;
         }
 
         file.close();
@@ -68,7 +68,7 @@ namespace GGS {
           .firstChildElement("file");
 
         if (fileInfo.isNull())
-          return GGS::GameDownloader::HookBase::Continue;
+          return P1::GameDownloader::HookBase::Continue;
 
         for (; !fileInfo.isNull(); fileInfo = fileInfo.nextSiblingElement("file")) {
           if (!fileInfo.hasAttribute("path"))
@@ -96,7 +96,7 @@ namespace GGS {
         if (canSaveInfo)
           this->saveDataInfo(state->id(), removeFilePath);
 
-        return GGS::GameDownloader::HookBase::Continue;
+        return P1::GameDownloader::HookBase::Continue;
       }
 
       bool RemoveFileHook::shouldDelete(const QString& id, const QString& filePath)

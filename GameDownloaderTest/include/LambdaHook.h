@@ -1,14 +1,13 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_LAMBDAHOOK_H_
-#define _GGS_GAMEDOWNLOADER_TEST_LAMBDAHOOK_H_
+#pragma once
 
-#include <Core/Service>
+#include <Core/Service.h>
 #include <GameDownloader/HookBase.h>
 #include <functional>
 
-#define DOWNLOADERHOOK(x) std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int, const GGS::Core::Service *)> x = [&](int hookId, const GGS::Core::Service *service) mutable -> GGS::GameDownloader::HookBase::HookResult
+#define DOWNLOADERHOOK(x) std::function<P1::GameDownloader::HookBase::HookResult (int, const P1::Core::Service *)> x = [&](int hookId, const P1::Core::Service *service) mutable -> P1::GameDownloader::HookBase::HookResult
 
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     class GameDownloadService;
   }
@@ -21,20 +20,18 @@ namespace GGS {
   \author Ilya.Tkachenko
   \date 18.04.2012
 */
-class LambdaHook : public GGS::GameDownloader::HookBase
+class LambdaHook : public P1::GameDownloader::HookBase
 {
 public:
-  LambdaHook(int id, std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int id, const GGS::Core::Service *)> pre,
-    std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int id, const GGS::Core::Service *)>post);
+  LambdaHook(int id, std::function<P1::GameDownloader::HookBase::HookResult (int id, const P1::Core::Service *)> pre,
+    std::function<P1::GameDownloader::HookBase::HookResult (int id, const P1::Core::Service *)>post);
   ~LambdaHook();
 
-  virtual HookResult beforeDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service );
-  virtual HookResult afterDownload(GGS::GameDownloader::GameDownloadService *gameDownloader, const GGS::Core::Service *service );
+  virtual HookResult beforeDownload(P1::GameDownloader::GameDownloadService *gameDownloader, const P1::Core::Service *service );
+  virtual HookResult afterDownload(P1::GameDownloader::GameDownloadService *gameDownloader, const P1::Core::Service *service );
 
 private:
   int _id;
-  std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int id, const GGS::Core::Service *)> preHook;
-  std::tr1::function<GGS::GameDownloader::HookBase::HookResult (int id, const GGS::Core::Service *)> postHook;
+  std::function<P1::GameDownloader::HookBase::HookResult (int id, const P1::Core::Service *)> preHook;
+  std::function<P1::GameDownloader::HookBase::HookResult (int id, const P1::Core::Service *)> postHook;
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_LAMBDAHOOK_H_

@@ -1,5 +1,5 @@
 #include "SimpleContinueHook.h"
-#include <GameDownloader/GameDownloadService>
+#include <GameDownloader/GameDownloadService.h>
 #include <Core/Service.h>
 
 #include <QtCore/QDebug>
@@ -20,7 +20,7 @@ SimpleContinueHook::~SimpleContinueHook()
 
 HookBase::HookResult SimpleContinueHook::beforeDownload(GameDownloadService *, ServiceState *state)
 {
-  const GGS::Core::Service *service = state->service();
+  const P1::Core::Service *service = state->service();
 
   this->_beforeCallCount++;
   this->_preList->append(this->_hookId);
@@ -30,7 +30,7 @@ HookBase::HookResult SimpleContinueHook::beforeDownload(GameDownloadService *, S
 
 HookBase::HookResult SimpleContinueHook::afterDownload(GameDownloadService *, ServiceState *state)
 {
-  const GGS::Core::Service *service = state->service();
+  const P1::Core::Service *service = state->service();
 
   this->_afterCallCount++;
   this->_postList->append(this->_hookId);

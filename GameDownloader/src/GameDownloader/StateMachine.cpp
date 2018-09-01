@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/StateMachine.h>
 
 #include <Core/Service.h>
@@ -23,7 +13,7 @@
 #define CHECK_NOT_REGISTER_BEHAVIOR(X) \
   Q_ASSERT_X(!this->_registeredBahavior.contains(X), __FUNCTION__ , X->metaObject()->className());
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     using Behavior::BaseBehavior;
 
@@ -70,7 +60,7 @@ namespace GGS {
         next, 
         "start", 
         Qt::QueuedConnection, 
-        Q_ARG(GGS::GameDownloader::ServiceState *, state));
+        Q_ARG(P1::GameDownloader::ServiceState *, state));
 
       return true;
     }
@@ -88,7 +78,7 @@ namespace GGS {
         state->currentBehavior(), 
         "stop", 
         Qt::QueuedConnection, 
-        Q_ARG(GGS::GameDownloader::ServiceState *, state));
+        Q_ARG(P1::GameDownloader::ServiceState *, state));
 
       return true;
     }
@@ -152,7 +142,7 @@ namespace GGS {
         next, 
         "start", 
         Qt::QueuedConnection, 
-        Q_ARG(GGS::GameDownloader::ServiceState *, state));
+        Q_ARG(P1::GameDownloader::ServiceState *, state));
     }
 
     void StateMachine::setRoute(Behavior::BaseBehavior *from, int result, Behavior::BaseBehavior *to)
@@ -181,7 +171,7 @@ namespace GGS {
       this->_startBehavior = behavior;
     }
 
-    bool StateMachine::checkState(GGS::GameDownloader::ServiceState *state)
+    bool StateMachine::checkState(P1::GameDownloader::ServiceState *state)
     {
       if (state->state() == ServiceState::Stopping) {
         state->setState(ServiceState::Stopped);

@@ -1,40 +1,31 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
-#include <UpdateSystem/UpdateInfoGetterResultInterface>
+#include <UpdateSystem/UpdateInfoGetterResultInterface.h>
 #include <QtCore/QObject>
 #include <QtCore/QEventLoop>
 #include <QtCore/QPointer>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Extractor {
 
       class UpdateInfoGetterResultEventLoopKiller : public QObject,
-        public GGS::UpdateSystem::UpdateInfoGetterResultInterface
+        public P1::UpdateSystem::UpdateInfoGetterResultInterface
       {
         Q_OBJECT
       public:
         explicit UpdateInfoGetterResultEventLoopKiller(QObject *parent = 0);
         ~UpdateInfoGetterResultEventLoopKiller();
 
-        void updateInfoCallback(GGS::UpdateSystem::UpdateInfoGetterResults error);
+        void updateInfoCallback(P1::UpdateSystem::UpdateInfoGetterResults error);
         void infoGetterUpdateProggress(quint64 current, quint64 total);
         
         void setEventLoop(QEventLoop *loop);
-        GGS::UpdateSystem::UpdateInfoGetterResults result() const;
+        P1::UpdateSystem::UpdateInfoGetterResults result() const;
 
       private:
         QPointer<QEventLoop> _loop;
-        GGS::UpdateSystem::UpdateInfoGetterResults _result;
+        P1::UpdateSystem::UpdateInfoGetterResults _result;
       };
 
     }

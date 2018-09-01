@@ -1,21 +1,12 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/ProgressCalculator.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 #include <GameDownloader/ServiceState.h>
 
 #include <Core/Service.h>
 
-using GGS::GameDownloader::Behavior::BaseBehavior;
+using P1::GameDownloader::Behavior::BaseBehavior;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
     ProgressCalculator::ProgressCalculator(QObject *parent)
@@ -45,7 +36,7 @@ namespace GGS {
       strategy.map[behavior] = block;
     }
 
-    void ProgressCalculator::totalProgressSlot(GGS::GameDownloader::ServiceState *state, qint8 progress)
+    void ProgressCalculator::totalProgressSlot(P1::GameDownloader::ServiceState *state, qint8 progress)
     {
       BaseBehavior *behavior = qobject_cast<BaseBehavior *>(QObject::sender());
       if (!behavior)
@@ -56,7 +47,7 @@ namespace GGS {
     }
 
     void ProgressCalculator::downloadSlot(
-      GGS::GameDownloader::ServiceState *state, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args)
+      P1::GameDownloader::ServiceState *state, qint8 progress, P1::Libtorrent::EventArgs::ProgressEventArgs args)
     {
       BaseBehavior *behavior = qobject_cast<BaseBehavior *>(QObject::sender());
       if (!behavior)
@@ -66,7 +57,7 @@ namespace GGS {
       emit this->downloadProgressChanged(state, totalProgress, args);
     }
 
-    qint8 ProgressCalculator::getProgress(GGS::GameDownloader::ServiceState *state, BaseBehavior *behavior, qint8 progress)
+    qint8 ProgressCalculator::getProgress(P1::GameDownloader::ServiceState *state, BaseBehavior *behavior, qint8 progress)
     {
       const QString& id(state->id());
 
@@ -88,13 +79,13 @@ namespace GGS {
       return itemProgress.lastProgress;
     }
 
-    void ProgressCalculator::resetProgress(GGS::GameDownloader::ServiceState *state)
+    void ProgressCalculator::resetProgress(P1::GameDownloader::ServiceState *state)
     {
       ItemProgress &itemProgress(this->_itemStates[state->id()]);
 
       itemProgress.lastProgress = 0;
 
-      if (state->startType() == GGS::GameDownloader::Uninstall) {
+      if (state->startType() == P1::GameDownloader::Uninstall) {
         itemProgress.progressType = ProgressCalculator::UninstallGame;
         return;
       }

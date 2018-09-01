@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
@@ -17,7 +8,7 @@
 #include <QtCore/QStringList>
 #include <QtCore/QByteArray>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -30,7 +21,7 @@ namespace GGS {
     class DOWNLOADSERVICE_EXPORT ServiceState : public QObject
     {
       Q_OBJECT
-      Q_ENUMS(GGS::GameDownloader::ServiceState::State);
+      Q_ENUMS(P1::GameDownloader::ServiceState::State);
     public:
       enum State {
         Started = 1,
@@ -41,8 +32,8 @@ namespace GGS {
       explicit ServiceState(QObject *parent = 0);
       ~ServiceState();
 
-      void setService(const GGS::Core::Service *service);
-      const GGS::Core::Service* service() const;
+      void setService(const P1::Core::Service *service);
+      const P1::Core::Service* service() const;
 
       const QString& id() const;
 
@@ -137,7 +128,7 @@ namespace GGS {
       QStringList deserialize(QByteArray serialized);
       QByteArray serialize(QStringList stringList);
 
-      const GGS::Core::Service *_service;
+      const P1::Core::Service *_service;
 
       State _state;
 

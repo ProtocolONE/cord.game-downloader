@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/CompressorBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
@@ -15,7 +6,7 @@
 
 #include <Core/Service.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -28,7 +19,7 @@ namespace GGS {
       {
       }
       
-      void CompressorBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void CompressorBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -38,18 +29,18 @@ namespace GGS {
           return;
         }
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
         QtConcurrent::run(extractor, &ExtractorBase::compress, state);
       }
 
-      void CompressorBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void CompressorBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
         
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
         Q_CHECK_PTR(extractor);
 
@@ -57,7 +48,7 @@ namespace GGS {
           extractor, 
           "pauseRequestSlot", 
           Qt::QueuedConnection, 
-          Q_ARG(GGS::GameDownloader::ServiceState *, state));
+          Q_ARG(P1::GameDownloader::ServiceState *, state));
       }
 
       void CompressorBehavior::registerCompressor(ExtractorBase *extractor)
@@ -69,20 +60,20 @@ namespace GGS {
 
         this->_extractorMap[type] = extractor;
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressFinished(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(compressCompleted(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressFinished(P1::GameDownloader::ServiceState *)), 
+          this, SLOT(compressCompleted(P1::GameDownloader::ServiceState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressPaused(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(pauseRequestCompleted(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressPaused(P1::GameDownloader::ServiceState *)), 
+          this, SLOT(pauseRequestCompleted(P1::GameDownloader::ServiceState *)), Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressFailed(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(compressFailed(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection));
+        SIGNAL_CONNECT_CHECK(QObject::connect(extractor, SIGNAL(compressFailed(P1::GameDownloader::ServiceState *)), 
+          this, SLOT(compressFailed(P1::GameDownloader::ServiceState *)), Qt::QueuedConnection));
 
         SIGNAL_CONNECT_CHECK(QObject::connect(
           extractor, 
-          SIGNAL(compressProgressChanged(GGS::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
+          SIGNAL(compressProgressChanged(P1::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
           this, 
-          SLOT(compressProgressChanged(GGS::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
+          SLOT(compressProgressChanged(P1::GameDownloader::ServiceState*, qint8, qint64, qint64)), 
           Qt::QueuedConnection));
       }
 
@@ -94,23 +85,23 @@ namespace GGS {
         return this->_extractorMap[type];
       }
 
-      void CompressorBehavior::compressCompleted(GGS::GameDownloader::ServiceState *state)
+      void CompressorBehavior::compressCompleted(P1::GameDownloader::ServiceState *state)
       {
         emit this->next(Finished, state);
       }
 
-      void CompressorBehavior::compressFailed(GGS::GameDownloader::ServiceState *state)
+      void CompressorBehavior::compressFailed(P1::GameDownloader::ServiceState *state)
       {
         emit this->failed(state);
       }
 
-      void CompressorBehavior::pauseRequestCompleted(GGS::GameDownloader::ServiceState *state)
+      void CompressorBehavior::pauseRequestCompleted(P1::GameDownloader::ServiceState *state)
       {
         emit this->next(Paused, state);
       }
 
       void CompressorBehavior::compressProgressChanged(
-        GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total)
+        P1::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total)
       {
         if (state->currentBehavior() != this)
           return;

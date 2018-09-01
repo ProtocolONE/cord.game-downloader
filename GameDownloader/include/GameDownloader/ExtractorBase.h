@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
@@ -15,7 +5,7 @@
 
 #include <QtCore/QObject>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -37,24 +27,24 @@ namespace GGS {
       const QString &extractorId();
 
     public slots:
-      void pauseRequestSlot(GGS::GameDownloader::ServiceState* state);
+      void pauseRequestSlot(P1::GameDownloader::ServiceState* state);
 
     signals:
-      void pauseRequest(GGS::GameDownloader::ServiceState* state);
-      void extractFinished(GGS::GameDownloader::ServiceState* state);
-      void extractPaused(GGS::GameDownloader::ServiceState* state);
-      void extractFailed(GGS::GameDownloader::ServiceState* state);
+      void pauseRequest(P1::GameDownloader::ServiceState* state);
+      void extractFinished(P1::GameDownloader::ServiceState* state);
+      void extractPaused(P1::GameDownloader::ServiceState* state);
+      void extractFailed(P1::GameDownloader::ServiceState* state);
 
-      void extractionProgressChanged(GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
+      void extractionProgressChanged(P1::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
 
-      void compressFinished(GGS::GameDownloader::ServiceState* state);
-      void compressPaused(GGS::GameDownloader::ServiceState* state);
-      void compressFailed(GGS::GameDownloader::ServiceState* state);
+      void compressFinished(P1::GameDownloader::ServiceState* state);
+      void compressPaused(P1::GameDownloader::ServiceState* state);
+      void compressFailed(P1::GameDownloader::ServiceState* state);
 
-      void compressProgressChanged(GGS::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
+      void compressProgressChanged(P1::GameDownloader::ServiceState* state, qint8 progress, qint64 current, qint64 total);
 
-      void unpackStateSaved(GGS::GameDownloader::ServiceState* state);
-      void unpackStateSaveFailed(GGS::GameDownloader::ServiceState* state);
+      void unpackStateSaved(P1::GameDownloader::ServiceState* state);
+      void unpackStateSaveFailed(P1::GameDownloader::ServiceState* state);
 
     private:
       QString _extractorId;

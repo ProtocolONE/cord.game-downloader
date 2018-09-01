@@ -1,20 +1,11 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
-#include <GameDownloader/GameDownloader_global>
+#include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 
 #include <QtCore/QHash>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
     class ServiceState;
@@ -35,14 +26,14 @@ namespace GGS {
         explicit SetAllPackedBehavior(QObject *parent = 0);
         ~SetAllPackedBehavior();
 
-        virtual void start(GGS::GameDownloader::ServiceState *state) override;
-        virtual void stop(GGS::GameDownloader::ServiceState *state) override;
+        virtual void start(P1::GameDownloader::ServiceState *state) override;
+        virtual void stop(P1::GameDownloader::ServiceState *state) override;
 
         void registerExtractor(ExtractorBase *extractor);
 
       private slots:
-        void internalUnpackStateSaved(GGS::GameDownloader::ServiceState* state);
-        void internalUnpackStateSaveFailed(GGS::GameDownloader::ServiceState* state);
+        void internalUnpackStateSaved(P1::GameDownloader::ServiceState* state);
+        void internalUnpackStateSaveFailed(P1::GameDownloader::ServiceState* state);
 
       private:
         QHash<QString, ExtractorBase *> _extractorMap;

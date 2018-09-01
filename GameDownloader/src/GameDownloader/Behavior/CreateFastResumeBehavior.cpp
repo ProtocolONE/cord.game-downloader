@@ -1,24 +1,15 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (c) 2011 - 2015, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/CreateFastResumeBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 
-#include <Core/Service>
+#include <Core/Service.h>
 
-#include <LibtorrentWrapper/TorrentConfig>
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/TorrentConfig.h>
+#include <LibtorrentWrapper/Wrapper.h>
 
-using GGS::Libtorrent::TorrentConfig;
+using P1::Libtorrent::TorrentConfig;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
       CreateFastResumeBehavior::CreateFastResumeBehavior(QObject *parent /*= 0*/)
@@ -30,7 +21,7 @@ namespace GGS {
       {
       }
 
-      void CreateFastResumeBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void CreateFastResumeBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(this->_wrapper);
@@ -50,11 +41,11 @@ namespace GGS {
         emit this->next(CreateFastResumeBehavior::Created, state);
       }
 
-      void CreateFastResumeBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void CreateFastResumeBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 
-      void CreateFastResumeBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void CreateFastResumeBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         Q_CHECK_PTR(wrapper);
         this->_wrapper = wrapper;

@@ -1,26 +1,16 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/CheckUpdateHelper.h>
 #include <GameDownloader/ServiceState.h>
 
-#include <UpdateSystem/Downloader/downloadmanager>
-#include <UpdateSystem/Downloader/DynamicRetryTimeout>
-#include <UpdateSystem/Downloader/RetryFileDownloader>
-#include <UpdateSystem/Downloader/MultiFileDownloader>
-#include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter>
-#include <UpdateSystem/Extractor/SevenZipExtractor>
-#include <UpdateSystem/Hasher/Md5FileHasher>
+#include <UpdateSystem/Downloader/downloadmanager.h>
+#include <UpdateSystem/Downloader/DynamicRetryTimeout.h>
+#include <UpdateSystem/Downloader/RetryFileDownloader.h>
+#include <UpdateSystem/Downloader/MultiFileDownloader.h>
+#include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter.h>
+#include <UpdateSystem/Extractor/SevenZipExtractor.h>
+#include <UpdateSystem/Hasher/Md5FileHasher.h>
 
-#include <Settings/Settings>
-#include <Core/Service>
+#include <Settings/Settings.h>
+#include <Core/Service.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
@@ -28,12 +18,12 @@
 #include <QtCore/QDebug>
 #include <QtNetwork/QNetworkRequest>
 
-using namespace GGS::Downloader;
-using namespace GGS::Extractor;
-using namespace GGS::Core;
-using namespace GGS::Hasher;
+using namespace P1::Downloader;
+using namespace P1::Extractor;
+using namespace P1::Core;
+using namespace P1::Hasher;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     CheckUpdateHelper::CheckUpdateHelper(QObject *parent)
       : QObject(parent)
@@ -64,9 +54,9 @@ namespace GGS {
       return url.toString();
     }
 
-    QString CheckUpdateHelper::getTorrentPath(GGS::GameDownloader::ServiceState *state)
+    QString CheckUpdateHelper::getTorrentPath(P1::GameDownloader::ServiceState *state)
     {
-      const GGS::Core::Service *service = state->service();
+      const P1::Core::Service *service = state->service();
       return QString("%1/%2/%3.torrent")
         .arg(service->torrentFilePath())
         .arg(service->areaString())
@@ -126,7 +116,7 @@ namespace GGS {
       emit this->result(this->_state, false);
     }
 
-    void CheckUpdateHelper::startCheck(GGS::GameDownloader::ServiceState *state, CheckUpdateType checkUpdateType)
+    void CheckUpdateHelper::startCheck(P1::GameDownloader::ServiceState *state, CheckUpdateType checkUpdateType)
     {
       Q_CHECK_PTR(state);
       Q_CHECK_PTR(state->service());
@@ -209,7 +199,7 @@ namespace GGS {
     {
     }
 
-    void CheckUpdateHelper::saveLastModifiedDate(const QString& date, GGS::GameDownloader::ServiceState *state)
+    void CheckUpdateHelper::saveLastModifiedDate(const QString& date, P1::GameDownloader::ServiceState *state)
     {
      Settings::Settings settings; 
      settings.beginGroup("GameDownloader");
@@ -232,7 +222,7 @@ namespace GGS {
       this->_maxHeadRequestRetryCount = count;
     }
 
-    void CheckUpdateHelper::saveTorrenthash(const QString& date, GGS::GameDownloader::ServiceState *state)
+    void CheckUpdateHelper::saveTorrenthash(const QString& date, P1::GameDownloader::ServiceState *state)
     {
       Settings::Settings settings; 
       settings.beginGroup("GameDownloader");

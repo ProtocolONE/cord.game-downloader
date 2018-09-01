@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (ñ) 2011 - 2017, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/Behavior/private/DirProcessor.h>
@@ -18,7 +9,7 @@
 
 #include <Windows.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -31,12 +22,12 @@ namespace GGS {
 
       }
 
-      void DirProcessor::processFolders(const QStringList & folders, GGS::GameDownloader::ServiceState *state) {
+      void DirProcessor::processFolders(const QStringList & folders, P1::GameDownloader::ServiceState *state) {
         bool messageFired = false;
         bool foundBadFlag = false;
 
         // If it was already paused
-        if (state->state() != GGS::GameDownloader::ServiceState::Started) {
+        if (state->state() != P1::GameDownloader::ServiceState::Started) {
           emit this->resultReady(ReadOnlyBehavior::Paused, state);
           return;
         }
@@ -59,12 +50,12 @@ namespace GGS {
       }
 
 
-      bool DirProcessor::dropFileFlags(const QString & dirStr, GGS::GameDownloader::ServiceState *state, bool & foundFlag) {
+      bool DirProcessor::dropFileFlags(const QString & dirStr, P1::GameDownloader::ServiceState *state, bool & foundFlag) {
 
         QDirIterator it(dirStr, QStringList() << "*.*", QDir::Files | QDir::System | QDir::Hidden, QDirIterator::Subdirectories);
         while (it.hasNext()) {
 
-          if (state->state() != GGS::GameDownloader::ServiceState::Started) {
+          if (state->state() != P1::GameDownloader::ServiceState::Started) {
             emit this->resultReady(ReadOnlyBehavior::Paused, state);
             return false;
           }

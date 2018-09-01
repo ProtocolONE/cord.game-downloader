@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
 #include <GameDownloader/GameDownloader_global.h>
@@ -18,7 +9,7 @@
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
     class DOWNLOADSERVICE_EXPORT StateMachine : public QObject
@@ -39,14 +30,14 @@ namespace GGS {
       void setTimeForResume(qint64 value);
 
     signals:
-      void finished(GGS::GameDownloader::ServiceState *state);
-      void failed(GGS::GameDownloader::ServiceState *state);
-      void stopped(GGS::GameDownloader::ServiceState *state);
+      void finished(P1::GameDownloader::ServiceState *state);
+      void failed(P1::GameDownloader::ServiceState *state);
+      void stopped(P1::GameDownloader::ServiceState *state);
 
     private slots:
-      void internalFinished(GGS::GameDownloader::ServiceState *state);
-      void internalFailed(GGS::GameDownloader::ServiceState *state);
-      void internalNext(int result, GGS::GameDownloader::ServiceState *state);
+      void internalFinished(P1::GameDownloader::ServiceState *state);
+      void internalFailed(P1::GameDownloader::ServiceState *state);
+      void internalNext(int result, P1::GameDownloader::ServiceState *state);
 
     private:
       QSet<Behavior::BaseBehavior*> _registeredBahavior;
@@ -55,7 +46,7 @@ namespace GGS {
       QMutex _mutex;
       qint64 _timeForResume;
       
-      bool checkState(GGS::GameDownloader::ServiceState *state);
+      bool checkState(P1::GameDownloader::ServiceState *state);
       bool canContinue(ServiceState * state);
     };
 

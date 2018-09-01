@@ -1,22 +1,8 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-#ifdef VLD_CHECK_ENABLED
-#include <vld.h>
-#pragma comment(lib, "vld.lib")
-#endif
-
-#include <LibtorrentWrapper/EventArgs/ProgressEventArgs>
+#include <LibtorrentWrapper/EventArgs/ProgressEventArgs.h>
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/CheckUpdateHelper.h>
-#include <Core/Service>
+#include <Core/Service.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QCoreApplication>
@@ -29,7 +15,7 @@
 
 #include <gtest/gtest.h>
 
-#include <Settings/Settings>
+#include <Settings/Settings.h>
 
 void initDatabase() 
 {
@@ -59,7 +45,7 @@ void initDatabase()
     } 
   }
 
-  GGS::Settings::Settings::setConnection(db.connectionName());
+  P1::Settings::Settings::setConnection(db.connectionName());
 }
 
 int main(int argc, char *argv[])
@@ -73,12 +59,12 @@ int main(int argc, char *argv[])
 
     initDatabase();
 
-    qRegisterMetaType<GGS::GameDownloader::HookBase::HookResult>("GGS::GameDownloader::HookBase::HookResult");
-    qRegisterMetaType<GGS::GameDownloader::StartType>("GGS::GameDownloader::StartType");
-    qRegisterMetaType<GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType>("GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType");
-    qRegisterMetaType<GGS::Libtorrent::EventArgs::ProgressEventArgs>("GGS::Libtorrent::EventArgs::ProgressEventArgs");
+    qRegisterMetaType<P1::GameDownloader::HookBase::HookResult>("P1::GameDownloader::HookBase::HookResult");
+    qRegisterMetaType<P1::GameDownloader::StartType>("P1::GameDownloader::StartType");
+    qRegisterMetaType<P1::GameDownloader::CheckUpdateHelper::CheckUpdateType>("P1::GameDownloader::CheckUpdateHelper::CheckUpdateType");
+    qRegisterMetaType<P1::Libtorrent::EventArgs::ProgressEventArgs>("P1::Libtorrent::EventArgs::ProgressEventArgs");
 
-    qRegisterMetaType<const GGS::Core::Service *>("const GGS::Core::Service *");
+    qRegisterMetaType<const P1::Core::Service *>("const P1::Core::Service *");
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

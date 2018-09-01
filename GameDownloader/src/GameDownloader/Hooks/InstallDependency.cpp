@@ -1,15 +1,5 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Hooks/InstallDependency.h>
-#include <GameDownloader/GameDownloadService>
+#include <GameDownloader/GameDownloadService.h>
 
 #include <Core/Service.h>
 
@@ -18,9 +8,9 @@
 #include <QtCore/QProcess>
 #include <QtCore/QDebug>
 
-using GGS::GameDownloader::HookBase;
+using P1::GameDownloader::HookBase;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Hooks {
 
@@ -36,7 +26,7 @@ namespace GGS {
       HookBase::HookResult InstallDependency::beforeDownload(GameDownloadService *gameDownloader, ServiceState *state)
       {
         // nothing to do, really
-        return GGS::GameDownloader::HookBase::Continue;
+        return P1::GameDownloader::HookBase::Continue;
       }
 
       HookBase::HookResult InstallDependency::afterDownload(GameDownloadService *gameDownloader, ServiceState *state)
@@ -46,7 +36,7 @@ namespace GGS {
 
         DEBUG_LOG << "Start installing dependency";
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         QString dependencyList = service->externalDependencyList();
         QStringList fileNames = dependencyList.split(',', QString::KeepEmptyParts);

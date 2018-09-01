@@ -1,29 +1,20 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/private/DownloadFileHelper.h>
 #include <GameDownloader/ServiceState.h>
 
-#include <UpdateSystem/Downloader/downloadmanager>
-#include <UpdateSystem/Downloader/DynamicRetryTimeout>
-#include <UpdateSystem/Downloader/RetryFileDownloader>
-#include <UpdateSystem/Downloader/MultiFileDownloader>
-#include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter>
-#include <UpdateSystem/Extractor/SevenZipExtractor>
+#include <UpdateSystem/Downloader/downloadmanager.h>
+#include <UpdateSystem/Downloader/DynamicRetryTimeout.h>
+#include <UpdateSystem/Downloader/RetryFileDownloader.h>
+#include <UpdateSystem/Downloader/MultiFileDownloader.h>
+#include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter.h>
+#include <UpdateSystem/Extractor/SevenZipExtractor.h>
 
-#include <Core/Service>
+#include <Core/Service.h>
 
-using namespace GGS::Downloader;
-using namespace GGS::Extractor;
-using namespace GGS::Core;
+using namespace P1::Downloader;
+using namespace P1::Extractor;
+using namespace P1::Core;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -69,7 +60,7 @@ namespace GGS {
       {
       }
 
-      void DownloadFileHelper::downloadResult(bool isError, GGS::Downloader::DownloadResults error)
+      void DownloadFileHelper::downloadResult(bool isError, P1::Downloader::DownloadResults error)
       {
         if (isError) {
           WARNING_LOG << "Download error " << this->_state->id()
@@ -99,7 +90,7 @@ namespace GGS {
         emit this->progressChanged(this->_state->id(), static_cast<quint8>(progress));
       }
 
-      void DownloadFileHelper::downloadWarning(bool isError, GGS::Downloader::DownloadResults error)
+      void DownloadFileHelper::downloadWarning(bool isError, P1::Downloader::DownloadResults error)
       {
         WARNING_LOG << "Download warning " << this->_state->id()
           << "for url " << this->_url

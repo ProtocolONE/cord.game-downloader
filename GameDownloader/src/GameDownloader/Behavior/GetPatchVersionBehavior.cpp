@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/CheckUpdateHelper.h>
 
@@ -14,12 +5,12 @@
 #include <GameDownloader/Behavior/Private/DownloadFileHelper.h>
 #include <GameDownloader/Behavior/Private/CheckPatchExist.h>
 
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/Wrapper.h>
 
 #include <Core/Service.h>
 #include <Settings/Settings.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -32,7 +23,7 @@ namespace GGS {
       {
       }
 
-      void GetPatchVersionBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -40,15 +31,15 @@ namespace GGS {
 
         DownloadFileHelper *helper = new DownloadFileHelper(state, this);
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(internalError(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(P1::GameDownloader::ServiceState *)),
+          this, SLOT(internalError(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(finished(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(internalFinished(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(finished(P1::GameDownloader::ServiceState *)),
+          this, SLOT(internalFinished(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         QUrl uri = service->torrentUrlWithArea();
         QString fileName = QString("%1.torrent").arg(service->id());
@@ -62,11 +53,11 @@ namespace GGS {
         helper->download(uri.toString(), path);
       }
 
-      void GetPatchVersionBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 
-      void GetPatchVersionBehavior::internalError(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::internalError(P1::GameDownloader::ServiceState *state)
       {
         DownloadFileHelper *helper = qobject_cast<DownloadFileHelper *>(QObject::sender());
         if (!helper)
@@ -76,7 +67,7 @@ namespace GGS {
         emit this->failed(state);
       }
 
-      void GetPatchVersionBehavior::internalFinished(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::internalFinished(P1::GameDownloader::ServiceState *state)
       {
         DownloadFileHelper *helper = qobject_cast<DownloadFileHelper *>(QObject::sender());
         if (!helper)
@@ -84,7 +75,7 @@ namespace GGS {
 
         helper->deleteLater();
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         QString t0 = CheckUpdateHelper::getTorrentPath(state);
         QString t1 = QString("%1/patch/%3/%4.torrent")
           .arg(service->torrentFilePath())
@@ -105,25 +96,25 @@ namespace GGS {
         this->checkPatchExist(state);
       }
 
-      void GetPatchVersionBehavior::checkPatchExist(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::checkPatchExist(P1::GameDownloader::ServiceState *state)
       {
         CheckPatchExist* pathExist = new CheckPatchExist(state, this);
-        SIGNAL_CONNECT_CHECK(QObject::connect(pathExist, SIGNAL(found(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(checkPatchFound(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(pathExist, SIGNAL(found(P1::GameDownloader::ServiceState *)),
+          this, SLOT(checkPatchFound(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
-        SIGNAL_CONNECT_CHECK(QObject::connect(pathExist, SIGNAL(notFound(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(checkPatchNotFound(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(pathExist, SIGNAL(notFound(P1::GameDownloader::ServiceState *)),
+          this, SLOT(checkPatchNotFound(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
         pathExist->startCheck(this->getServicePatchUrl(state) + ".7z");
       }
 
-      void GetPatchVersionBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void GetPatchVersionBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         this->_wrapper = wrapper;
       }
 
-      void GetPatchVersionBehavior::checkPatchFound(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::checkPatchFound(P1::GameDownloader::ServiceState *state)
       {
         CheckPatchExist *reply = qobject_cast<CheckPatchExist*>(QObject::sender());
         if (!reply)
@@ -132,15 +123,15 @@ namespace GGS {
         reply->deleteLater();
 
         DownloadFileHelper *helper = new DownloadFileHelper(state, this);
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(finished(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(internalPatchFinished(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(finished(P1::GameDownloader::ServiceState *)),
+          this, SLOT(internalPatchFinished(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
-        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(GGS::GameDownloader::ServiceState *)),
-          this, SLOT(internalPatchError(GGS::GameDownloader::ServiceState *)),
+        SIGNAL_CONNECT_CHECK(QObject::connect(helper, SIGNAL(error(P1::GameDownloader::ServiceState *)),
+          this, SLOT(internalPatchError(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         QString url = this->getServicePatchUrl(state);
 
         QString path = QString("%1/patch/%2/%3/%4.torrent")
@@ -152,7 +143,7 @@ namespace GGS {
         helper->download(url, path);
       }
 
-      void GetPatchVersionBehavior::checkPatchNotFound(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::checkPatchNotFound(P1::GameDownloader::ServiceState *state)
       {
         CheckPatchExist *reply = qobject_cast<CheckPatchExist*>(QObject::sender());
         if (!reply) {
@@ -163,7 +154,7 @@ namespace GGS {
         emit this->next(PatchNotFound, state);
       }
 
-      void GetPatchVersionBehavior::internalPatchFinished(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::internalPatchFinished(P1::GameDownloader::ServiceState *state)
       {
         DownloadFileHelper *helper = qobject_cast<DownloadFileHelper *>(QObject::sender());
         if (!helper)
@@ -173,7 +164,7 @@ namespace GGS {
         emit this->next(PatchFound, state);
       }
 
-      void GetPatchVersionBehavior::internalPatchError(GGS::GameDownloader::ServiceState *state)
+      void GetPatchVersionBehavior::internalPatchError(P1::GameDownloader::ServiceState *state)
       {
         DownloadFileHelper *helper = qobject_cast<DownloadFileHelper *>(QObject::sender());
         if (!helper)
@@ -183,9 +174,9 @@ namespace GGS {
         emit this->next(PatchNotFound, state);
       }
 
-      QString GetPatchVersionBehavior::getServicePatchUrl(GGS::GameDownloader::ServiceState *state)
+      QString GetPatchVersionBehavior::getServicePatchUrl(P1::GameDownloader::ServiceState *state)
       {
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         QString patchVersion = state->patchVersion();     
 
         QString url = service->torrentUrl().toString();

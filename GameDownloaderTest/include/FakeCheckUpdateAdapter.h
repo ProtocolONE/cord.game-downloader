@@ -1,7 +1,7 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_FAKECHECKUPDATEADAPTER_H_
-#define _GGS_GAMEDOWNLOADER_TEST_FAKECHECKUPDATEADAPTER_H_
+#pragma once
 
-#include <Core/Service>
+#include <Core/Service.h>
+
 #include <GameDownloader/CheckUpdateHelper.h>
 #include <GameDownloader/GameDownloadService.h>
 
@@ -36,6 +36,3 @@ private:
   GGS::GameDownloader::GameDownloadService *_downloadService;
 
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_FAKECHECKUPDATEADAPTER_H_
-

@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Extractor/SevenZipGameExtractor.h>
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/ServiceState.h>
@@ -16,17 +6,17 @@
 
 #include <UpdateSystem/Extractor/SevenZipExtractor.h>
 #include <UpdateSystem/Compressor/ZevenZipCompressor.h>
-#include <UpdateSystem/UpdateInfoGetter>
-#include <UpdateSystem/UpdateInfoContainer>
-#include <UpdateSystem/UpdateFileInfo>
+#include <UpdateSystem/UpdateInfoGetter.h>
+#include <UpdateSystem/UpdateInfoContainer.h>
+#include <UpdateSystem/UpdateFileInfo.h>
 
-#include <UpdateSystem/Downloader/downloadmanager>
-#include <UpdateSystem/Downloader/DynamicRetryTimeout>
-#include <UpdateSystem/Downloader/RetryFileDownloader>
-#include <UpdateSystem/Hasher/Md5FileHasher>
+#include <UpdateSystem/Downloader/downloadmanager.h>
+#include <UpdateSystem/Downloader/DynamicRetryTimeout.h>
+#include <UpdateSystem/Downloader/RetryFileDownloader.h>
+#include <UpdateSystem/Hasher/Md5FileHasher.h>
 
-#include <Settings/Settings>
-#include <Core/Service>
+#include <Settings/Settings.h>
+#include <Core/Service.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QEventLoop>
@@ -35,12 +25,12 @@
 #include <QtCore/QDirIterator>
 #include <QtCore/QDataStream>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Extractor {
 
       SevenZipGameExtractor::SevenZipGameExtractor(QObject *parent)
-        : GGS::GameDownloader::ExtractorBase("D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9", parent)
+        : P1::GameDownloader::ExtractorBase("D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9", parent)
       {
       }
 
@@ -64,7 +54,7 @@ namespace GGS {
         return byteArray;
       }
 
-      void SevenZipGameExtractor::compress(GGS::GameDownloader::ServiceState* state)
+      void SevenZipGameExtractor::compress(P1::GameDownloader::ServiceState* state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -74,12 +64,12 @@ namespace GGS {
           return;
         }
         
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         emit this->compressProgressChanged(state, 0, 0, 0);
 
-        using namespace GGS::Compressor;
+        using namespace P1::Compressor;
         SevenZipCompressor compressor;
-        compressor.setCompressionLevel(GGS::Compressor::SevenZipCompressor::Low);
+        compressor.setCompressionLevel(P1::Compressor::SevenZipCompressor::Low);
 
         if (QThread::idealThreadCount() > 1)
           compressor.setNumThreads(2);
@@ -135,7 +125,7 @@ namespace GGS {
         emit this->compressFinished(state);
       }
 
-      void SevenZipGameExtractor::extract(GGS::GameDownloader::ServiceState* state, StartType startType)
+      void SevenZipGameExtractor::extract(P1::GameDownloader::ServiceState* state, StartType startType)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -145,10 +135,10 @@ namespace GGS {
           return;
         }
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
         emit this->extractionProgressChanged(state, 0, 0, 0);
 
-        using namespace GGS::UpdateSystem;
+        using namespace P1::UpdateSystem;
         QHash<QString, UpdateFileInfo> onlineInfo;
         if (!this->getUpdateInfo(state, onlineInfo)) {
           emit this->extractFailed(state);
@@ -167,7 +157,7 @@ namespace GGS {
         QHash<QString, UpdateFileInfo> savedInfo;
         this->loadUpdateInfo(state, savedInfo);
         
-        GGS::Hasher::Md5FileHasher hasher;
+        P1::Hasher::Md5FileHasher hasher;
         qint64 totalFilesCount = onlineInfo.count();
         bool skipedProgres = false;
         int progressMod = 0;
@@ -201,7 +191,7 @@ namespace GGS {
             continue;
           }
 
-          if (onlineInfo[relativePath].forceCheck() || startType == GGS::GameDownloader::Recheck) {
+          if (onlineInfo[relativePath].forceCheck() || startType == P1::GameDownloader::Recheck) {
             QString filePath = QString("%1%2").arg(extractionDirectory, relativePath);
             if (hasher.getFileHash(filePath) != onlineInfo[relativePath].hash()) {
               filesToExtraction[relativePath] = onlineInfo[relativePath];
@@ -221,14 +211,14 @@ namespace GGS {
         this->extractFiles(state, filesToExtraction, extractionDirectory, savedInfo);
       }
 
-      bool SevenZipGameExtractor::getUpdateInfo(GGS::GameDownloader::ServiceState* state, 
-        QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+      bool SevenZipGameExtractor::getUpdateInfo(P1::GameDownloader::ServiceState* state, 
+        QHash<QString, P1::UpdateSystem::UpdateFileInfo> &resultHash)
       {
-        using namespace GGS::UpdateSystem;
-        using namespace GGS::Extractor;
-        using namespace GGS::Downloader;
+        using namespace P1::UpdateSystem;
+        using namespace P1::Extractor;
+        using namespace P1::Downloader;
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         DynamicRetryTimeout dynamicRetryTimeout;
         dynamicRetryTimeout << 5000 << 10000 << 15000 << 30000;
@@ -279,12 +269,12 @@ namespace GGS {
         return true;
       }
 
-      void SevenZipGameExtractor::loadUpdateInfo(GGS::GameDownloader::ServiceState* state,
-        QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+      void SevenZipGameExtractor::loadUpdateInfo(P1::GameDownloader::ServiceState* state,
+        QHash<QString, P1::UpdateSystem::UpdateFileInfo> &resultHash)
       {
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
-        GGS::Settings::Settings settings;
+        P1::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
         settings.beginGroup("SevenZipGameExtractor");
         
@@ -298,10 +288,10 @@ namespace GGS {
       }
 
       void SevenZipGameExtractor::saveUpdateInfo(
-        GGS::GameDownloader::ServiceState* state, 
-        const QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+        P1::GameDownloader::ServiceState* state, 
+        const QHash<QString, P1::UpdateSystem::UpdateFileInfo> &resultHash)
       {
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         QByteArray byteArray;
         QDataStream stream(&byteArray, QIODevice::WriteOnly);
@@ -309,7 +299,7 @@ namespace GGS {
 
         QByteArray compressed = qCompress(byteArray, 9);
 
-        GGS::Settings::Settings settings;
+        P1::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
         settings.beginGroup("SevenZipGameExtractor");
         settings.setValue(service->id(), compressed);
@@ -332,17 +322,17 @@ namespace GGS {
       }
 
       void SevenZipGameExtractor::extractFiles(
-        GGS::GameDownloader::ServiceState* state, 
-        const QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &filesToExtraction, 
+        P1::GameDownloader::ServiceState* state, 
+        const QHash<QString, P1::UpdateSystem::UpdateFileInfo> &filesToExtraction, 
         const QString& extractionDirectory,
-        QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &savedInfo)
+        QHash<QString, P1::UpdateSystem::UpdateFileInfo> &savedInfo)
       {
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         qint64 totalFilesCount = filesToExtraction.count();
         emit this->extractionProgressChanged(state, 15, 0, totalFilesCount);
 
-        using namespace GGS::Extractor;
+        using namespace P1::Extractor;
         SevenZipExtactor extractor;
 
         qint64 timeOfLastSaveUpdateInfo = QDateTime::currentMSecsSinceEpoch();
@@ -366,7 +356,7 @@ namespace GGS {
           QString targetFilePath = QString("%1%2").arg(extractionDirectory, relativePath);
           QString targetDirectory = Common::FileUtils::createDirectoryIfNotExist(targetFilePath);
           DEBUG_LOG << "extracting " << relativePath;
-          GGS::Extractor::ExtractionResult result = extractor.extract(archivePath, targetDirectory);
+          P1::Extractor::ExtractionResult result = extractor.extract(archivePath, targetDirectory);
           if (result != ExtractionResult::NoError) {
             CRITICAL_LOG << "Extraction error: " << result;
             emit this->extractFailed(state);
@@ -397,7 +387,7 @@ namespace GGS {
       {
         Q_CHECK_PTR(state);
 
-        using namespace GGS::UpdateSystem;
+        using namespace P1::UpdateSystem;
         QHash<QString, UpdateFileInfo> onlineInfo;
         if (!this->getUpdateInfo(state, onlineInfo)) {
           emit this->unpackStateSaveFailed(state);

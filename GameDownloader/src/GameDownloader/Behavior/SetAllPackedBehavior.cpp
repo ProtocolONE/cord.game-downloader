@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/SetAllPackedBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
@@ -15,7 +6,7 @@
 
 #include <Core/Service.h>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -30,7 +21,7 @@ namespace GGS {
 
       }
 
-      void SetAllPackedBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void SetAllPackedBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -40,7 +31,7 @@ namespace GGS {
           return;
         }
 
-        const GGS::Core::Service *service = state->service();
+        const P1::Core::Service *service = state->service();
 
         ExtractorBase *extractor = this->getExtractorByType(service->extractorType());
         Q_CHECK_PTR(extractor);
@@ -48,7 +39,7 @@ namespace GGS {
         QtConcurrent::run(extractor, &ExtractorBase::setAllUnpacked, state);
       }
 
-      void SetAllPackedBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void SetAllPackedBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 
@@ -69,20 +60,20 @@ namespace GGS {
 
         this->_extractorMap[type] = extractor;
 
-        QObject::connect(extractor, SIGNAL(unpackStateSaved(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(internalUnpackStateSaved(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection);
+        QObject::connect(extractor, SIGNAL(unpackStateSaved(P1::GameDownloader::ServiceState *)), 
+          this, SLOT(internalUnpackStateSaved(P1::GameDownloader::ServiceState *)), Qt::QueuedConnection);
 
-        QObject::connect(extractor, SIGNAL(unpackStateSaveFailed(GGS::GameDownloader::ServiceState *)), 
-          this, SLOT(internalUnpackStateSaveFailed(GGS::GameDownloader::ServiceState *)), Qt::QueuedConnection);
+        QObject::connect(extractor, SIGNAL(unpackStateSaveFailed(P1::GameDownloader::ServiceState *)), 
+          this, SLOT(internalUnpackStateSaveFailed(P1::GameDownloader::ServiceState *)), Qt::QueuedConnection);
 
       }
 
-      void SetAllPackedBehavior::internalUnpackStateSaved(GGS::GameDownloader::ServiceState* state)
+      void SetAllPackedBehavior::internalUnpackStateSaved(P1::GameDownloader::ServiceState* state)
       {
         emit this->next(Finished, state);
       }
 
-      void SetAllPackedBehavior::internalUnpackStateSaveFailed(GGS::GameDownloader::ServiceState* state)
+      void SetAllPackedBehavior::internalUnpackStateSaveFailed(P1::GameDownloader::ServiceState* state)
       {
         emit this->failed(state);
       }

@@ -1,23 +1,13 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <Settings/Settings.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 
-#include <Core/Service>
+#include <Core/Service.h>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QDataStream>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
     ServiceState::ServiceState(QObject *parent) 
@@ -70,7 +60,7 @@ namespace GGS {
       this->_lastDateStateChanded = QDateTime::currentMSecsSinceEpoch();
     }
 
-    GGS::GameDownloader::ServiceState::State ServiceState::state() const
+    P1::GameDownloader::ServiceState::State ServiceState::state() const
     {
       return this->_state;
     }
@@ -105,13 +95,13 @@ namespace GGS {
       this->_isFoundNewUpdate = isFoundNewUpdate;
     }
 
-    void ServiceState::setService(const GGS::Core::Service *service)
+    void ServiceState::setService(const P1::Core::Service *service)
     {
       Q_ASSERT(service);
       this->_service = service;
     }
 
-    const GGS::Core::Service* ServiceState::service() const
+    const P1::Core::Service* ServiceState::service() const
     {
       return this->_service;
     }
@@ -148,7 +138,7 @@ namespace GGS {
 
     bool ServiceState::isDownloadSuccess()
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup(this->id());
       bool ok;
@@ -158,7 +148,7 @@ namespace GGS {
 
     void ServiceState::setDownloadSuccess(bool value)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup(this->id());
       settings.setValue("DistrProcessed", value ? 1 : 0);
@@ -166,7 +156,7 @@ namespace GGS {
 
     void ServiceState::setPatchFiles(const QStringList& files)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
       settings.beginGroup(this->id());
@@ -176,7 +166,7 @@ namespace GGS {
 
     void ServiceState::setPatchVersion(const QString& version)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
       settings.beginGroup(this->id());
@@ -186,7 +176,7 @@ namespace GGS {
 
     QStringList ServiceState::patchFiles() 
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
       settings.beginGroup(this->id());
@@ -196,7 +186,7 @@ namespace GGS {
 
     QString ServiceState::patchVersion()
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("Bindiff");
       settings.beginGroup(this->id());
@@ -206,7 +196,7 @@ namespace GGS {
 
     void ServiceState::setPackingFiles(const QStringList& files)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("7zCompressor");
       settings.beginGroup(this->id());
@@ -215,7 +205,7 @@ namespace GGS {
 
     QStringList ServiceState::packingFiles()
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("7zCompressor");
       settings.beginGroup(this->id());
@@ -241,7 +231,7 @@ namespace GGS {
 
     void ServiceState::setIsInstalled(bool isInstalled)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup(this->id());
       settings.setValue("isInstalled", isInstalled ? 1 : 0);
@@ -257,7 +247,7 @@ namespace GGS {
 
     bool ServiceState::isInstalled(const QString& serviceId)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup(serviceId);
       bool ok;
@@ -267,7 +257,7 @@ namespace GGS {
 
     bool ServiceState::shouldGenerateFastResume() const
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("FastResume");
       settings.beginGroup(this->id());
@@ -278,7 +268,7 @@ namespace GGS {
 
     void ServiceState::setGenerateFastResume(bool value)
     {
-      GGS::Settings::Settings settings;
+      P1::Settings::Settings settings;
       settings.beginGroup("GameDownloader");
       settings.beginGroup("FastResume");
       settings.beginGroup(this->id());

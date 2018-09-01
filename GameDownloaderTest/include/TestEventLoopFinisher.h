@@ -1,5 +1,4 @@
-#ifndef _GGS_GAMEDOWNLOADER_TEST_TESTEVENTLOOPFINISHER_H_
-#define _GGS_GAMEDOWNLOADER_TEST_TESTEVENTLOOPFINISHER_H_
+#pragma once
 
 #include <QtCore/QObject>
 #include <QtCore/QEventLoop>
@@ -8,9 +7,9 @@ class TestEventLoopFinisher : public QObject
   Q_OBJECT
 public:
   TestEventLoopFinisher(QEventLoop *loop, int timeout);
-  ~TestEventLoopFinisher();
+  virtual ~TestEventLoopFinisher();
   
-  bool isKilledByTimeout() const { return this->_timeoutKill; }
+  bool isKilledByTimeout() const;
   bool setTerminateSignal(QObject *sender, const char* signal);
 
 public slots:
@@ -23,5 +22,3 @@ private:
   bool _timeoutKill;
   QEventLoop *_loop;
 };
-
-#endif // _GGS_GAMEDOWNLOADER_TEST_TESTEVENTLOOPFINISHER_H_

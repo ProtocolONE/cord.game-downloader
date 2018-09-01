@@ -1,29 +1,20 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/TorrentDownloadBehavior.h>
-#include <GameDownloader/CheckUpdateHelper>
+#include <GameDownloader/CheckUpdateHelper.h>
 #include <GameDownloader/ServiceState.h>
 
-#include <LibtorrentWrapper/TorrentConfig>
-#include <LibtorrentWrapper/Wrapper>
+#include <LibtorrentWrapper/TorrentConfig.h>
+#include <LibtorrentWrapper/Wrapper.h>
 
-#include <Core/Service>
+#include <Core/Service.h>
 
 #include <QtCore/QMutexLocker>
 #include <QtCore/QDateTime>
 #include <QtConcurrent/QtConcurrentRun>
 
-using namespace GGS::Libtorrent;
-using GGS::Libtorrent::EventArgs::ProgressEventArgs;
+using namespace P1::Libtorrent;
+using P1::Libtorrent::EventArgs::ProgressEventArgs;
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -36,7 +27,7 @@ namespace GGS {
       {
       }
 
-      void TorrentDownloadBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void TorrentDownloadBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -51,7 +42,7 @@ namespace GGS {
         QtConcurrent::run(this, &TorrentDownloadBehavior::syncStartTorrent, state);
       }
 
-      void TorrentDownloadBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void TorrentDownloadBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -62,7 +53,7 @@ namespace GGS {
 
       void TorrentDownloadBehavior::torrentPausedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
@@ -71,7 +62,7 @@ namespace GGS {
 
       void TorrentDownloadBehavior::torrentDownloadFinishedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
@@ -81,21 +72,21 @@ namespace GGS {
 
       void TorrentDownloadBehavior::torrentDownloadFailedSlot(QString id)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(id);
+        P1::GameDownloader::ServiceState *state = this->state(id);
         if (!state || state->currentBehavior() != this)
           return;
 
         emit this->failed(state);
       }
 
-      void TorrentDownloadBehavior::setState(GGS::GameDownloader::ServiceState *state)
+      void TorrentDownloadBehavior::setState(P1::GameDownloader::ServiceState *state)
       {
         QMutexLocker lock(&this->_mutex);
         this->_stateMap[state->id()] = state;
         this->_installedStateMap[state->id()] = state->isInstalled();
       }
 
-      GGS::GameDownloader::ServiceState* TorrentDownloadBehavior::state(const QString& id)
+      P1::GameDownloader::ServiceState* TorrentDownloadBehavior::state(const QString& id)
       {
         QMutexLocker lock(&this->_mutex);
         if (!this->_stateMap.contains(id))
@@ -113,7 +104,7 @@ namespace GGS {
         return this->_installedStateMap[id];
       }
 
-      void TorrentDownloadBehavior::setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper)
+      void TorrentDownloadBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)
       {
         this->_wrapper = wrapper;
 
@@ -135,7 +126,7 @@ namespace GGS {
           this, &TorrentDownloadBehavior::torrentProgress);
       }
 
-      void TorrentDownloadBehavior::syncStartTorrent(GGS::GameDownloader::ServiceState* state)
+      void TorrentDownloadBehavior::syncStartTorrent(P1::GameDownloader::ServiceState* state)
       {
         this->setState(state);
 
@@ -153,15 +144,15 @@ namespace GGS {
         this->_wrapper->start(state->id(), config);
       }
 
-      void TorrentDownloadBehavior::syncStopTorrent(GGS::GameDownloader::ServiceState * state)
+      void TorrentDownloadBehavior::syncStopTorrent(P1::GameDownloader::ServiceState * state)
       {
         this->setState(state);
         this->_wrapper->stop(state->id());
       }
 
-      void TorrentDownloadBehavior::torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs arg)
+      void TorrentDownloadBehavior::torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs arg)
       {
-        GGS::GameDownloader::ServiceState *state = this->state(arg.id());
+        P1::GameDownloader::ServiceState *state = this->state(arg.id());
         if (!state || state->currentBehavior() != this)
           return;
 

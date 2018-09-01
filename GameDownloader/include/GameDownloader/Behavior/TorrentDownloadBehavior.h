@@ -1,15 +1,6 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
-#include <GameDownloader/GameDownloader_global>
+#include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 
@@ -19,7 +10,7 @@
 #include <QtCore/QHash>
 #include <QtCore/QMutex>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -47,36 +38,36 @@ namespace GGS {
         explicit TorrentDownloadBehavior(QObject *parent = 0);
         virtual ~TorrentDownloadBehavior();
 
-        virtual void start(GGS::GameDownloader::ServiceState *state) override;
-        virtual void stop(GGS::GameDownloader::ServiceState *state) override;
+        virtual void start(P1::GameDownloader::ServiceState *state) override;
+        virtual void stop(P1::GameDownloader::ServiceState *state) override;
 
-        void setTorrentWrapper(GGS::Libtorrent::Wrapper *wrapper);
+        void setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper);
 
       signals:
-        void downloadFinished(GGS::GameDownloader::ServiceState *state);
+        void downloadFinished(P1::GameDownloader::ServiceState *state);
 
         void downloadProgressChanged(
-          GGS::GameDownloader::ServiceState *state,
+          P1::GameDownloader::ServiceState *state,
           qint8 progress, 
-          GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+          P1::Libtorrent::EventArgs::ProgressEventArgs args);
 
       private slots:
         void torrentPausedSlot(QString id);
         void torrentDownloadFinishedSlot(QString id);
         void torrentDownloadFailedSlot(QString id);
-        void torrentProgress(GGS::Libtorrent::EventArgs::ProgressEventArgs arg);
+        void torrentProgress(P1::Libtorrent::EventArgs::ProgressEventArgs arg);
 
       private:
-        void setState(GGS::GameDownloader::ServiceState *state);
+        void setState(P1::GameDownloader::ServiceState *state);
         ServiceState* state(const QString& id);
         bool isInstalled(const QString& id);
 
-        void syncStartTorrent(GGS::GameDownloader::ServiceState *state);
-        void syncStopTorrent(GGS::GameDownloader::ServiceState *state);
+        void syncStartTorrent(P1::GameDownloader::ServiceState *state);
+        void syncStopTorrent(P1::GameDownloader::ServiceState *state);
 
-        GGS::Libtorrent::Wrapper *_wrapper;
+        P1::Libtorrent::Wrapper *_wrapper;
         QMutex _mutex;
-        QHash<QString, GGS::GameDownloader::ServiceState*> _stateMap;
+        QHash<QString, P1::GameDownloader::ServiceState*> _stateMap;
         QHash<QString, bool> _installedStateMap;
 
       };

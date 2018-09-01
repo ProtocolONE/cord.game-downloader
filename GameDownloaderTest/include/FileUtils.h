@@ -1,5 +1,4 @@
-#ifndef _GGS_LIBTORRENTWRAPPERTEST_FILEUTRILS_H_
-#define _GGS_LIBTORRENTWRAPPERTEST_FILEUTRILS_H_
+#pragma once
 
 #include <QtCore/QString>
 #include <QtCore/QDir>
@@ -20,5 +19,3 @@ public:
 
 #define PREPAIR_WORK_SPACE(x,y) FileUtils::prepairWorkSpace(QString(#x), QString(#y));
 #define WORKSPACE_ROOT(x,y) FileUtils::workspaceRoot(QString(#x), QString(#y));
-
-#endif // _GGS_LIBTORRENTWRAPPERTEST_FILEUTRILS_H_

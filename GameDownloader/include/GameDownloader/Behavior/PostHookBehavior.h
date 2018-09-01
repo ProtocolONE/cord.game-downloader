@@ -1,15 +1,6 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #pragma once
 
-#include <GameDownloader/GameDownloader_global>
+#include <GameDownloader/GameDownloader_global.h>
 #include <GameDownloader/HookBase.h>
 #include <GameDownloader/Behavior/BaseBehavior.h>
 
@@ -17,7 +8,7 @@
 #include <QtCore/QMultiMap>
 #include <QtCore/QHash>
 
-namespace GGS {
+namespace P1 {
   namespace Core {
     class Service;
   }
@@ -43,27 +34,27 @@ namespace GGS {
         explicit PostHookBehavior(QObject *parent = 0);
         virtual ~PostHookBehavior(void);
 
-        virtual void start(GGS::GameDownloader::ServiceState *state) override;
-        virtual void stop(GGS::GameDownloader::ServiceState *state) override;
+        virtual void start(P1::GameDownloader::ServiceState *state) override;
+        virtual void stop(P1::GameDownloader::ServiceState *state) override;
 
         void setGameDownloaderService(GameDownloadService *gameDownloadService);
         void registerHook(const QString& serviceId, int preHookPriority, HookBase *hook);
 
       signals:
-        void stopping(GGS::GameDownloader::ServiceState *state);
-        void postHooksCompleted(GGS::GameDownloader::ServiceState *state, 
-          GGS::GameDownloader::HookBase::HookResult result);
+        void stopping(P1::GameDownloader::ServiceState *state);
+        void postHooksCompleted(P1::GameDownloader::ServiceState *state, 
+          P1::GameDownloader::HookBase::HookResult result);
 
       private slots:
-        void postHooksCompletedSlot(GGS::GameDownloader::ServiceState *state, 
-          GGS::GameDownloader::HookBase::HookResult result);
+        void postHooksCompletedSlot(P1::GameDownloader::ServiceState *state, 
+          P1::GameDownloader::HookBase::HookResult result);
 
       private:
         GameDownloadService *_gameDownloadService;
         QHash<QString, QMultiMap<int, HookBase*> > _afterDownloadHookMap;
         QSet<HookBase *> _registredHooks;
 
-        void postHookLoop(GGS::GameDownloader::ServiceState *state);
+        void postHookLoop(P1::GameDownloader::ServiceState *state);
       };
 
 

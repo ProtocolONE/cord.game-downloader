@@ -3,7 +3,7 @@
 #include <functional>
 
 // HACK считай не работает 
-FakeLibtorrentWrapperAdapter::FakeLibtorrentWrapperAdapter(GGS::GameDownloader::GameDownloadService *service)
+FakeLibtorrentWrapperAdapter::FakeLibtorrentWrapperAdapter(P1::GameDownloader::GameDownloadService *service)
   : _downloadService(service)
   , _downloadEventCount(0)
   , _pauseEventCount(0)
@@ -11,15 +11,6 @@ FakeLibtorrentWrapperAdapter::FakeLibtorrentWrapperAdapter(GGS::GameDownloader::
   , _downloadInProgress(0)
 {
   this->_downloadEventCount;
-
-  // UNDONE чутка не работает
-  //QObject::connect(
-  //  service, SIGNAL(downloadRequest(const GGS::Core::Service*, GGS::GameDownloader::StartType, bool)), 
-  //  this, SLOT(downloadRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
-
-  //QObject::connect(
-  //  service, SIGNAL(downloadStopRequest(const GGS::Core::Service*)), 
-  //  this, SLOT(pauseRequestCounter(const GGS::Core::Service*)), Qt::QueuedConnection);
 
   QObject::connect(&this->_timer, SIGNAL(timeout()), this, SLOT(downloadCompletedTimerTick()));
 }
@@ -29,7 +20,7 @@ FakeLibtorrentWrapperAdapter::~FakeLibtorrentWrapperAdapter()
 {
 }
 
-void FakeLibtorrentWrapperAdapter::downloadRequestCounter(const GGS::Core::Service *service)
+void FakeLibtorrentWrapperAdapter::downloadRequestCounter(const P1::Core::Service *service)
 {
   QMutexLocker lock(&this->_mutex);
   this->_downloadEventCount++;
@@ -52,7 +43,7 @@ void FakeLibtorrentWrapperAdapter::setDownloadTime(int msec)
   this->_downloadTimeInMs = msec;
 }
 
-void FakeLibtorrentWrapperAdapter::pauseRequestCounter(const GGS::Core::Service *service)
+void FakeLibtorrentWrapperAdapter::pauseRequestCounter(const P1::Core::Service *service)
 {
   //QMutexLocker lock(&this->_mutex);
   //this->_pauseEventCount++;

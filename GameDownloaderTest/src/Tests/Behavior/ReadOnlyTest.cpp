@@ -2,8 +2,8 @@
 #include <FileUtils.h>
 #include <GameDownloader/Behavior/ReadOnlyBehavior.h>
 
-#include <GameDownloader/ServiceState>
-#include <Core/Service>
+#include <GameDownloader/ServiceState.h>
+#include <Core/Service.h>
 
 #include <gtest/gtest.h>
 #include <QtCore/QStringList>
@@ -15,21 +15,21 @@ QStringList getFileList(const QString& directory);
 
 TEST(ReadOnlyTester, ReadOnlyBehaviorTest)
 {
-  GGS::GameDownloader::Behavior::ReadOnlyBehavior flagDropper;  
+  P1::GameDownloader::Behavior::ReadOnlyBehavior flagDropper;  
 
   PREPAIR_WORK_SPACE(ReadOnlyDir, ReadOnlyDirTest);
   QString root = WORKSPACE_ROOT(ReadOnlyDir, ReadOnlyDirTest);
 
   QStringList files = getFileList(root);
 
-  GGS::GameDownloader::ServiceState state;
-  GGS::Core::Service service;
+  P1::GameDownloader::ServiceState state;
+  P1::Core::Service service;
   service.setId("123");
   service.setInstallPath(root);
   service.setDownloadPath(root + "/dist");
-  service.setArea(GGS::Core::Service::Live);
+  service.setArea(P1::Core::Service::Live);
   
-  state.setState(GGS::GameDownloader::ServiceState::Started);
+  state.setState(P1::GameDownloader::ServiceState::Started);
   state.setService(&service);
 
   Q_FOREACH(QString file, files) {
@@ -45,7 +45,7 @@ TEST(ReadOnlyTester, ReadOnlyBehaviorTest)
 
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 1600000);
-  killer.setTerminateSignal(&flagDropper, SIGNAL(next(int, GGS::GameDownloader::ServiceState *)));
+  killer.setTerminateSignal(&flagDropper, SIGNAL(next(int, P1::GameDownloader::ServiceState *)));
   loop.exec();
 
   Q_FOREACH(QString file, files) {

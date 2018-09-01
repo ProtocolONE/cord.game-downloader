@@ -1,19 +1,11 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/FinishBehavior.h>
 #include <GameDownloader/ServiceState.h>
-#include <Core/Service>
+#include <Core/Service.h>
+
 #include <QtCore/QDir>
 #include <Qtcore/QFile>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -45,7 +37,7 @@ namespace GGS {
         return result;
       }
 
-      void FinishBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void FinishBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         state->setDownloadSuccess(true);
         QString patchDir = QString("%1/patch").arg(state->service()->downloadPath());
@@ -54,7 +46,7 @@ namespace GGS {
         emit this->finished(state);
       }
 
-      void FinishBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void FinishBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
       }
 

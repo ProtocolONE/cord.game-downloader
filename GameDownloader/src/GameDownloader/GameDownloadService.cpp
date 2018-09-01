@@ -1,19 +1,10 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/GameDownloadService.h>
 #include <GameDownloader/ServiceState.h>
 #include <GameDownloader/ExtractorBase.h>
 
-#include <Settings/Settings>
+#include <Settings/Settings.h>
 
-#include <Core/Service>
+#include <Core/Service.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QMutexLocker>
@@ -21,12 +12,12 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include <QEventLoop>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
 
-    GGS::Libtorrent::Wrapper::Profile fromGameDownloadProfile(GameDownloadService::TorrentProfile profile)
+    P1::Libtorrent::Wrapper::Profile fromGameDownloadProfile(GameDownloadService::TorrentProfile profile)
     {
-      using GGS::Libtorrent::Wrapper;
+      using P1::Libtorrent::Wrapper;
 
       if (profile == GameDownloadService::TorrentProfile::HIGH_PERFORMANCE_SEED) {
         return Wrapper::Profile::HIGH_PERFORMANCE_SEED;
@@ -42,7 +33,7 @@ namespace GGS {
       : QObject(parent)
       , _isShuttingDown(false)
       , _isShutdownFinished(false)
-      , _wrapper(new GGS::Libtorrent::Wrapper)
+      , _wrapper(new P1::Libtorrent::Wrapper)
     {
     }
     
@@ -65,8 +56,8 @@ namespace GGS {
 
       this->_registredHooks.insert(hook);
 
-      SIGNAL_CONNECT_CHECK(QObject::connect(hook, SIGNAL(statusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
-        this, SLOT(internalStatusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&))));
+      SIGNAL_CONNECT_CHECK(QObject::connect(hook, SIGNAL(statusMessageChanged(P1::GameDownloader::ServiceState *, const QString&)), 
+        this, SLOT(internalStatusMessageChanged(P1::GameDownloader::ServiceState *, const QString&))));
     }
 
     ServiceState* GameDownloadService::getStateById(const QString& id)
@@ -77,7 +68,7 @@ namespace GGS {
       return this->_stateMap[id];
     }
 
-    void GameDownloadService::start(const GGS::Core::Service *service, StartType startType)
+    void GameDownloadService::start(const P1::Core::Service *service, StartType startType)
     {
       DEBUG_LOG << service->id();
 
@@ -110,7 +101,7 @@ namespace GGS {
         emit this->started(service, startType);
     }
 
-    void GameDownloadService::stop(const GGS::Core::Service *service)
+    void GameDownloadService::stop(const P1::Core::Service *service)
     {
       Q_ASSERT(service);
 
@@ -138,35 +129,35 @@ namespace GGS {
       SIGNAL_CONNECT_CHECK(QObject::connect(this->_wrapper, SIGNAL(listeningPortChanged(unsigned short)),
         this, SIGNAL(listeningPortChanged(unsigned short))));
 
-      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(finished(GGS::GameDownloader::ServiceState *)),
-        this, SLOT(internalFinished(GGS::GameDownloader::ServiceState *))));
-      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(failed(GGS::GameDownloader::ServiceState *)),
-        this, SLOT(internalFailed(GGS::GameDownloader::ServiceState *))));
-      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(stopped(GGS::GameDownloader::ServiceState *)),
-        this, SLOT(internalStopped(GGS::GameDownloader::ServiceState *))));
+      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(finished(P1::GameDownloader::ServiceState *)),
+        this, SLOT(internalFinished(P1::GameDownloader::ServiceState *))));
+      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(failed(P1::GameDownloader::ServiceState *)),
+        this, SLOT(internalFailed(P1::GameDownloader::ServiceState *))));
+      SIGNAL_CONNECT_CHECK(QObject::connect(&this->_machine, SIGNAL(stopped(P1::GameDownloader::ServiceState *)),
+        this, SLOT(internalStopped(P1::GameDownloader::ServiceState *))));
 
       SIGNAL_CONNECT_CHECK(QObject::connect(&this->_progressCalculator, 
-        SIGNAL(totalProgressChanged(GGS::GameDownloader::ServiceState *, qint8)), 
+        SIGNAL(totalProgressChanged(P1::GameDownloader::ServiceState *, qint8)), 
         this, 
-        SLOT(internalTotalProgressChanged(GGS::GameDownloader::ServiceState *, qint8))));
+        SLOT(internalTotalProgressChanged(P1::GameDownloader::ServiceState *, qint8))));
 
       SIGNAL_CONNECT_CHECK(QObject::connect(
         &this->_progressCalculator, 
-        SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)), 
+        SIGNAL(downloadProgressChanged(P1::GameDownloader::ServiceState *, qint8, P1::Libtorrent::EventArgs::ProgressEventArgs)), 
         this, 
-        SLOT(internalDownloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
+        SLOT(internalDownloadProgressChanged(P1::GameDownloader::ServiceState *, qint8, P1::Libtorrent::EventArgs::ProgressEventArgs))));
 
       SIGNAL_CONNECT_CHECK(QObject::connect(
         &this->_preHookBehavior, 
-        SIGNAL(statusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
+        SIGNAL(statusMessageChanged(P1::GameDownloader::ServiceState *, const QString&)), 
         this, 
-        SLOT(internalStatusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&))));
+        SLOT(internalStatusMessageChanged(P1::GameDownloader::ServiceState *, const QString&))));
 
       SIGNAL_CONNECT_CHECK(QObject::connect(
         &this->_postHook, 
-        SIGNAL(statusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&)), 
+        SIGNAL(statusMessageChanged(P1::GameDownloader::ServiceState *, const QString&)), 
         this, 
-        SLOT(internalStatusMessageChanged(GGS::GameDownloader::ServiceState *, const QString&))));
+        SLOT(internalStatusMessageChanged(P1::GameDownloader::ServiceState *, const QString&))));
     }
 
     // INFO 01.09.2014 Функция не вызывается нигде - надо удлаить в том числе с сигналом progressChanged
@@ -183,7 +174,7 @@ namespace GGS {
     }
 
     // INFO 01.09.2014 Функция не вызывается нигде - надо удлаить в том числе с сигналом progressDownloadChanged
-    void GameDownloadService::internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args)
+    void GameDownloadService::internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, P1::Libtorrent::EventArgs::ProgressEventArgs args)
     {
       if (!this->_stateLock.tryLock()) 
         return;
@@ -239,7 +230,7 @@ namespace GGS {
       this->internalShuttingDownComplete();
     }
 
-    void GameDownloadService::directoryChanged(const GGS::Core::Service *service)
+    void GameDownloadService::directoryChanged(const P1::Core::Service *service)
     {
       Q_CHECK_PTR(service);
 
@@ -263,13 +254,13 @@ namespace GGS {
       return ServiceState::isInstalled(serviceId);
     }
 
-    bool GameDownloadService::isInstalled(const GGS::Core::Service *service)
+    bool GameDownloadService::isInstalled(const P1::Core::Service *service)
     {
       Q_ASSERT(service);
       return this->isInstalled(service->id());
     }
 
-    bool GameDownloadService::isInProgress(const GGS::Core::Service *service)
+    bool GameDownloadService::isInProgress(const P1::Core::Service *service)
     {
       Q_ASSERT(service);
 
@@ -297,7 +288,7 @@ namespace GGS {
       return result;
     }
 
-    void GameDownloadService::internalFinished(GGS::GameDownloader::ServiceState *state)
+    void GameDownloadService::internalFinished(P1::GameDownloader::ServiceState *state)
     {
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown) {
@@ -307,7 +298,7 @@ namespace GGS {
         return;
       }
 
-      const GGS::Core::Service *service = state->service();
+      const P1::Core::Service *service = state->service();
       emit this->totalProgressChanged(service, 100);
 
       if (state->startType() == Uninstall) {
@@ -325,7 +316,7 @@ namespace GGS {
       emit this->finished(service);
     }
 
-    void GameDownloadService::internalStopped(GGS::GameDownloader::ServiceState *state)
+    void GameDownloadService::internalStopped(P1::GameDownloader::ServiceState *state)
     {
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown) {
@@ -349,7 +340,7 @@ namespace GGS {
       return freeBytes.QuadPart / 1048576;
     }
 
-    void GameDownloadService::internalFailed(GGS::GameDownloader::ServiceState *state)
+    void GameDownloadService::internalFailed(P1::GameDownloader::ServiceState *state)
     {
       QMutexLocker lock(&this->_stateLock);
       if (this->_isShuttingDown) {
@@ -452,7 +443,7 @@ namespace GGS {
       return result;
     }
 
-    void GameDownloadService::internalStatusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message)
+    void GameDownloadService::internalStatusMessageChanged(P1::GameDownloader::ServiceState *state, const QString& message)
     {
       if (state->state() != ServiceState::Started)
         return;
@@ -471,20 +462,20 @@ namespace GGS {
       this->_wrapper->resumeSession();
     }
 
-    void GameDownloadService::internalTotalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress)
+    void GameDownloadService::internalTotalProgressChanged(P1::GameDownloader::ServiceState *state, qint8 progress)
     {
       emit this->totalProgressChanged(state->service(), progress);
     }
 
     void GameDownloadService::internalDownloadProgressChanged(
-      GGS::GameDownloader::ServiceState *state, 
+      P1::GameDownloader::ServiceState *state, 
       qint8 progress, 
-      GGS::Libtorrent::EventArgs::ProgressEventArgs args)
+      P1::Libtorrent::EventArgs::ProgressEventArgs args)
     {
       emit this->downloadProgressChanged(state->service(), progress, args);
     }
 
-    void GameDownloadService::internalTorrentDownloadFinished(GGS::GameDownloader::ServiceState *state)
+    void GameDownloadService::internalTorrentDownloadFinished(P1::GameDownloader::ServiceState *state)
     {
       QMutexLocker lock(&this->_stateLock);
       if (!state)

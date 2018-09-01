@@ -1,12 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (ñ) 2011 - 2017, Syncopate Limited and/or affiliates.
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
 #include <GameDownloader/Behavior/ReadOnlyBehavior.h>
 #include <GameDownloader/Behavior/Private/DirProcessor.h>
 #include <GameDownloader/ServiceState.h>
@@ -20,7 +11,7 @@
 
 #include <vector>
 
-namespace GGS {
+namespace P1 {
   namespace GameDownloader {
     namespace Behavior {
 
@@ -34,10 +25,10 @@ namespace GGS {
 
       }
 
-      void ReadOnlyBehavior::start(GGS::GameDownloader::ServiceState *state)
+      void ReadOnlyBehavior::start(P1::GameDownloader::ServiceState *state)
       {
         if (!state->isDownloadSuccess() || state->startType() == Recheck) {
-          const GGS::Core::Service *service = state->service();
+          const P1::Core::Service *service = state->service();
           QString installPath = service->installPath();
           QString downloadPath = service->downloadPath();
 
@@ -61,17 +52,17 @@ namespace GGS {
         }
       }
 
-      void ReadOnlyBehavior::stop(GGS::GameDownloader::ServiceState *state)
+      void ReadOnlyBehavior::stop(P1::GameDownloader::ServiceState *state)
       {
 
       }
 
-      void ReadOnlyBehavior::keepCalmMessage(GGS::GameDownloader::ServiceState *state)
+      void ReadOnlyBehavior::keepCalmMessage(P1::GameDownloader::ServiceState *state)
       {
         emit this->statusMessageChanged(state, QObject::tr("FOLDER_PROCESSING_MESSAGE"));
       }
 
-      void ReadOnlyBehavior::processFinished(int result, GGS::GameDownloader::ServiceState *state)
+      void ReadOnlyBehavior::processFinished(int result, P1::GameDownloader::ServiceState *state)
       {
         DirProcessor *worker = qobject_cast<DirProcessor *>(QObject::sender());
         worker->deleteLater();
