@@ -23,8 +23,8 @@
 // for Sleep
 #include <Windows.h>
 
-using namespace GGS::GameDownloader;
-using namespace GGS::GameDownloader::Extractor;
+using namespace P1::GameDownloader;
+using namespace P1::GameDownloader::Extractor;
 
 TEST(GameDownloadService, HookPriorityCheck)
 {
@@ -39,7 +39,7 @@ TEST(GameDownloadService, HookPriorityCheck)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 10000);
   QObject::connect(
-    &downloadService, SIGNAL(postHooksCompleted(const GGS::Core::Service*,GGS::GameDownloader::HookBase::HookResult)), 
+    &downloadService, SIGNAL(postHooksCompleted(const P1::Core::Service*,P1::GameDownloader::HookBase::HookResult)), 
     &loopKiller, SLOT(terminateLoop()));
 
   QString id("someServiceId");
@@ -52,7 +52,7 @@ TEST(GameDownloadService, HookPriorityCheck)
       prelist.append(hookId);
     }
 
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
@@ -60,7 +60,7 @@ TEST(GameDownloadService, HookPriorityCheck)
       postlist.append(hookId);
     }
 
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
@@ -75,21 +75,21 @@ TEST(GameDownloadService, HookPriorityCheck)
   downloadService.registerHook(id, 3, 2, &lamda3);
   downloadService.registerHook(id, 4, 1, &lamda4);
 
-  GGS::Core::Service service;
-  service.setArea(GGS::Core::Service::Live);
+  P1::Core::Service service;
+  service.setArea(P1::Core::Service::Live);
   service.setId(id);
-  service.setTorrentUrl(QUrl("http://fs0.gamenet.ru/update/aika/"));
+  service.setTorrentUrl(QUrl("http://fs0.protocol.one/update/aika/"));
   service.setExtractorType(extractor.extractorId());
 
   checkUpdateAdapter.setUpdateTime(0);
   bool signalFine = false;
-  checkUpdateAdapter.setPreHook([&] (const GGS::Core::Service *s, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type) -> bool {
+  checkUpdateAdapter.setPreHook([&] (const P1::Core::Service *s, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType type) -> bool {
     signalFine = (&service == s);
-    signalFine &= (type == GGS::GameDownloader::CheckUpdateHelper::Normal);
+    signalFine &= (type == P1::GameDownloader::CheckUpdateHelper::Normal);
     return true;
   });
 
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
 
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
@@ -122,7 +122,7 @@ TEST(GameDownloadService, PreHookResultCheck)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 10000);
   QObject::connect(
-    &downloadService, SIGNAL(downloadRequest(const GGS::Core::Service*, GGS::GameDownloader::StartType, bool)), 
+    &downloadService, SIGNAL(downloadRequest(const P1::Core::Service*, P1::GameDownloader::StartType, bool)), 
     &loopKiller, SLOT(terminateLoop()));
   int step = 0;
   int shouldBeZero = 0;
@@ -130,27 +130,27 @@ TEST(GameDownloadService, PreHookResultCheck)
     step++;
     switch(step) {
     case 1:
-      return GGS::GameDownloader::HookBase::PreHookStartPoint;
+      return P1::GameDownloader::HookBase::PreHookStartPoint;
     case 2:
-      return GGS::GameDownloader::HookBase::PreHookEndPoint;
+      return P1::GameDownloader::HookBase::PreHookEndPoint;
     };
     
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
   downloadService.registerHook(id, 1, 4, &lamda1);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(2, step);
@@ -172,32 +172,32 @@ TEST(GameDownloadService, PostHookResultCheck)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 5000);
   QObject::connect(
-    &downloadService, SIGNAL(finished(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(finished(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
   int step = 0;
   DOWNLOADERHOOK(pre) {
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     step++;
     switch(step) {
     case 1:
-      return GGS::GameDownloader::HookBase::PostHookStartPoint;
+      return P1::GameDownloader::HookBase::PostHookStartPoint;
     case 2:
-      return GGS::GameDownloader::HookBase::PostHookEndPoint;
+      return P1::GameDownloader::HookBase::PostHookEndPoint;
     };
 
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
   downloadService.registerHook(id, 1, 4, &lamda1);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(2, step);
@@ -218,7 +218,7 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostStart)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 5000);
   QObject::connect(
-    &downloadService, SIGNAL(finished(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(finished(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
   int step = 0;
   int postCount = 0;
@@ -226,21 +226,21 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostStart)
   DOWNLOADERHOOK(pre) {
     step++;
     if (step == 1) {
-      return GGS::GameDownloader::HookBase::PostHookStartPoint;
+      return P1::GameDownloader::HookBase::PostHookStartPoint;
     }
 
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     postCount++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(preCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
@@ -248,10 +248,10 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostStart)
   downloadService.registerHook(id, 100, 1, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(1, step);
@@ -274,7 +274,7 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostEnd)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 5000);
   QObject::connect(
-    &downloadService, SIGNAL(finished(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(finished(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
   int step = 0;
   int postCount = 0;
@@ -282,21 +282,21 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostEnd)
   DOWNLOADERHOOK(pre) {
     step++;
     if (step == 1) {
-      return GGS::GameDownloader::HookBase::PostHookEndPoint;
+      return P1::GameDownloader::HookBase::PostHookEndPoint;
     }
 
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     postCount++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(preCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
@@ -304,10 +304,10 @@ TEST(GameDownloadService, PreHookResultCheck_JumpToPostEnd)
   downloadService.registerHook(id, 100, 1, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
   ASSERT_EQ(1, step);
@@ -327,7 +327,7 @@ TEST(GameDownloadService, SimpleStopOnPreHooks)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 5000);
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
 
   int step = 0;
@@ -336,17 +336,17 @@ TEST(GameDownloadService, SimpleStopOnPreHooks)
   DOWNLOADERHOOK(pre) {
     step++;
     Sleep(1000);
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     postCount++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(preCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
@@ -354,10 +354,10 @@ TEST(GameDownloadService, SimpleStopOnPreHooks)
   downloadService.registerHook(id, 100, 1, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -386,7 +386,7 @@ TEST(GameDownloadService, SimpleStopOnPostHooks)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 100000);
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
 
   int preHookCount = 0;
@@ -394,18 +394,18 @@ TEST(GameDownloadService, SimpleStopOnPostHooks)
   int shouldBeZero = 0;
   DOWNLOADERHOOK(pre) {
     preHookCount++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(post) {
     postCount++;
     Sleep(2000);
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(postCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, post);
@@ -413,10 +413,10 @@ TEST(GameDownloadService, SimpleStopOnPostHooks)
   downloadService.registerHook(id, 100, 100, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -447,12 +447,12 @@ TEST(GameDownloadService, SimpleStopOnDownload)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 5000);
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
 
   SignalCounter downloadServiceStoppedCounter;
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &downloadServiceStoppedCounter, SLOT(eventSlot()));
 
   int preHookCount = 0;
@@ -460,12 +460,12 @@ TEST(GameDownloadService, SimpleStopOnDownload)
 
   DOWNLOADERHOOK(pre) {
     preHookCount++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(postCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, postCantbeCalled);
@@ -473,10 +473,10 @@ TEST(GameDownloadService, SimpleStopOnDownload)
   downloadService.registerHook(id, 100, 100, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
+  P1::Core::Service service;
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);
@@ -506,24 +506,24 @@ TEST(GameDownloadService, SimpleStopOnCheckUpdate)
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 50000);
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &loopKiller, SLOT(terminateLoop()));
 
   SignalCounter downloadServiceStoppedCounter;
   QObject::connect(
-    &downloadService, SIGNAL(stopped(const GGS::Core::Service*)), 
+    &downloadService, SIGNAL(stopped(const P1::Core::Service*)), 
     &downloadServiceStoppedCounter, SLOT(eventSlot()));
 
   int shouldBeZero = 0;
 
   DOWNLOADERHOOK(pre) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   DOWNLOADERHOOK(postCantbeCalled) {
     shouldBeZero++;
-    return GGS::GameDownloader::HookBase::Continue;
+    return P1::GameDownloader::HookBase::Continue;
   };
 
   LambdaHook lamda1(1, pre, postCantbeCalled);
@@ -531,13 +531,13 @@ TEST(GameDownloadService, SimpleStopOnCheckUpdate)
   downloadService.registerHook(id, 100, 100, &lamda1);
   downloadService.registerHook(id, 1, 1, &lamda2);
 
-  GGS::Core::Service service;
-  service.setArea(GGS::Core::Service::Live);
+  P1::Core::Service service;
+  service.setArea(P1::Core::Service::Live);
   service.setId(id);
   service.setExtractorType(extractor.extractorId());
-  service.setTorrentUrl(QUrl("http://fs0.gamenet.ru/update/aika/"));
+  service.setTorrentUrl(QUrl("http://fs0.protocol.one/update/aika/"));
 
-  downloadService.start(&service, GGS::GameDownloader::Normal);
+  downloadService.start(&service, P1::GameDownloader::Normal);
 
   SINGLESHOTFUNCTOR(stopCallFunction) {
     downloadService.stop(&service);

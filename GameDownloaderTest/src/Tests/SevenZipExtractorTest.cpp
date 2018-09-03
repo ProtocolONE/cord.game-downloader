@@ -99,9 +99,9 @@ TEST(dirScan, DISABLED_dirScan)
 
 class SevenZipGameExtractorTest : public ::testing::Test{
 public:
-  GGS::GameDownloader::Extractor::SevenZipGameExtractor extractor;
-  GGS::Core::Service service;
-  GGS::GameDownloader::GameDownloadService gameDownloaderService;
+  P1::GameDownloader::Extractor::SevenZipGameExtractor extractor;
+  P1::Core::Service service;
+  P1::GameDownloader::GameDownloadService gameDownloaderService;
   FakeCheckUpdateAdapter *checkUpdateAdapter;
   LambdaHook *hook;
 
@@ -112,17 +112,17 @@ public:
   QSignalSpy *spy_extractionProgressChanged;
 
   virtual void SetUp() {
-    using namespace GGS::GameDownloader;
-    using namespace GGS::GameDownloader::Extractor;
-    using namespace GGS::Core;
+    using namespace P1::GameDownloader;
+    using namespace P1::GameDownloader::Extractor;
+    using namespace P1::Core;
 
-    this->spy_extractFinished = new QSignalSpy(&this->extractor, SIGNAL(extractFinished(const GGS::Core::Service *)));
-    this->spy_extractPaused = new QSignalSpy(&this->extractor, SIGNAL(extractPaused(const GGS::Core::Service *)));
-    this->spy_extractFailed = new QSignalSpy(&this->extractor, SIGNAL(extractFailed(const GGS::Core::Service *)));
-    this->spy_pauseRequest = new QSignalSpy(&this->extractor, SIGNAL(pauseRequest(const GGS::Core::Service *)));
+    this->spy_extractFinished = new QSignalSpy(&this->extractor, SIGNAL(extractFinished(const P1::Core::Service *)));
+    this->spy_extractPaused = new QSignalSpy(&this->extractor, SIGNAL(extractPaused(const P1::Core::Service *)));
+    this->spy_extractFailed = new QSignalSpy(&this->extractor, SIGNAL(extractFailed(const P1::Core::Service *)));
+    this->spy_pauseRequest = new QSignalSpy(&this->extractor, SIGNAL(pauseRequest(const P1::Core::Service *)));
     this->spy_extractionProgressChanged = new QSignalSpy(&this->extractor, SIGNAL(extractionProgressChanged(const QString&, qint8, qint64, qint64)));
 
-    service.setTorrentUrl(QUrl("http://gnlupdate.tst.local/update/qgna_fixtures/"));
+    service.setTorrentUrl(QUrl("http://gnlupdate.tst.local/update/launcher_fixtures/"));
     service.setArea(Service::Live);
     QString root = QCoreApplication::applicationDirPath();
     QString fileArchivePath = root;
@@ -143,11 +143,11 @@ public:
     gameDownloaderService.registerExtractor(&extractor);
 
     DOWNLOADERHOOK(preHook) {
-      return GGS::GameDownloader::HookBase::ExtractionStartPoint;
+      return P1::GameDownloader::HookBase::ExtractionStartPoint;
     };
 
     DOWNLOADERHOOK(postHook) {
-      return GGS::GameDownloader::HookBase::Finish;
+      return P1::GameDownloader::HookBase::Finish;
     };
 
     hook = new LambdaHook(1, preHook, postHook);
@@ -156,7 +156,7 @@ public:
     FileUtils::removeDir(fileArchivePath);
     FileUtils::removeDir(fileGamePath);
 
-    QHash<QString, GGS::UpdateSystem::UpdateFileInfo> emptyHash;
+    QHash<QString, P1::UpdateSystem::UpdateFileInfo> emptyHash;
     this->saveUpdateInfo(&service, emptyHash);
   }
 
@@ -180,14 +180,14 @@ public:
     spy_extractionProgressChanged->clear();
   }
 
-  QString getServiceAreaString(const GGS::Core::Service * service)
+  QString getServiceAreaString(const P1::Core::Service * service)
   {
     switch(service->area()) {
-    case GGS::Core::Service::Live:;
+    case P1::Core::Service::Live:;
       return QString("live");
-    case GGS::Core::Service::Pts:
+    case P1::Core::Service::Pts:
       return QString("pts");
-    case GGS::Core::Service::Tst:
+    case P1::Core::Service::Tst:
       return QString("tst");
     default:
       return QString("");
@@ -238,13 +238,13 @@ public:
     QFile::copy(fixturePath, archivePath);
   }
 
-  void saveUpdateInfo(const GGS::Core::Service * service, QHash<QString, GGS::UpdateSystem::UpdateFileInfo> &resultHash)
+  void saveUpdateInfo(const P1::Core::Service * service, QHash<QString, P1::UpdateSystem::UpdateFileInfo> &resultHash)
   {
     QByteArray byteArray;
     QDataStream stream(&byteArray, QIODevice::WriteOnly);
     stream << resultHash;
 
-    GGS::Settings::Settings settings;
+    P1::Settings::Settings settings;
     settings.beginGroup("GameDownloader");
     settings.beginGroup("SevenZipGameExtractor");
     settings.setValue(service->id(), byteArray);
@@ -289,9 +289,9 @@ public:
 
 TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
 {
-  using namespace GGS::GameDownloader;
-  using namespace GGS::GameDownloader::Extractor;
-  using namespace GGS::Core;
+  using namespace P1::GameDownloader;
+  using namespace P1::GameDownloader::Extractor;
+  using namespace P1::Core;
   // есть в фикстурках, если пригодиться можно поиспользовать
   //<< "update.crc.7z"
   //<< "3000.torrent.7z"
@@ -311,11 +311,11 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
 
   this->copyFromFixturesToArchiveDirectory(fixtures);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::Normal);
+  gameDownloaderService.start(&service, P1::GameDownloader::Normal);
 
   QEventLoop loop;
   TestEventLoopFinisher loopKiller(&loop, 10000);
-  QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller, SLOT(terminateLoop()));
+  QObject::connect(&gameDownloaderService, SIGNAL(finished(const P1::Core::Service *)), &loopKiller, SLOT(terminateLoop()));
 
   loop.exec();
   ASSERT_FALSE(loopKiller.isKilledByTimeout());
@@ -344,10 +344,10 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   // Let's recheck files, we shouldn't get any extra progress event except first one
   this->resetSignals();
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::Force);
+  gameDownloaderService.start(&service, P1::GameDownloader::Force);
   QEventLoop loop1;
   TestEventLoopFinisher loopKiller1(&loop1, 10000);
-  QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller1, SLOT(terminateLoop()));
+  QObject::connect(&gameDownloaderService, SIGNAL(finished(const P1::Core::Service *)), &loopKiller1, SLOT(terminateLoop()));
 
   loop1.exec();
   ASSERT_FALSE(loopKiller1.isKilledByTimeout());
@@ -366,10 +366,10 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   this->corruptGameFile("SubDir/readme.txt");
   this->corruptGameFile(rusfile2_without_7z);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::Force);
+  gameDownloaderService.start(&service, P1::GameDownloader::Force);
   QEventLoop loop2;
   TestEventLoopFinisher loopKiller2(&loop2, 5000);
-  QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller2, SLOT(terminateLoop()));
+  QObject::connect(&gameDownloaderService, SIGNAL(finished(const P1::Core::Service *)), &loopKiller2, SLOT(terminateLoop()));
   loop2.exec();
 
   ASSERT_FALSE(loopKiller2.isKilledByTimeout());
@@ -385,10 +385,10 @@ TEST_F(SevenZipGameExtractorTest, AllFilesNotExists)
   this->corruptGameFile("SubDir/readme.txt");
   this->corruptGameFile(rusfile2_without_7z);
 
-  gameDownloaderService.start(&service, GGS::GameDownloader::Recheck);
+  gameDownloaderService.start(&service, P1::GameDownloader::Recheck);
   QEventLoop loop3;
   TestEventLoopFinisher loopKiller3(&loop3, 5000);
-  QObject::connect(&gameDownloaderService, SIGNAL(finished(const GGS::Core::Service *)), &loopKiller3, SLOT(terminateLoop()));
+  QObject::connect(&gameDownloaderService, SIGNAL(finished(const P1::Core::Service *)), &loopKiller3, SLOT(terminateLoop()));
   loop3.exec();
 
   ASSERT_FALSE(loopKiller3.isKilledByTimeout());

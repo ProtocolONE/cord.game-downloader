@@ -1,20 +1,20 @@
 #include "FakeCheckUpdateAdapter.h"
 #include <QtCore/QTimer>
 
-FakeCheckUpdateAdapter::FakeCheckUpdateAdapter(GGS::GameDownloader::GameDownloadService *service)
+FakeCheckUpdateAdapter::FakeCheckUpdateAdapter(P1::GameDownloader::GameDownloadService *service)
   : _downloadService(service)
   , _preHook(0)
   , _isUpdate(false)
   , _updateTime(0)
 {
   QObject::connect(
-    service, SIGNAL(checkUpdateRequest(const GGS::Core::Service *, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType)),
-    this, SLOT(checkUpdateRequest(const GGS::Core::Service *, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType))
+    service, SIGNAL(checkUpdateRequest(const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)),
+    this, SLOT(checkUpdateRequest(const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType))
     , Qt::QueuedConnection);
 
   QObject::connect(
-    this, SIGNAL(checkUpdateRequestCompleted(const GGS::Core::Service *, bool)),
-    service, SLOT(checkUpdateRequestCompleted(const GGS::Core::Service *, bool))
+    this, SIGNAL(checkUpdateRequestCompleted(const P1::Core::Service *, bool)),
+    service, SLOT(checkUpdateRequestCompleted(const P1::Core::Service *, bool))
     , Qt::QueuedConnection);
 }
 
@@ -28,12 +28,12 @@ void FakeCheckUpdateAdapter::sendResultSlot()
   emit this->checkUpdateRequestCompleted(this->_service, this->_isUpdate);
 }
 
-void FakeCheckUpdateAdapter::setPreHook(std::tr1::function<bool (const GGS::Core::Service *, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType)> f)
+void FakeCheckUpdateAdapter::setPreHook(std::tr1::function<bool (const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)> f)
 {
   this->_preHook = f;
 }
 
-void FakeCheckUpdateAdapter::checkUpdateRequest(const GGS::Core::Service *service, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type)
+void FakeCheckUpdateAdapter::checkUpdateRequest(const P1::Core::Service *service, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType type)
 {
   this->_service = service;
   if (this->_preHook)

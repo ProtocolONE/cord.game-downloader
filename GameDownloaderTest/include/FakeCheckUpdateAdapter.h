@@ -12,17 +12,17 @@ class FakeCheckUpdateAdapter : public QObject
 {
   Q_OBJECT
 public:
-  FakeCheckUpdateAdapter(GGS::GameDownloader::GameDownloadService *service);
+  FakeCheckUpdateAdapter(P1::GameDownloader::GameDownloadService *service);
   ~FakeCheckUpdateAdapter();
 
-  void setPreHook(std::tr1::function<bool (const GGS::Core::Service *, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType)> f);
+  void setPreHook(std::tr1::function<bool (const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)> f);
   void setUpdateTime(int updateTime);
 
 public slots:
-  void checkUpdateRequest(const GGS::Core::Service *service, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType type);
+  void checkUpdateRequest(const P1::Core::Service *service, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType type);
 
 signals:
-  void checkUpdateRequestCompleted(const GGS::Core::Service *service, bool isUpdated);
+  void checkUpdateRequestCompleted(const P1::Core::Service *service, bool isUpdated);
 
 private slots:
   void sendResultSlot();
@@ -30,9 +30,9 @@ private slots:
 
 private:
   int _updateTime;
-  const GGS::Core::Service *_service;
+  const P1::Core::Service *_service;
   bool _isUpdate;
-  std::tr1::function<bool (const GGS::Core::Service *, GGS::GameDownloader::CheckUpdateHelper::CheckUpdateType)> _preHook;
-  GGS::GameDownloader::GameDownloadService *_downloadService;
+  std::tr1::function<bool (const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)> _preHook;
+  P1::GameDownloader::GameDownloadService *_downloadService;
 
 };

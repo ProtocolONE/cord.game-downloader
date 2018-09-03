@@ -1,13 +1,3 @@
-/****************************************************************************
-** This file is a part of Syncopate Limited GameNet Application or it parts.
-**
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates. 
-** All rights reserved.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-****************************************************************************/
-
 #include <GameDownloader/Hooks/OldGameClientMigrate.h>
 #include <GameDownloader/GameDownloadService>
 #include <Core/Service>
@@ -30,16 +20,16 @@
 
 #include <Windows.h>
 
-using namespace GGS::GameDownloader;
-using namespace GGS::GameDownloader::Hooks;
-using namespace GGS::Core;
-using GGS::Core::UI::Message;
+using namespace P1::GameDownloader;
+using namespace P1::GameDownloader::Hooks;
+using namespace P1::Core;
+using P1::Core::UI::Message;
 
 class GameDownloadServicePublic : public GameDownloadService 
 { 
   public: using GameDownloadService::setIsInstalled;
 
-  bool isStoppedOrStopping(const GGS::Core::Service *service) {
+  bool isStoppedOrStopping(const P1::Core::Service *service) {
     return false;
   }
 }; 
@@ -79,7 +69,7 @@ public:
 
     gameDownloader.setIsInstalled(service.id(), false);
 
-    GGS::Settings::Settings settings;
+    P1::Settings::Settings settings;
     settings.beginGroup("GameDownloader");
     settings.beginGroup(service.id());
     settings.beginGroup("OldGameClientMigrate");
@@ -107,7 +97,7 @@ public:
 
   bool writeStringToRegGNA(const QString& id, const QString& name, const QString& value)
   {
-    QString key = QString("SOFTWARE\\GGS\\GNA\\%1").arg(id);
+    QString key = QString("SOFTWARE\\ProtocolOne\\Launcher\\%1").arg(id);
 
     wchar_t tmp[MAX_PATH] = {0};
     key.toWCharArray(tmp);
@@ -142,7 +132,7 @@ public:
 
   bool checkFiles(const QString& file1, const QString& file2)
   {
-    GGS::Hasher::Md5FileHasher hasher;
+    P1::Hasher::Md5FileHasher hasher;
     return hasher.getFileHash(file1) == hasher.getFileHash(file2);
   }
 
@@ -163,7 +153,7 @@ TEST_F(OldGameClientMigrateTest, SimpleMigrateCheck)
   writeFakeFile(filePath1);
   writeFakeFile(filePath2);
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(P1::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
@@ -187,7 +177,7 @@ TEST_F(OldGameClientMigrateTest, SimpleMigrateCheckWithoutArchive)
   
   service.setHashDownloadPath(false);
   service.setDownloadPath(destinationInstall);
-  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(P1::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
@@ -216,7 +206,7 @@ TEST_F(OldGameClientMigrateTest, OverwriteMigrateCheck)
   writeFakeFile(destFilePath1, "wrongfakedata");
   ASSERT_FALSE(checkFiles(filePath1, destFilePath1));
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(P1::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   ASSERT_TRUE(QFile::exists(destFilePath1));
   ASSERT_TRUE(QFile::exists(destFilePath2));
@@ -235,7 +225,7 @@ TEST_F(OldGameClientMigrateTest, SecondMigrateCheck)
   QString destFilePath1 = QString("%1/live/test.txt").arg(destinationArchive);
   QString destFilePath2 = QString("%1/live/test1/test.txt").arg(destinationArchive);
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(P1::GameDownloader::HookBase::CheckUpdate, hook.beforeDownload(&gameDownloader, &service));
 
   ASSERT_TRUE(QFile::exists(destFilePath1));
   ASSERT_TRUE(QFile::exists(destFilePath2));
@@ -249,7 +239,7 @@ TEST_F(OldGameClientMigrateTest, SecondMigrateCheck)
   writeFakeFile(destFilePath2, "wrongfakedata");
   ASSERT_FALSE(checkFiles(filePath2, destFilePath2));
 
-  ASSERT_EQ(GGS::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
+  ASSERT_EQ(P1::GameDownloader::HookBase::Continue, hook.beforeDownload(&gameDownloader, &service));
 
   ASSERT_FALSE(checkFiles(filePath1, destFilePath1));
   ASSERT_FALSE(checkFiles(filePath2, destFilePath2));

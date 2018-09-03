@@ -103,7 +103,6 @@ namespace P1 {
           dir.removeRecursively();
         }
 
-        //INFO QGNA-1371
         this->removeEmptyFolders(service);
 
         emit statusMessageChanged(state, QObject::tr("STATUS_FINISHED").arg(service->displayName()));
@@ -112,7 +111,7 @@ namespace P1 {
 
       QStringList UninstallBehavior::getDirectoriesToRemove(const P1::Core::Service *service) 
       {
-        //INFO Блокер баг QGNA-1371. Пытается удалить только то, что поставили мы сами.
+        //INFO Пытается удалить только то, что поставили мы сами.
         QStringList result;
 
         QString installPath = service->installPath();

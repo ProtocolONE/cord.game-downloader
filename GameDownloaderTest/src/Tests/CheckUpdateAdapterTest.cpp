@@ -12,14 +12,14 @@
 #include <QtCore/QUrl>
 #include <QtCore/QCoreApplication>
 
-using namespace GGS::Settings;
-using namespace GGS::GameDownloader;
+using namespace P1::Settings;
+using namespace P1::GameDownloader;
 
 class CheckUpdateAdapterTest : public ::testing::Test {
 protected:
   void saveLastModifiedDate(const QString& date, const QString& id)
   {
-    GGS::Settings::Settings settings; 
+    P1::Settings::Settings settings; 
     QString groupName = QString("GameDownloader/CheckUpdate/%1").arg(id);
     settings.beginGroup(groupName);
     settings.setValue("LastModified", date, true);
@@ -27,14 +27,14 @@ protected:
 
   QString loadLastModifiedDate(const QString& id)
   {
-    GGS::Settings::Settings settings; 
+    P1::Settings::Settings settings; 
     QString groupName = QString("GameDownloader/CheckUpdate/%1").arg(id);
     settings.beginGroup(groupName);
     return settings.value("LastModified", "").toString();
   }
 
-  GGS::Core::Service *buildService(QUrl &url) {
-    GGS::Core::Service *service = new GGS::Core::Service();
+  P1::Core::Service *buildService(QUrl &url) {
+    P1::Core::Service *service = new P1::Core::Service();
     service->setTorrentUrl(url);
     QString root = QCoreApplication::applicationDirPath();
     filePath = root.append("/game");
@@ -43,7 +43,7 @@ protected:
 
     service->setTorrentFilePath(filePath);
     service->setId("300002010000000000");
-    service->setArea(GGS::Core::Service::Live);
+    service->setArea(P1::Core::Service::Live);
 
     this->saveLastModifiedDate("", "300002010000000000");
 
@@ -52,8 +52,8 @@ protected:
 
   virtual void SetUp() {
     killer = new TestEventLoopFinisher(&this->loop, 10000);
-    spyComplete = new QSignalSpy(&adapter, SIGNAL(checkUpdateCompleted(const GGS::Core::Service *, bool)));
-    spyFailed = new QSignalSpy(&adapter, SIGNAL(checkUpdateFailed(const GGS::Core::Service *)));
+    spyComplete = new QSignalSpy(&adapter, SIGNAL(checkUpdateCompleted(const P1::Core::Service *, bool)));
+    spyFailed = new QSignalSpy(&adapter, SIGNAL(checkUpdateFailed(const P1::Core::Service *)));
   }
 
   virtual void TearDown() {
@@ -71,9 +71,9 @@ protected:
 
 TEST_F(CheckUpdateAdapterTest, NormalTest)
 {
-  QObject::connect(&adapter, SIGNAL(checkUpdateCompleted(const GGS::Core::Service *, bool)), killer, SLOT(terminateLoop()));
+  QObject::connect(&adapter, SIGNAL(checkUpdateCompleted(const P1::Core::Service *, bool)), killer, SLOT(terminateLoop()));
 
-  QScopedPointer<GGS::Core::Service> service(buildService(QUrl("http://fs0.gamenet.ru/update/aika/")));
+  QScopedPointer<P1::Core::Service> service(buildService(QUrl("http://fs0.protocol.one.ru/update/aika/")));
   adapter.checkUpdateRequest(service.data(), CheckUpdateHelper::Normal);
 
   loop.exec();
@@ -82,15 +82,15 @@ TEST_F(CheckUpdateAdapterTest, NormalTest)
   ASSERT_EQ(0, spyFailed->count());
 
   QList<QVariant> arguments = spyComplete->takeFirst();
-  ASSERT_EQ(service.data(), arguments.at(0).value<const GGS::Core::Service *>());
+  ASSERT_EQ(service.data(), arguments.at(0).value<const P1::Core::Service *>());
   ASSERT_TRUE(arguments.at(1).toBool());
 }
 
 TEST_F(CheckUpdateAdapterTest, FailTest)
 {
-  QObject::connect(&adapter, SIGNAL(checkUpdateFailed(const GGS::Core::Service *)), killer, SLOT(terminateLoop()));
+  QObject::connect(&adapter, SIGNAL(checkUpdateFailed(const P1::Core::Service *)), killer, SLOT(terminateLoop()));
 
-  QScopedPointer<GGS::Core::Service> service(buildService(QUrl("http://fs0wfake.gamenetfake.ru/update/aika/")));
+  QScopedPointer<P1::Core::Service> service(buildService(QUrl("http://fs0wfake.protocol_fake.one/update/aika/")));
   adapter.checkUpdateRequest(service.data(), CheckUpdateHelper::Normal);
 
   loop.exec();
@@ -99,5 +99,5 @@ TEST_F(CheckUpdateAdapterTest, FailTest)
   ASSERT_EQ(1, spyFailed->count());
 
   QList<QVariant> arguments = spyFailed->takeFirst();
-  ASSERT_EQ(service.data(), arguments.at(0).value<const GGS::Core::Service *>());
+  ASSERT_EQ(service.data(), arguments.at(0).value<const P1::Core::Service *>());
 }

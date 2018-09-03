@@ -101,7 +101,7 @@ namespace P1 {
 
       /*!
       \fn GameDownloadService::setCredentials(const QString &userId, const QString &hash);
-      \brief Устанавливает идентификатор пользователя, выполняеющего загрузку торрента. Подробнее в QGNA-1319.
+      \brief Устанавливает идентификатор пользователя, выполняеющего загрузку торрента.
 
       \param userId Идентификатор пользователя
       \param hash Хеш для текущего идентификатора

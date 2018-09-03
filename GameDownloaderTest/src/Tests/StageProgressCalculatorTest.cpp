@@ -9,16 +9,16 @@
 #include <QtTest/QSignalSpy>
 
 #include <gtest/gtest.h>
-using namespace GGS::GameDownloader;
+using namespace P1::GameDownloader;
 
 class StageProgressCalculatorTest : public ::testing::Test
 {
 public:
-  GGS::GameDownloader::StageProgressCalculator calc;
+  P1::GameDownloader::StageProgressCalculator calc;
 
   virtual void SetUp() {
     this->spy = new QSignalSpy(&calc, SIGNAL(progressChanged(QString, qint8)));
-    this->spy1 = new QSignalSpy(&calc, SIGNAL(progressDownloadChanged(QString, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)));
+    this->spy1 = new QSignalSpy(&calc, SIGNAL(progressDownloadChanged(QString, qint8, P1::Libtorrent::EventArgs::ProgressEventArgs)));
     this->spy2 = new QSignalSpy(&calc, SIGNAL(progressExtractionChanged(QString, qint8, qint64, qint64)));
 
     this->calc.setCheckUpdateStageSize(5);
@@ -47,7 +47,7 @@ TEST_F(StageProgressCalculatorTest, progressCheckUpdate)
   int i = 0;
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 5000);
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   QString id = "someServiceId";
 
   std::tr1::function<void ()> progressCaller = [id, &progress, &i, &pcalc, &loop]() mutable -> void {
@@ -98,7 +98,7 @@ TEST_F(StageProgressCalculatorTest, progressPreHook)
   TestEventLoopFinisher killer(&loop, 50000);
   
   int progress[] = {0, 20, 40, 60, 80, 100};
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   int i = 0;
   std::tr1::function<void ()> progressCaller1 = [id, &progress, &i, &pcalc, &loop, &hook1]() mutable -> void {
     pcalc->preHookProgress(id, hook1.hookId(), progress[i]);
@@ -178,7 +178,7 @@ TEST_F(StageProgressCalculatorTest, progressPostHook)
   TestEventLoopFinisher killer(&loop, 50000);
 
   int progress[] = {0, 20, 40, 60, 80, 100};
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   int i = 0;
   std::tr1::function<void ()> progressCaller1 = [id, &progress, &i, &pcalc, &loop, &hook1]() mutable -> void {
     pcalc->postHookProgress(id, hook1.hookId(), progress[i]);
@@ -261,7 +261,7 @@ TEST_F(StageProgressCalculatorTest, progressZeroHook)
   TestEventLoopFinisher killer(&loop, 50000);
 
   int progress[] = {0, 20, 40, 60, 80, 100};
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   int i = 0;
   std::tr1::function<void ()> progressCaller1 = [id, &progress, &i, &pcalc, &loop, &hook1]() mutable -> void {
     pcalc->preHookProgress(id, hook1.hookId(), progress[i]);
@@ -330,10 +330,10 @@ TEST_F(StageProgressCalculatorTest, progressTorrentRehashing)
   int i = 0;
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 5000);
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   QString id = "someServiceId";
 
-  using GGS::Libtorrent::EventArgs::ProgressEventArgs;
+  using P1::Libtorrent::EventArgs::ProgressEventArgs;
 
   ProgressEventArgs args;
   args.setDownloadRate(100000);
@@ -379,10 +379,10 @@ TEST_F(StageProgressCalculatorTest, progressTorrentDownloading)
   int i = 0;
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 5000);
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   QString id = "someServiceId";
 
-  using GGS::Libtorrent::EventArgs::ProgressEventArgs;
+  using P1::Libtorrent::EventArgs::ProgressEventArgs;
 
   ProgressEventArgs args;
   args.setDownloadRate(100000);
@@ -428,7 +428,7 @@ TEST_F(StageProgressCalculatorTest, progressExtraction)
   int i = 0;
   QEventLoop loop;
   TestEventLoopFinisher killer(&loop, 50000);
-  GGS::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
+  P1::GameDownloader::StageProgressCalculator *pcalc = &this->calc;
   QString id = "someServiceId";
   int files[] = {0, 1, 2, 3, 4, 5};
   int total = 5;

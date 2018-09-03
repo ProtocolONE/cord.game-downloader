@@ -58,7 +58,7 @@ namespace P1 {
       void BindiffBehavior::run(BindiffBehaviorPrivate* data) 
       {
         if (!data->_patchFiles.isEmpty()) {
-          //INFO QGNA-1377 Смысл в том, чтобы гарантировать остановку торрента перед тем, как применять биндиф. Все файлы должны быть без 
+          //INFO Смысл в том, чтобы гарантировать остановку торрента перед тем, как применять биндиф. Все файлы должны быть без 
           //блокировок. Более того, после применения бин дифа торрент будет по определению не валидный.
           this->_wrapper->remove(data->_state->id());
           data->_state->setGenerateFastResume(true);
