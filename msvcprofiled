@@ -12,7 +12,7 @@ build_type=Debug
 [options]
 shared=False
 UpdateSystem:shared=False
-LibtorrentWrapper:shared=False
+LibtorrentWrapper:shared=True
 Core:shared=False
 Settings:shared=False
 
