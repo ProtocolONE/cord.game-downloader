@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (�) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -34,7 +34,10 @@ namespace GGS {
         enum Results : int
         {
           Paused = 0,
-          Finished = 1
+          Finished = 1,
+          
+          // Хук решил что обновление прошлои плохо и отправил в начало.
+          ReturnToStart = 2,
         };
 
         explicit PostHookBehavior(QObject *parent = 0);

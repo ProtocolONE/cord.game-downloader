@@ -66,6 +66,7 @@ namespace GGS {
         this->setRoute(&this->_downloadBehavior, TorrentDownloadBehavior::Downloaded, &this->_extractionBehavior);
         this->setRoute(&this->_extractionBehavior, ExtractorBehavior::Finished, &this->_gameDownloader->_postHook);
         this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::Finished, &this->_finishBehavior);
+        this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::ReturnToStart, &this->_checkUpdateBehavior);
       }
 
       void SimpleVersion::registerExtractor(ExtractorBase *extractor)

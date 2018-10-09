@@ -89,7 +89,7 @@ namespace GGS {
         \param postHookPriority Приоритет хука после скачивания.
         \param [in,out] hook    Хук.
       */
-      void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
+      virtual void registerHook(const QString& serviceId, int preHookPriority, int postHookPriority, HookBase *hook);
       
       virtual bool isInProgress(const GGS::Core::Service *service);
       virtual bool isAnyServiceInProgress();
@@ -120,8 +120,11 @@ namespace GGS {
 
       void statusMessageChanged(const GGS::Core::Service *service, const QString& message);
 
-      void progressChanged(QString serviceId, qint8 progress);
+      // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
+      void progressChanged(QString serviceId, qint8 progress); 
+      // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
       void progressDownloadChanged(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      // INFO 01.09.2014 сигнал не эмититься нигде - удалить в будущем
       void progressExtractionChanged(QString serviceId, qint8 progress, qint64 current, qint64 total);
 
       void totalProgressChanged(const GGS::Core::Service *service, qint8 progress);
@@ -136,8 +139,11 @@ namespace GGS {
     private slots:
       void internalStatusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
 
+      // INFO 01.09.2014 удалить - нигде не вызывается
       void internalProgressChangedSlot(QString serviceId, qint8 progress);
+      // INFO 01.09.2014 удалить - нигде не вызывается
       void internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args);
+      // INFO 01.09.2014 удалить - нигде не вызывается
       void internalProgressExtractionChangedSlot(QString serviceId, qint8 progress, qint64 current, qint64 total);
 
       void internalTotalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress);

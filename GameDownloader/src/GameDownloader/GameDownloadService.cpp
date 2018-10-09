@@ -30,7 +30,7 @@ namespace GGS {
       , _wrapper(new GGS::Libtorrent::Wrapper)
     {
     }
-
+    
     GameDownloadService::~GameDownloadService()
     {
       if (this->_isShuttingDown) {
@@ -156,6 +156,7 @@ namespace GGS {
 
     }
 
+    // INFO 01.09.2014 Функция не вызывается нигде - надо удлаить в том числе с сигналом progressChanged
     void GameDownloadService::internalProgressChangedSlot(QString serviceId, qint8 progress)
     {
       if (!this->_stateLock.tryLock()) 
@@ -168,6 +169,7 @@ namespace GGS {
       this->_stateLock.unlock();
     }
 
+    // INFO 01.09.2014 Функция не вызывается нигде - надо удлаить в том числе с сигналом progressDownloadChanged
     void GameDownloadService::internalProgressDownloadChangedSlot(QString serviceId, qint8 progress, GGS::Libtorrent::EventArgs::ProgressEventArgs args)
     {
       if (!this->_stateLock.tryLock()) 
@@ -180,6 +182,7 @@ namespace GGS {
       this->_stateLock.unlock();
     }
 
+    // INFO 01.09.2014 удалить - нигде не вызывается
     void GameDownloadService::internalProgressExtractionChangedSlot(QString serviceId, qint8 progress, qint64 current, qint64 total)
     {
       if (!this->_stateLock.tryLock()) 

@@ -62,7 +62,6 @@
     <ClCompile Include="GeneratedFiles\Release\moc_SevenZipGameExtractor.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_UpdateInfoGetterResultEventLoopKiller.cpp" />
     <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\PreHookBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\private\BindiffBehaviorPrivate.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />
@@ -163,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="src\GameDownloader\Common\FileUtils.cpp">
       <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

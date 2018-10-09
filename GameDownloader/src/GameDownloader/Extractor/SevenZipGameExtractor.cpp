@@ -187,7 +187,7 @@ namespace GGS {
           checkedFilesCount++;
           if (!skipedProgres || ((checkedFilesCount % progressMod) == 0 || checkedFilesCount == totalFilesCount)) {
             emit this->extractionProgressChanged(state, 
-              static_cast<qint8>(40.0f * static_cast<qreal>(checkedFilesCount) / static_cast<qreal>(totalFilesCount)), 0, 0);
+              static_cast<qint8>(15.0f * static_cast<qreal>(checkedFilesCount) / static_cast<qreal>(totalFilesCount)), 0, 0);
           } 
 
           if (!existingFilesHash.contains(relativePath.toLower())) {
@@ -339,7 +339,7 @@ namespace GGS {
         const GGS::Core::Service *service = state->service();
 
         qint64 totalFilesCount = filesToExtraction.count();
-        emit this->extractionProgressChanged(state, 40, 0, totalFilesCount);
+        emit this->extractionProgressChanged(state, 15, 0, totalFilesCount);
 
         using namespace GGS::Extractor;
         SevenZipExtactor extractor;
@@ -375,7 +375,7 @@ namespace GGS {
           extractedFilesCount++;
 
           if (!skipedProgres || ((extractedFilesCount % progressMod) == 0 || extractedFilesCount == totalFilesCount)) {
-            qint8 progress = 40 + static_cast<qint8>(60 * (static_cast<qreal>(extractedFilesCount) / static_cast<qreal>(totalFilesCount)));
+            qint8 progress = 15 + static_cast<qint8>(85 * (static_cast<qreal>(extractedFilesCount) / static_cast<qreal>(totalFilesCount)));
             emit this->extractionProgressChanged(state, progress, extractedFilesCount, totalFilesCount);
           } 
 

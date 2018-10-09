@@ -95,43 +95,10 @@ namespace GGS {
         this->setRoute(&this->_compressor2, CompressorBehavior::Finished, &this->_gameDownloader->_postHook);
 
         this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::Finished, &this->_finish);
+        this->setRoute(&this->_gameDownloader->_postHook, PostHookBehavior::ReturnToStart, &this->_gameDownloader->_preHookBehavior);
 
         this->setRoute(&this->_bindDiffFailed, BindiffFailedBehavior::Finished, &this->_getNewTorrent);
 
-<<<<<<< HEAD
-        // Setup progress
-        this->setProgress(&this->_gameDownloader->_preHookBehavior, 1);
-        this->setProgress(&this->_bindiff1, 10);
-        this->setProgress(&this->_compressor1, 10);
-        this->setProgress(&this->_rehashClient, 10);
-
-        this->setProgress(&this->_downloadBindiff, 10);
-        this->setProgress(&this->_bindiff2, 10);
-        this->setProgress(&this->_compressor2, 10);
-
-        this->setProgress(&this->_torrentDownloadGame, 10);
-        this->setProgress(&this->_extraction, 10);
-        this->setProgress(&this->_gameDownloader->_postHook, 1);
-
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          &this->_torrentDownloadGame, 
-          SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
-          &this->_gameDownloader->_progressCalculator, 
-          SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
-        
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          &this->_downloadBindiff, 
-          SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
-          &this->_gameDownloader->_progressCalculator, 
-          SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
-
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          &this->_rehashClient, 
-          SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
-          &this->_gameDownloader->_progressCalculator, 
-          SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
-          
-=======
         this->setupProgress();
 
         QObject::connect(&this->_torrentDownloadGame, &TorrentDownloadBehavior::downloadProgressChanged,
@@ -143,7 +110,6 @@ namespace GGS {
         QObject::connect(&this->_rehashClient, &RehashClientBehavior::downloadProgressChanged,
           &this->_gameDownloader->_progressCalculator, &ProgressCalculator::downloadSlot);
 
->>>>>>> aca8d54... QGNA-1027 При первой установке игры прогрес бар масштабируется в основном на скачивание и распаковку игнорируя "плохие" случаи.
         QObject::connect(&this->_torrentDownloadGame, &Behavior::TorrentDownloadBehavior::downloadFinished,
           this->_gameDownloader, &GameDownloadService::internalTorrentDownloadFinished, Qt::QueuedConnection);
       }

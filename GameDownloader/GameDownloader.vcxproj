@@ -149,6 +149,7 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameDownloader\Common\FileUtils.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_BindiffBehaviorPrivate.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -364,7 +365,6 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86
     <ClCompile Include="GeneratedFiles\Release\moc_XdeltaDecoder.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\PreHookBehavior.cpp" />
     <ClCompile Include="src\GameDownloader\Behavior\private\BindiffBehaviorPrivate.cpp" />
     <ClCompile Include="src\GameDownloader\Hooks\InstallDependency.cpp" />

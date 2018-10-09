@@ -1,7 +1,7 @@
 /****************************************************************************
 ** This file is a part of Syncopate Limited GameNet Application or it parts.
 **
-** Copyright (©) 2011 - 2012, Syncopate Limited and/or affiliates.
+** Copyright (Â©) 2011 - 2012, Syncopate Limited and/or affiliates.
 ** All rights reserved.
 **
 ** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
@@ -46,7 +46,7 @@ namespace GGS {
         Q_CHECK_PTR(state->service());
 
         if (state->state() != ServiceState::Started) {
-          emit this->postHooksCompleted(state, HookBase::Continue); // Ïîõîäó íàäî áóäåò óğåçàòü ğåçóëüòàòû õóêîâ 
+          emit this->postHooksCompleted(state, HookBase::Continue); // ĞŸĞ¾Ñ…Ğ¾Ğ´Ñƒ Ğ½Ğ°Ğ´Ğ¾ Ğ±ÑƒĞ´ĞµÑ‚ ÑƒÑ€ĞµĞ·Ğ°Ñ‚ÑŒ Ñ€ĞµĞ·ÑƒĞ»ÑŒÑ‚Ğ°Ñ‚Ñ‹ Ñ…ÑƒĞºĞ¾Ğ² 
         }
 
         const GGS::Core::Service *service = state->service();
@@ -56,7 +56,7 @@ namespace GGS {
         if(this->_afterDownloadHookMap.contains(service->id())) {
           Q_FOREACH(HookBase *hook, this->_afterDownloadHookMap[service->id()]) {
             if (state->state() != ServiceState::Started) {
-              emit this->postHooksCompleted(state, HookBase::Continue); // Ïîõîäó íàäî áóäåò óğåçàòü ğåçóëüòàòû õóêîâ 
+              emit this->postHooksCompleted(state, HookBase::Continue); // ĞŸĞ¾Ñ…Ğ¾Ğ´Ñƒ Ğ½Ğ°Ğ´Ğ¾ Ğ±ÑƒĞ´ĞµÑ‚ ÑƒÑ€ĞµĞ·Ğ°Ñ‚ÑŒ Ñ€ĞµĞ·ÑƒĞ»ÑŒÑ‚Ğ°Ñ‚Ñ‹ Ñ…ÑƒĞºĞ¾Ğ² 
               return;
             }
 
@@ -73,9 +73,11 @@ namespace GGS {
 
       void PostHookBehavior::postHooksCompletedSlot(ServiceState *state, HookBase::HookResult result)
       {
-        // UNDONE Ìîæíî òóò êñòàòè îáğàáîòàòü ğàçíûå âûõîäû ñ õóêîâ è âûçâàòü ëèáî ôåéëè ëèáî ğàçíûå âûõîäû
+        // UNDONE ĞœĞ¾Ğ¶Ğ½Ğ¾ Ñ‚ÑƒÑ‚ ĞºÑÑ‚Ğ°Ñ‚Ğ¸ Ğ¾Ğ±Ñ€Ğ°Ğ±Ğ¾Ñ‚Ğ°Ñ‚ÑŒ Ñ€Ğ°Ğ·Ğ½Ñ‹Ğµ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ñ‹ Ñ Ñ…ÑƒĞºĞ¾Ğ² Ğ¸ Ğ²Ñ‹Ğ·Ğ²Ğ°Ñ‚ÑŒ Ğ»Ğ¸Ğ±Ğ¾ Ñ„ĞµĞ¹Ğ»Ğ¸ Ğ»Ğ¸Ğ±Ğ¾ Ñ€Ğ°Ğ·Ğ½Ñ‹Ğµ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ñ‹
         if (result == HookBase::Continue)
           emit this->next(Finished, state);
+        else if (result == HookBase::CheckUpdate)
+          emit this->next(ReturnToStart, state);
         else
           emit failed(state);
       }
