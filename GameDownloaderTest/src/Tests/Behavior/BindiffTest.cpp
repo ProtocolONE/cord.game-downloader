@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <QtCore/QStringList>
+#include <QtCore/QDataStream>
 #include <Settings/Settings>
 #include <QEventLoop>
 

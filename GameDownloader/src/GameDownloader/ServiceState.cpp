@@ -15,6 +15,7 @@
 #include <Core/Service>
 
 #include <QtCore/QDateTime>
+#include <QtCore/QDataStream>
 
 namespace GGS {
   namespace GameDownloader {

@@ -7,8 +7,9 @@
     <CoreArea>trunk</CoreArea>
     <SettingsArea>trunk</SettingsArea>
     <UpdateSystemArea>trunk</UpdateSystemArea>
-    <BugTrapArea>1.3.3718.38316</BugTrapArea>
+    <BugTrapArea>1.3.3718.38316.vs13</BugTrapArea>
     <XdeltaArea>3.0.6</XdeltaArea>
+    <OpenSSLArea>1.0.2d</OpenSSLArea>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
@@ -39,6 +40,10 @@
     </BuildMacro>
     <BuildMacro Include="XdeltaArea">
       <Value>$(XdeltaArea)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="OpenSSLArea">
+      <Value>$(OpenSSLArea)</Value>
       <EnvironmentVariable>true</EnvironmentVariable>
     </BuildMacro>
   </ItemGroup>

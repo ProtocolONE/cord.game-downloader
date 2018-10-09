@@ -33,6 +33,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
+#include <QtCore/QDataStream>
 
 namespace GGS {
   namespace GameDownloader {

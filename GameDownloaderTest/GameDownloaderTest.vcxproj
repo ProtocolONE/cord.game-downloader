@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -18,10 +18,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -55,15 +57,15 @@
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QGNACOMMONDIR)\Google\gtest\1.6.0\include;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(QGNACOMMONDIR)\Google\gtest\1.6.0\lib;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\lib;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Sqld.lib;Qt5Testd.lib;gtestd.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;UpdateSystemX86d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Sqld.lib;Qt5Testd.lib;gtestX86-md-d.lib;GameDownloaderX86d.lib;CoreX86d.lib;SettingsX86d.lib;LibtorrentWrapperX86d.lib;UpdateSystemX86d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>SET D=""
@@ -77,17 +79,32 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
 xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86%D%.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\bin\LibtorrentWrapperX86%D%.dll" "$(TargetDir)"
 
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtCore%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icudt53.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icuin53.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icuuc53.dll" "$(TargetDir)"
 
+xcopy /Y /I /R "$(QTDIR)\bin\libexpat.dll" "$(TargetDir)"
+
+xcopy /Y /I /R "$(QTDIR)\bin\libEGL%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QTDIR)\bin\libGLESv2%D%.dll" "$(TargetDir)"
+
+xcopy /Y /I /R "$(QTDIR)\plugins\platforms\qwindows%D%.dll" "$(TargetDir)platforms\"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Core%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Concurrent%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5DBus%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Network%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Sql%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Xml%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Widgets%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Script%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Test%D%.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plugins\sqldrivers\"
 
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
 
-xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Command>
+xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
@@ -100,15 +117,15 @@ xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Comma
       <DebugInformationFormat>
       </DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QGNACOMMONDIR)\Google\gtest\1.6.0\include;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include;$(SolutionDir)GameDownloader\include;$(VLDDIR)\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(TargetPath)</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(QGNACOMMONDIR)\Google\gtest\1.6.0\lib;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(VLDDIR)\lib\Win32\;$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\lib;$(SolutionDir)!build\GameDownloader\$(Configuration)\;$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\lib;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\lib\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\lib;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\lib;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;gtest.lib;GameDownloaderX86.lib;libcurl.lib;CoreX86.lib;Qt5Test.lib;SettingsX86.lib;Qt5Sql.lib;LibtorrentWrapperX86.lib;UpdateSystemX86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>qtmain.lib;Qt5Core.lib;gtestX86-md.lib;GameDownloaderX86.lib;CoreX86.lib;Qt5Test.lib;SettingsX86.lib;Qt5Sql.lib;LibtorrentWrapperX86.lib;UpdateSystemX86.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>SET D=""
@@ -122,17 +139,32 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\bin\7zD
 xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\bin\SettingsX86%D%.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\bin\LibtorrentWrapperX86%D%.dll" "$(TargetDir)"
 
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtCore%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtXml%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtSql%D%4.dll" "$(TargetDir)"
-xcopy /Y /I /R /E "$(QTDIR)\bin\QtNetwork%D%4.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icudt53.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icuin53.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QGNACOMMONDIR)\icu\53.vc13\bin\icuuc53.dll" "$(TargetDir)"
 
+xcopy /Y /I /R "$(QTDIR)\bin\libexpat.dll" "$(TargetDir)"
+
+xcopy /Y /I /R "$(QTDIR)\bin\libEGL%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R "$(QTDIR)\bin\libGLESv2%D%.dll" "$(TargetDir)"
+
+xcopy /Y /I /R "$(QTDIR)\plugins\platforms\qwindows%D%.dll" "$(TargetDir)platforms\"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Core%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Concurrent%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5DBus%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Network%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Sql%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Xml%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Widgets%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Script%D%.dll" "$(TargetDir)"
+xcopy /Y /I /R /E "$(QTDIR)\bin\Qt5Test%D%.dll" "$(TargetDir)"
 xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plugins\sqldrivers\"
 
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
 
-xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Command>
+xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
+</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>xcopy /Y /I /R "$(TargetDir)..\..\GameDownloader\$(ConfigurationName)\*.dll" "$(TargetDir)"
@@ -196,11 +228,11 @@ xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Comma
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing TestBehavior.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing TestBehavior.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -D_UNICODE "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <ClInclude Include="include\ExternalToolHelper.h" />
     <ClInclude Include="include\FileUtils.h" />
@@ -209,52 +241,52 @@ xcopy /Y /I /R "$(QGNACOMMONDIR)\OpenSSL\0.9.8r\bin\*.dll" "$(TargetDir)"</Comma
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing SignalCounter.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing SignalCounter.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <CustomBuild Include="include\SingleShotFunctor.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing SingleShotFunctor.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing SingleShotFunctor.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <CustomBuild Include="include\FakeLibtorrentWrapperAdapter.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing FakeLibtorrentWrapperAdapter.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing FakeLibtorrentWrapperAdapter.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <CustomBuild Include="include\MessageAdapterMock.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing MessageAdapterMock.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing MessageAdapterMock.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
     <ClInclude Include="include\SimpleContinueHook.h" />
     <CustomBuild Include="include\TestEventLoopFinisher.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing TestEventLoopFinisher.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_CORE_LIB -DVLD_CHECK_ENABLED_NO -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing TestEventLoopFinisher.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.6.0\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_SQL_LIB -DNOMINMAX -DQT_DLL -D_UNICODE  "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QGNACOMMONDIR)\Google\gtest\1.7.0.vs13\include" "-I$(QGNACOMMONDIR)\Haxx\Curl\7.24.0\include" "-I$(SolutionDir)GameDownloader\include" "-I$(VLDDIR)\include" "-I$(ProjectDir)include" "-I$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include" "-I$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include" "-I$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include" "-I$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include" "-I$(QTDIR)\include\QtTest" "-I$(QTDIR)\include\QtSql"</Command>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

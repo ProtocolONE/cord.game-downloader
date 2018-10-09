@@ -27,7 +27,7 @@ namespace GGS {
   namespace GameDownloader {
     using Behavior::BaseBehavior;
 
-    // UNDONE в тесте не проверил что после любой остановки должен быть стейт STOPPED 
+    // UNDONE в тесте не проверил что после любой остановки д олжен быть стейт STOPPED 
     StateMachine::StateMachine(QObject *parent)
       : QObject(parent)
       , _startBehavior(0)
