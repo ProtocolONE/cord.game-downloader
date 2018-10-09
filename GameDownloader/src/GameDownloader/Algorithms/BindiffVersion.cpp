@@ -125,15 +125,7 @@ namespace GGS {
           SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
 
         SIGNAL_CONNECT_CHECK(QObject::connect(
-<<<<<<< HEAD
-<<<<<<< HEAD
           &this->_rehashClient, 
-=======
-          &this->RehashClientBehavior, 
->>>>>>> 52f2013... QGNA-295 Поменял схему шагов чутка. Тперь шаг BindiffFailedBehavior будет вызываться толкьоп соле непосредственного фейла применения биндифа. Подключил прогрес хеширования. Добавил UNDONE в BindiffFailedBehavior - надо ресетнуть списки на распаковку.
-=======
-          &this->_rehashClient, 
->>>>>>> 2b34a9d... QGNA-295 Подредактирвоал схемку и версию
           SIGNAL(downloadProgressChanged(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs)),
           &this->_gameDownloader->_progressCalculator, 
           SLOT(downloadSlot(GGS::GameDownloader::ServiceState *, qint8, GGS::Libtorrent::EventArgs::ProgressEventArgs))));
@@ -146,30 +138,7 @@ namespace GGS {
         this->_compressor1.registerCompressor(extractor);
         this->_compressor2.registerCompressor(extractor);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-        SIGNAL_CONNECT_CHECK(QObject::connect(
-          extractor, 
-          SIGNAL(extractionProgressChanged(const QString&, qint8, qint64, qint64)), 
-          &this->_gameDownloader->_progressCalculator, 
-          SLOT(extractionProgress(const QString&, qint8, qint64, qint64)), 
-          Qt::QueuedConnection));
-=======
-        this->_setAllPacked1.registerExtractor(extractor);
-        this->_setAllPacked2.registerExtractor(extractor);
-
->>>>>>> 3aa34fc... QGNA-295 Прправил пару багов
-=======
         this->_setAllPacked.registerExtractor(extractor);
->>>>>>> 6ec2931... QGNA-295 Починил бару багов
-=======
-        this->_setAllPacked.registerExtractor(extractor);
->>>>>>> 0e957b6... QGNA-295 Переписал Каклькулятор прогресса и прикрутил к простому механизму
-=======
-        this->_setAllPacked.registerExtractor(extractor);
->>>>>>> 0692199... QGNA-295 Новый сигнал в BaseBehavior
       }
 
       void BindiffVersion::registerBehavior(BaseBehavior *behavior)

@@ -73,7 +73,8 @@ TEST(BehaviorBindiff, BehaviorBindiffTest)
   service.setInstallPath(root + "OriginalFiles");
   service.setDownloadPath(root + "OriginalFiles");
   service.setArea(GGS::Core::Service::Live);
-
+  
+  state.setState(GGS::GameDownloader::ServiceState::Started);
   state.setService(&service);
   state.setPatchFiles(files);
   state.setPatchVersion(patchVersion);

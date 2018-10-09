@@ -37,18 +37,8 @@ namespace GGS {
         GGS::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
         settings.beginGroup("SevenZipGameExtractor");
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (settings.value(state->id(), QByteArray()) != QByteArray()) {
-          settings.setValue(state->id(), QByteArray());
-        }
-=======
-        settings.setValue(state->id(), QByteArray());
->>>>>>> 4ffdcdc... QGNA-295 правки по ревью
-=======
         if (settings.value(state->id(), QByteArray()) != QByteArray())
           settings.setValue(state->id(), QByteArray());
->>>>>>> 87d1f88... QGNA-295 Правки по ревью
 
         emit this->next(Finished, state);
       }

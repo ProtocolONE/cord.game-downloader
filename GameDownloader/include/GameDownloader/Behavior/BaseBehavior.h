@@ -37,11 +37,8 @@ namespace GGS {
         void finished(GGS::GameDownloader::ServiceState *state);
         void failed(GGS::GameDownloader::ServiceState *state);
 
-<<<<<<< HEAD
         void totalProgressChanged(GGS::GameDownloader::ServiceState *state, qint8 progress);
-=======
         void statusMessageChanged(GGS::GameDownloader::ServiceState *state, const QString& message);
->>>>>>> 0692199... QGNA-295 Новый сигнал в BaseBehavior
       };
 
     }
