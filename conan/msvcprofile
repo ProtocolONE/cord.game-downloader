@@ -1,0 +1,25 @@
+[settings]
+os=Windows
+arch=x86
+compiler=Visual Studio
+compiler.version=12
+compiler.runtime=MD
+compiler.toolset=v120_xp
+build_type=Release
+os_build=Windows
+arch_build=x86
+
+[options]
+shared=False
+UpdateSystem:shared=False
+LibtorrentWrapper:shared=True
+Core:shared=False
+Settings:shared=False
+
+[build_requires]
+UpdateSystem/1.0.0@common/stable
+LibtorrentWrapper/1.0.0@common/stable
+Core/1.0.0@common/stable
+Settings/1.0.0@common/stable
+
+[env]
