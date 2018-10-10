@@ -1,9 +1,8 @@
 set PackageName=GameDownloader/1.0.0@common/stable
-conan install . -pr msvcprofile
-conan create . %PackageName% -pr msvcprofile
 
-conan install . -pr msvcprofiled
-conan create . %PackageName% -pr msvcprofiled
+@call install.deps.cmd
 
-@rem conan test CoreTest Core/1.0.0@common/stable -pr msvcprofile
+conan create . %PackageName% -pr conan/msvcprofile
+conan create . %PackageName% -pr conan/msvcprofiled
+
 conan upload %PackageName% --all -r=p1

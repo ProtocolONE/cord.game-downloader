@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameDownloader", "GameDownloader\GameDownloader.vcxproj", "{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{884239B1-C8C7-426B-9AD1-35D8216C2550}"
-	ProjectSection(SolutionItems) = preProject
-		Deploy.props = Deploy.props
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameDownloaderTest", "GameDownloaderTest\GameDownloaderTest.vcxproj", "{F3385209-5789-4A0D-9E34-74956A34E16E}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -19,33 +16,23 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
-		Static Debug|Win32 = Static Debug|Win32
-		Static Release|Win32 = Static Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Debug|Win32.Build.0 = Debug|Win32
 		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Release|Win32.ActiveCfg = Release|Win32
 		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Release|Win32.Build.0 = Release|Win32
-		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Static Debug|Win32.ActiveCfg = Static Debug|Win32
-		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Static Debug|Win32.Build.0 = Static Debug|Win32
-		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Static Release|Win32.ActiveCfg = Static Release|Win32
-		{A9691D7A-7B0C-4C6F-8CE8-B87F3FA5B8C4}.Static Release|Win32.Build.0 = Static Release|Win32
 		{F3385209-5789-4A0D-9E34-74956A34E16E}.Debug|Win32.ActiveCfg = Debug|Win32
 		{F3385209-5789-4A0D-9E34-74956A34E16E}.Debug|Win32.Build.0 = Debug|Win32
 		{F3385209-5789-4A0D-9E34-74956A34E16E}.Release|Win32.ActiveCfg = Release|Win32
 		{F3385209-5789-4A0D-9E34-74956A34E16E}.Release|Win32.Build.0 = Release|Win32
-		{F3385209-5789-4A0D-9E34-74956A34E16E}.Static Debug|Win32.ActiveCfg = Static Debug|Win32
-		{F3385209-5789-4A0D-9E34-74956A34E16E}.Static Debug|Win32.Build.0 = Static Debug|Win32
-		{F3385209-5789-4A0D-9E34-74956A34E16E}.Static Release|Win32.ActiveCfg = Static Release|Win32
-		{F3385209-5789-4A0D-9E34-74956A34E16E}.Static Release|Win32.Build.0 = Static Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		QtVersion = $(DefaultQtVersion)
-		Qt5Version = $(DefaultQtVersion)
 		SolutionGuid = {F89F49BF-A3DA-4887-995F-1794CD60FF41}
+		Qt5Version = $(DefaultQtVersion)
+		QtVersion = $(DefaultQtVersion)
 	EndGlobalSection
 EndGlobal
