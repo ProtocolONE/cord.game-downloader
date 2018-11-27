@@ -13,17 +13,18 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F3385209-5789-4A0D-9E34-74956A34E16E}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141_xp</PlatformToolset>
+    <PlatformToolset>v120_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
@@ -62,10 +63,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>UNICODE;WIN32;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_MINI_ZIP_LIB;UNICODE;WIN32;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -114,7 +115,7 @@ xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plug
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
 
-xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
+rem xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
@@ -125,15 +126,15 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetD
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles\$(ConfigurationName)\.;.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns</IncludePath>
-      <Define>UNICODE;WIN32;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;_USING_V110_SDK71_;_UNICODE</Define>
+      <Define>USE_MINI_ZIP_LIB;UNICODE;WIN32;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>USE_MINI_ZIP_LIB;UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>
       </DebugInformationFormat>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>.\GeneratedFiles\$(ConfigurationName);.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include\;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include\;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -182,7 +183,7 @@ xcopy /Y /I /R /E "$(QTDIR)\plugins\sqldrivers\qsqlite%D%.dll" "$(TargetDir)plug
 @rem fixtures copy:
 xcopy /Y /I /R /E "$(ProjectDir)fixtures\*.*" "$(TargetDir)fixtures\"
 
-xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
+rem xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetDir)"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
@@ -193,13 +194,16 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetD
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles\$(ConfigurationName)\.;.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns</IncludePath>
-      <Define>UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;_USING_V110_SDK71_;_UNICODE</Define>
+      <Define>USE_MINI_ZIP_LIB;UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deps\gmock-gtest-all.cc" />
+    <ClCompile Include="src\FakeCheckUpdateAdapter.cpp" />
     <ClCompile Include="src\FileUtils.cpp" />
-    <ClCompile Include="src\MessageAdapterMock.cpp" />
+    <ClCompile Include="src\MessageAdapterMock.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\SignalCounter.cpp" />
     <ClCompile Include="src\FakeLibtorrentWrapperAdapter.cpp" />
     <ClCompile Include="src\LambdaHook.cpp" />
@@ -221,11 +225,17 @@ xcopy /Y /I /R /E "$(QGNACOMMONDIR)\OpenSSL\$(OpenSSLArea)\bin\*.dll" "$(TargetD
     <ClInclude Include="include\ExternalToolHelper.h" />
     <ClInclude Include="include\FileUtils.h" />
     <ClInclude Include="include\LambdaHook.h" />
+    <QtMoc Include="include\MessageAdapterMock.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\.;.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns;d:\.conan\minizip\1.2.11\common\stable\package\3d16d926de9b3b06034ae1de4c796a92cf92b401\include;d:\.conan\minizip\1.2.11\common\stable\package\3d16d926de9b3b06034ae1de4c796a92cf92b401\include\minizip;d:\.conan\UpdateSystem\1.0.0\common\stable\package\fd4f6ddfbaf65a472e40377babdb20ecfaba0885\include;d:\.conan\LibtorrentWrapper\1.0.0\common\stable\package\6631cbbd383afc61fa33f2a2d69d9f89b6148991\include;d:\.conan\Core\1.0.0\common\stable\package\5e5df2d6bb28723151a94787e30148b3edb6f553\include;d:\.conan\Settings\1.0.0\common\stable\package\5e5df2d6bb28723151a94787e30148b3edb6f553\include;d:\.conan\Qt\5.5.1\common\stable\package\333e69ac00eb936364053dce8d4cab2a1a5a9a11\include;d:\.conan\SevenZip\1.0.0\common\stable\package\3d16d926de9b3b06034ae1de4c796a92cf92b401\include;d:\.conan\Libtorrent\1.0.5\common\stable\package\3d16d926de9b3b06034ae1de4c796a92cf92b401\include;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UNICODE;WIN32;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;TORRENT_DISABLE_ENCRYPTION;TORRENT_DISABLE_INVARIANT_CHECKS;TORRENT_NO_DEPRECATE;TORRENT_NO_ASSERTS;TORRENT_DEBUG;_USING_V110_SDK71_;_UNICODE</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\.;.\GeneratedFiles;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(SolutionDir)GameDownloader\include;$(ProjectDir)include;$(QGNACOMMONDIR)\GGS\Core\$(CoreArea)\include;$(QGNACOMMONDIR)\GGS\UpdateSystem\$(UpdateSystemArea)\include;$(QGNACOMMONDIR)\GGS\Settings\$(SettingsArea)\include;$(QGNACOMMONDIR)\GGS\LibtorrentWrapper\$(LibtorrentWrapperArea)\include;$(QTDIR)\include\QtTest;$(QTDIR)\include\QtSql;$(ProjectDir)deps;$(QTDIR)\include\QtNetwork;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtXmlPatterns;d:\.conan\minizip\1.2.11\common\stable\package\4a4dee728f45654d729e8a4562482100aaab855b\include;d:\.conan\minizip\1.2.11\common\stable\package\4a4dee728f45654d729e8a4562482100aaab855b\include\minizip;d:\.conan\UpdateSystem\1.0.0\common\stable\package\7926b8dd1fc655b82320b53462e7a8883ae791ab\include;d:\.conan\LibtorrentWrapper\1.0.0\common\stable\package\b5dc8fbf4612b64e31e69e3a06d0f8c4710dd174\include;d:\.conan\Core\1.0.0\common\stable\package\ce204853b09dfc71de23c1f30236cc1a98fac33e\include;d:\.conan\Settings\1.0.0\common\stable\package\ce204853b09dfc71de23c1f30236cc1a98fac33e\include;d:\.conan\Qt\5.5.1\common\stable\package\333e69ac00eb936364053dce8d4cab2a1a5a9a11\include;d:\.conan\SevenZip\1.0.0\common\stable\package\4a4dee728f45654d729e8a4562482100aaab855b\include;d:\.conan\Libtorrent\1.0.5\common\stable\package\4a4dee728f45654d729e8a4562482100aaab855b\include;C:\Program Files (x86)\Visual Leak Detector\include</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UNICODE;WIN32;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_SQL_LIB;NOMINMAX;QT_DLL;CORE_STATIC_LIB;LIBTORRENTWRAPPER_STATIC_LIB;SETTINGS_STATIC_LIB;UPDATESYSTEM_STATIC_LIBRARY;QT_NETWORK_LIB;QT_XML_LIB;QT_XMLPATTERNS_LIB;TORRENT_DISABLE_ENCRYPTION;TORRENT_DISABLE_INVARIANT_CHECKS;TORRENT_NO_DEPRECATE;TORRENT_NO_ASSERTS;_USING_V110_SDK71_;_UNICODE</Define>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </QtMoc>
     <ClInclude Include="include\SimpleContinueHook.h" />
     <QtMoc Include="include\TestEventLoopFinisher.h" />
     <QtMoc Include="include\SingleShotFunctor.h" />
     <QtMoc Include="include\SignalCounter.h" />
-    <QtMoc Include="include\MessageAdapterMock.h" />
     <QtMoc Include="include\FakeLibtorrentWrapperAdapter.h" />
     <QtMoc Include="include\FakeCheckUpdateAdapter.h" />
     <QtMoc Include="include\StateMachine\TestBehavior.h" />

@@ -20023,7 +20023,7 @@ class EqHelper {
   // With this overloaded version, we allow anonymous enums to be used
   // in {ASSERT|EXPECT}_EQ when compiled with gcc 4, as anonymous
   // enums can be implicitly cast to BiggestInt.
-  //
+  //  
   // Even though its body looks the same as the above version, we
   // cannot merge the two, as it will make anonymous enums unhappy.
   static AssertionResult Compare(const char* lhs_expression,

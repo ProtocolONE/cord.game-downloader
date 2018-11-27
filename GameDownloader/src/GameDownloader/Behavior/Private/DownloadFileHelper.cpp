@@ -6,7 +6,12 @@
 #include <UpdateSystem/Downloader/RetryFileDownloader.h>
 #include <UpdateSystem/Downloader/MultiFileDownloader.h>
 #include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter.h>
+
+#ifdef USE_MINI_ZIP_LIB
+#include <UpdateSystem/Extractor/MiniZipExtractor.h>
+#else
 #include <UpdateSystem/Extractor/SevenZipExtractor.h>
+#endif
 
 #include <Core/Service.h>
 
@@ -22,7 +27,11 @@ namespace P1 {
         : QObject(parent)
         , _state(state)
         , _manager(new QNetworkAccessManager(this))
-        , _extractor(new SevenZipExtactor(this))
+#ifdef USE_MINI_ZIP_LIB
+        , _extractor(new MiniZipExtractor(this))
+#else
+        , _extractor(new SevenZipExtractor(this))
+#endif
       {
       }
 

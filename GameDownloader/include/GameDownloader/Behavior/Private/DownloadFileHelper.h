@@ -7,7 +7,7 @@
 
 namespace P1 {
   namespace Extractor {
-    class SevenZipExtactor;
+  class ExtractorInterface;
   }
 
   namespace GameDownloader {
@@ -38,7 +38,7 @@ namespace P1 {
       private:
         QNetworkAccessManager *_manager;
         P1::GameDownloader::ServiceState *_state;
-        P1::Extractor::SevenZipExtactor *_extractor;
+        P1::Extractor::ExtractorInterface *_extractor;
         QString _url;
 
       };

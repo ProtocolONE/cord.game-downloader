@@ -58,7 +58,7 @@
         <translation>Подготовка к удалению игры %1</translation>
     </message>
     <message>
-        <location filename="../src/GameDownloader/Behavior/UninstallBehavior.cpp" line="109"/>
+        <location filename="../src/GameDownloader/Behavior/UninstallBehavior.cpp" line="108"/>
         <source>STATUS_FINISHED</source>
         <translation>Игра %1 успешно удалена</translation>
     </message>

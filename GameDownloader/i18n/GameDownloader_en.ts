@@ -58,7 +58,7 @@
         <translation type="unfinished">Preparing to delete %1</translation>
     </message>
     <message>
-        <location filename="../src/GameDownloader/Behavior/UninstallBehavior.cpp" line="109"/>
+        <location filename="../src/GameDownloader/Behavior/UninstallBehavior.cpp" line="108"/>
         <source>STATUS_FINISHED</source>
         <translation type="unfinished">%1 was deleted successfully</translation>
     </message>

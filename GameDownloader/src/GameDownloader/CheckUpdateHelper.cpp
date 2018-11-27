@@ -6,8 +6,13 @@
 #include <UpdateSystem/Downloader/RetryFileDownloader.h>
 #include <UpdateSystem/Downloader/MultiFileDownloader.h>
 #include <UpdateSystem/Downloader/MultiFileDownloaderWithExtracter.h>
-#include <UpdateSystem/Extractor/SevenZipExtractor.h>
 #include <UpdateSystem/Hasher/Md5FileHasher.h>
+
+#ifdef USE_MINI_ZIP_LIB
+#include <UpdateSystem/Extractor/MiniZipExtractor.h>
+#else
+#include <UpdateSystem/Extractor/SevenZipExtractor.h>
+#endif
 
 #include <Settings/Settings.h>
 #include <Core/Service.h>
@@ -31,7 +36,11 @@ namespace P1 {
       , _maxHeadRequestRetryCount(3)
     {
       this->_manager = new QNetworkAccessManager(this);
-      this->_extractor = new SevenZipExtactor(this);
+#ifdef USE_MINI_ZIP_LIB
+      this->_extractor = new MiniZipExtractor(this);
+#else
+      this->_extractor = new SevenZipExtractor(this);
+#endif
     }
 
     CheckUpdateHelper::~CheckUpdateHelper()
@@ -41,7 +50,11 @@ namespace P1 {
     QUrl CheckUpdateHelper::getTorrentUrlWithArchiveExtension()
     {
       QUrl url = this->_state->service()->torrentUrlWithArea();
+#ifdef USE_MINI_ZIP_LIB
+      QString fileName = QString("%1.torrent.zip").arg(this->_state->id());
+#else
       QString fileName = QString("%1.torrent.7z").arg(this->_state->id());
+#endif
       url = url.resolved(QUrl(fileName));
       return url;
     }

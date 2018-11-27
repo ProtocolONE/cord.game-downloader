@@ -55,9 +55,6 @@
     <ClCompile Include="src\FileUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MessageAdapterMock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tests\RemoveFileHookTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -80,6 +77,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="deps\gmock-gtest-all.cc" />
+    <ClCompile Include="src\FakeCheckUpdateAdapter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MessageAdapterMock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deps\gmock\gmock.h">
@@ -111,9 +114,6 @@
     <QtMoc Include="include\FakeLibtorrentWrapperAdapter.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="include\MessageAdapterMock.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="include\SignalCounter.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -121,6 +121,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="include\TestEventLoopFinisher.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="include\MessageAdapterMock.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

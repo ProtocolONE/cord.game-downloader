@@ -88,7 +88,11 @@ namespace P1 {
           
           if (hasArchive) {
             // INFO Удалять желательно но не критично
+#ifdef USE_MINI_ZIP_LIB
+            QString archiveFilePath = QString("%1/%2.zip").arg(downloadRoot, relativePath);
+#else
             QString archiveFilePath = QString("%1/%2.7z").arg(downloadRoot, relativePath);
+#endif
             QFile::remove(archiveFilePath);
           }
         }

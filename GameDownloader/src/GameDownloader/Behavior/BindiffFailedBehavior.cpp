@@ -27,7 +27,7 @@ namespace P1 {
 
         P1::Settings::Settings settings;
         settings.beginGroup("GameDownloader");
-        settings.beginGroup("SevenZipGameExtractor");
+        settings.beginGroup("GameExtractor");
         if (settings.value(state->id(), QByteArray()) != QByteArray())
           settings.setValue(state->id(), QByteArray());
 

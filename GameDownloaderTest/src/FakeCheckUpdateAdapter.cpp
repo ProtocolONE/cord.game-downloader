@@ -3,7 +3,6 @@
 
 FakeCheckUpdateAdapter::FakeCheckUpdateAdapter(P1::GameDownloader::GameDownloadService *service)
   : _downloadService(service)
-  , _preHook(0)
   , _isUpdate(false)
   , _updateTime(0)
 {
@@ -28,7 +27,7 @@ void FakeCheckUpdateAdapter::sendResultSlot()
   emit this->checkUpdateRequestCompleted(this->_service, this->_isUpdate);
 }
 
-void FakeCheckUpdateAdapter::setPreHook(std::tr1::function<bool (const P1::Core::Service *, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)> f)
+void FakeCheckUpdateAdapter::setPreHook(const std::function<bool(const P1::Core::Service*, P1::GameDownloader::CheckUpdateHelper::CheckUpdateType)>& f)
 {
   this->_preHook = f;
 }

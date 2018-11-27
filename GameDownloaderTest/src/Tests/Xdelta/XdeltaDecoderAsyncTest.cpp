@@ -397,6 +397,7 @@ TEST(XdeltaDecoder, FailTest)
   QString root = WORKSPACE_ROOT(XdeltaDecoder, FailTest);
 
   QString source("NUL");
+
   QString patch = QString("%1%2").arg(root, "ATTACH_T.rez.7z.diff");
   QString actualTarget = QString("%1%2").arg(root, "actualTarget.txt");
   QString expectedTarget = QString("%1%2").arg(root, "ATTACH_T.rez.7z");
@@ -412,6 +413,7 @@ TEST(XdeltaDecoder, FailTestAsync)
   QString root = WORKSPACE_ROOT(XdeltaDecoder, FailTest);
 
   QString source("NUL");
+
   QString patch = QString("%1%2").arg(root, "ATTACH_T.rez.7z.diff");
   QString actualTarget = QString("%1%2").arg(root, "actualTarget.txt");
   QString expectedTarget = QString("%1%2").arg(root, "ATTACH_T.rez.7z");

@@ -1,6 +1,6 @@
 #include <TestEventLoopFinisher.h>
 #include <FileUtils.h>
-#include <GameDownloader/Extractor/SevenZipGameExtractor.h>
+#include <GameDownloader/Extractor/GameExtractor.h>
 #include <GameDownloader/Behavior/CompressorBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <UpdateSystem/Hasher/Md5FileHasher.h>
@@ -27,7 +27,7 @@ QStringList getFileList(const QString& directory);
 TEST(CompressorBindiff, CompressorBindiffTest)
 {
   P1::GameDownloader::Behavior::CompressorBehavior compressor;
-  P1::GameDownloader::Extractor::SevenZipGameExtractor extractor;
+  P1::GameDownloader::Extractor::GameExtractor extractor;
   compressor.registerCompressor(&extractor);
 
   PREPAIR_WORK_SPACE(CompressorBindiff, CompressorBindiffTest);
@@ -57,7 +57,11 @@ TEST(CompressorBindiff, CompressorBindiffTest)
   ASSERT_FALSE(killer.isKilledByTimeout());
 
   Q_FOREACH(QString file, files) {
+#ifdef USE_MINI_ZIP_LIB
+    QString arcFile = root + "dist/live/" + file + ".zip";
+#else
     QString arcFile = root + "dist/live/" + file + ".7z";
+#endif
     ASSERT_TRUE(QFile::exists(arcFile));
   }  
 }
