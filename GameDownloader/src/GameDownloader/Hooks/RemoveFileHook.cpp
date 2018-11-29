@@ -41,7 +41,8 @@ namespace P1 {
         QString downloadRoot;
         
         // INFO Это проверка на 7-zip распаковщик.
-        bool hasArchive = state->service()->extractorType() == "D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9";
+        bool hasArchive = (state->service()->extractorType() == "D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9") || 
+          (state->service()->extractorType() == "72DC8A5A-2A53-436C-88CC-4C553226290D");
         if (hasArchive)
           downloadRoot = QString("%1/%2").arg(service->downloadPath(), service->areaString());
 
@@ -88,11 +89,12 @@ namespace P1 {
           
           if (hasArchive) {
             // INFO Удалять желательно но не критично
-#ifdef USE_MINI_ZIP_LIB
-            QString archiveFilePath = QString("%1/%2.zip").arg(downloadRoot, relativePath);
-#else
-            QString archiveFilePath = QString("%1/%2.7z").arg(downloadRoot, relativePath);
-#endif
+            QString archiveFilePath;
+            if ((state->service()->extractorType() == "D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9"))
+              archiveFilePath = QString("%1/%2.7z").arg(downloadRoot, relativePath);
+            else
+              archiveFilePath = QString("%1/%2.zip").arg(downloadRoot, relativePath);
+
             QFile::remove(archiveFilePath);
           }
         }

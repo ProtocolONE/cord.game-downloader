@@ -8,7 +8,7 @@ namespace P1 {
     namespace Extractor {
 
       DummyExtractor::DummyExtractor(QObject *parent)
-        : P1::GameDownloader::ExtractorBase("3A3AC78E-0332-45F4-A466-89C2B8E8BB9C", parent)
+        : P1::GameDownloader::ExtractorBase("3A3AC78E-0332-45F4-A466-89C2B8E8BB9C", "", parent)
       {
       }
 

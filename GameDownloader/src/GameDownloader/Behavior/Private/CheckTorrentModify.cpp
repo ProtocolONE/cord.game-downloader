@@ -133,11 +133,13 @@ namespace P1 {
       QUrl CheckTorrentModify::getTorrentUrlWithArchiveExtension()
       {
         QUrl url = this->_state->service()->torrentUrlWithArea();
-#ifdef USE_MINI_ZIP_LIB
-        QString fileName = QString("%1.torrent.zip").arg(this->_state->id());
-#else
-        QString fileName = QString("%1.torrent.7z").arg(this->_state->id());
-#endif
+        QString fileName;
+
+        if ((this->_state->service()->extractorType() == "D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9"))
+          fileName = QString("%1.torrent.7z").arg(this->_state->id());
+        else
+          fileName = QString("%1.torrent.zip").arg(this->_state->id());
+
         url = url.resolved(QUrl(fileName));
         return url;
       }

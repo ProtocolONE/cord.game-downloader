@@ -5,9 +5,10 @@
 
 namespace P1 {
   namespace GameDownloader {
-    ExtractorBase::ExtractorBase(const QString &extractorId, QObject *parent)
+    ExtractorBase::ExtractorBase(const QString &extractorId, const QString &fileExtention, QObject *parent)
       : QObject(parent)
       , _extractorId(extractorId)
+      , _fileExtention(fileExtention)
     {
     }
 
@@ -21,9 +22,13 @@ namespace P1 {
       emit this->pauseRequest(state);
     }
 
-    const QString& ExtractorBase::extractorId()
+    const QString& ExtractorBase::extractorId() const
     {
       return this->_extractorId;
+    }
+    const QString& ExtractorBase::fileExtention() const
+    {
+      return this->_fileExtention;
     }
   }
 }

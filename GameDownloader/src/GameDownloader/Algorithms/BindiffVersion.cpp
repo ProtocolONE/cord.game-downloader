@@ -4,7 +4,8 @@
 #include <GameDownloader/StartType.h>
 
 #include <GameDownloader/Extractor/DummyExtractor.h>
-#include <GameDownloader/Extractor/GameExtractor.h>
+#include <GameDownloader/Extractor/MiniZipExtractor.h>
+#include <GameDownloader/Extractor/SevenZipExtractor.h>
 
 using namespace P1::GameDownloader::Behavior;
 
@@ -37,7 +38,8 @@ namespace P1 {
         this->_createFastResume2.setTorrentWrapper(this->_gameDownloader->_wrapper);
 
         this->registerExtractor(new Extractor::DummyExtractor(this->_gameDownloader));
-        this->registerExtractor(new Extractor::GameExtractor(this->_gameDownloader));
+        this->registerExtractor(new Extractor::SevenZipExtractor(this->_gameDownloader));
+        this->registerExtractor(new Extractor::MiniZipExtractor(this->_gameDownloader));
 
         this->registerBehavior(&this->_readOnlyCheck);
         this->registerBehavior(&this->_uninstall);

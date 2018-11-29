@@ -106,11 +106,10 @@ namespace P1 {
           this, SLOT(checkPatchNotFound(P1::GameDownloader::ServiceState *)),
           Qt::QueuedConnection));
 
-#ifdef USE_MINI_ZIP_LIB
-        pathExist->startCheck(this->getServicePatchUrl(state) + ".zip");
-#else
-        pathExist->startCheck(this->getServicePatchUrl(state) + ".7z");
-#endif
+        if ((state->service()->extractorType() == "D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9"))
+          pathExist->startCheck(this->getServicePatchUrl(state) + ".7z");
+        else
+          pathExist->startCheck(this->getServicePatchUrl(state) + ".zip");
       }
 
       void GetPatchVersionBehavior::setTorrentWrapper(P1::Libtorrent::Wrapper *wrapper)

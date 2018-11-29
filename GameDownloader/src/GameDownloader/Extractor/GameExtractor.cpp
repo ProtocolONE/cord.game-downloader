@@ -4,14 +4,6 @@
 #include <GameDownloader/Extractor/UpdateInfoGetterResultEventLoopKiller.h>
 #include <GameDownloader/Common/FileUtils.h>
 
-#ifdef USE_MINI_ZIP_LIB
-#include <UpdateSystem/Extractor/MiniZipExtractor.h>
-#include <UpdateSystem/Compressor/MiniZipCompressor.h>
-#else
-#include <UpdateSystem/Compressor/SevenZipCompressor.h>
-#include <UpdateSystem/Compressor/SevenZipCompressor.h>
-#endif
-
 #include <UpdateSystem/UpdateInfoGetter.h>
 #include <UpdateSystem/UpdateInfoContainer.h>
 #include <UpdateSystem/UpdateFileInfo.h>
@@ -35,8 +27,8 @@ namespace P1 {
   namespace GameDownloader {
     namespace Extractor {
 
-      GameExtractor::GameExtractor(QObject *parent)
-        : P1::GameDownloader::ExtractorBase("D9E40EE5-806F-4B7D-8D5C-B6A4BF0110E9", parent)
+      GameExtractor::GameExtractor(const QString &extractorId, const QString &fileExtention, QObject *parent)
+        : P1::GameDownloader::ExtractorBase(extractorId, fileExtention, parent)
       {
       }
 
@@ -60,7 +52,7 @@ namespace P1 {
         return byteArray;
       }
 
-      void GameExtractor::compress(P1::GameDownloader::ServiceState* state)
+      void GameExtractor::compress(P1::Compressor::CompressorInterface* compressor, P1::GameDownloader::ServiceState* state)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -72,18 +64,6 @@ namespace P1 {
         
         const P1::Core::Service *service = state->service();
         emit this->compressProgressChanged(state, 0, 0, 0);
-
-        using namespace P1::Compressor;
-#ifdef USE_MINI_ZIP_LIB
-        MiniZipCompressor compressor;
-        compressor.setCompressionLevel(P1::Compressor::MiniZipCompressor::Normal);
-#else
-        SevenZipCompressor compressor;
-        compressor.setCompressionLevel(P1::Compressor::SevenZipCompressor::Low);
-#endif
-
-        if (QThread::idealThreadCount() > 1)
-          compressor.setNumThreads(2);
 
         QStringList files = state->packingFiles();
 
@@ -115,18 +95,16 @@ namespace P1 {
               totalFilesCount);
           } 
 
-#ifdef USE_MINI_ZIP_LIB
-          QString archiveFile = QString("%1/%2.zip").arg(distrDirectory, fileName);
-#else
-          QString archiveFile = QString("%1/%2.7z").arg(distrDirectory, fileName);
-#endif
+          QString archiveFile = QString("%1/%2%3").arg(distrDirectory, fileName, this->fileExtention());
           QString sourceFile = QString("%1/%2").arg(sourceDirectory, fileName);
           QFile::remove(archiveFile); // TODO обсудить
 
           Common::FileUtils::createDirectoryIfNotExist(archiveFile);
 
           DEBUG_LOG << "compress " << sourceFile;
-          CompressorInterface::CompressionResult result = compressor.compressFile(sourceFile, archiveFile);
+
+          using namespace P1::Compressor;
+          CompressorInterface::CompressionResult result = compressor->compressFile(sourceFile, archiveFile);
 
           if (result != CompressorInterface::NoError) {
             emit this->compressFailed(state);
@@ -140,7 +118,7 @@ namespace P1 {
         emit this->compressFinished(state);
       }
 
-      void GameExtractor::extract(P1::GameDownloader::ServiceState* state, StartType startType)
+      void GameExtractor::extract(P1::Extractor::ExtractorInterface* extractor, P1::GameDownloader::ServiceState* state, StartType startType)
       {
         Q_CHECK_PTR(state);
         Q_CHECK_PTR(state->service());
@@ -155,7 +133,7 @@ namespace P1 {
 
         using namespace P1::UpdateSystem;
         QHash<QString, UpdateFileInfo> onlineInfo;
-        if (!this->getUpdateInfo(state, onlineInfo)) {
+        if (!this->getUpdateInfo(extractor, state, onlineInfo)) {
           emit this->extractFailed(state);
           return;
         }
@@ -223,10 +201,10 @@ namespace P1 {
           return;
         }
           
-        this->extractFiles(state, filesToExtraction, extractionDirectory, savedInfo);
+        this->extractFiles(extractor, state, filesToExtraction, extractionDirectory, savedInfo);
       }
 
-      bool GameExtractor::getUpdateInfo(P1::GameDownloader::ServiceState* state, 
+      bool GameExtractor::getUpdateInfo(P1::Extractor::ExtractorInterface* extractor, P1::GameDownloader::ServiceState* state,
         QHash<QString, P1::UpdateSystem::UpdateFileInfo> &resultHash)
       {
         using namespace P1::UpdateSystem;
@@ -247,19 +225,10 @@ namespace P1 {
 
         QString downloadUpdateCrcDirectory = QString("%1/%2/").arg(service->downloadPath(), service->areaString());
         downloadUpdateCrcDirectory = QDir::cleanPath(downloadUpdateCrcDirectory);
-#ifdef USE_MINI_ZIP_LIB
-        QUrl updateUrl = service->torrentUrlWithArea().resolved(QUrl("./update.crc.zip"));
-#else
-        QUrl updateUrl = service->torrentUrlWithArea().resolved(QUrl("./update.crc.7z"));
-#endif
+        QUrl updateUrl = service->torrentUrlWithArea().resolved(QUrl(QString("./update.crc%1").arg(this->fileExtention())));
 
         UpdateInfoGetter infoGetter;
-#ifdef USE_MINI_ZIP_LIB
-        MiniZipExtractor extractor;
-#else
-        SevenZipExtractor extractor;
-#endif
-        infoGetter.setExtractor(&extractor);
+        infoGetter.setExtractor(extractor);
         infoGetter.setDownloader(&retryDownloader);
         infoGetter.setCurrentDir(downloadUpdateCrcDirectory);
         infoGetter.setUpdateFileName("update.crc");
@@ -345,7 +314,8 @@ namespace P1 {
       }
 
       void GameExtractor::extractFiles(
-        P1::GameDownloader::ServiceState* state, 
+        P1::Extractor::ExtractorInterface* extractor,
+        P1::GameDownloader::ServiceState* state,
         const QHash<QString, P1::UpdateSystem::UpdateFileInfo> &filesToExtraction, 
         const QString& extractionDirectory,
         QHash<QString, P1::UpdateSystem::UpdateFileInfo> &savedInfo)
@@ -354,13 +324,6 @@ namespace P1 {
 
         qint64 totalFilesCount = filesToExtraction.count();
         emit this->extractionProgressChanged(state, 15, 0, totalFilesCount);
-
-        using namespace P1::Extractor;
-#ifdef USE_MINI_ZIP_LIB
-        MiniZipExtractor extractor;
-#else
-        SevenZipExtractor extractor;
-#endif
 
         qint64 timeOfLastSaveUpdateInfo = QDateTime::currentMSecsSinceEpoch();
         qint64 extractedFilesCount = 0;
@@ -379,15 +342,13 @@ namespace P1 {
             return;
           }
 
-#ifdef USE_MINI_ZIP_LIB
-          QString archivePath = QString("%1%2.zip").arg(archiveDirectory, relativePath);
-#else
-          QString archivePath = QString("%1%2.7z").arg(archiveDirectory, relativePath);
-#endif
+          QString archivePath = QString("%1%2%3").arg(archiveDirectory, relativePath, this->fileExtention());
           QString targetFilePath = QString("%1%2").arg(extractionDirectory, relativePath);
           QString targetDirectory = Common::FileUtils::createDirectoryIfNotExist(targetFilePath);
           DEBUG_LOG << "extracting " << relativePath;
-          P1::Extractor::ExtractionResult result = extractor.extract(archivePath, targetDirectory);
+
+          using namespace P1::Extractor;
+          P1::Extractor::ExtractionResult result = extractor->extract(archivePath, targetDirectory);
           if (result != ExtractionResult::NoError) {
             CRITICAL_LOG << "Extraction error: " << result;
             emit this->extractFailed(state);
@@ -414,13 +375,13 @@ namespace P1 {
         emit this->extractFinished(state);
       }
 
-      void GameExtractor::setAllUnpacked(ServiceState* state)
+      void GameExtractor::setAllUnpacked(P1::Extractor::ExtractorInterface* extractor, ServiceState* state)
       {
         Q_CHECK_PTR(state);
 
         using namespace P1::UpdateSystem;
         QHash<QString, UpdateFileInfo> onlineInfo;
-        if (!this->getUpdateInfo(state, onlineInfo)) {
+        if (!this->getUpdateInfo(extractor, state, onlineInfo)) {
           emit this->unpackStateSaveFailed(state);
           return;
         }

@@ -17,14 +17,15 @@ namespace P1 {
     {
       Q_OBJECT
     public:
-      ExtractorBase(const QString &extractorId, QObject *parent = 0);
+      ExtractorBase(const QString &extractorId, const QString &fileExtention, QObject *parent = 0);
       virtual ~ExtractorBase();
 
       virtual void extract(ServiceState* state, StartType startType) = 0;
       virtual void compress(ServiceState* state) = 0;
       virtual void setAllUnpacked(ServiceState* state) = 0;
 
-      const QString &extractorId();
+      const QString &extractorId() const;
+      const QString &fileExtention() const;
 
     public slots:
       void pauseRequestSlot(P1::GameDownloader::ServiceState* state);
@@ -48,6 +49,7 @@ namespace P1 {
 
     private:
       QString _extractorId;
+      QString _fileExtention;
 
     };
   }

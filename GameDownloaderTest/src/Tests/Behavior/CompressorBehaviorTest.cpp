@@ -1,6 +1,7 @@
 #include <TestEventLoopFinisher.h>
 #include <FileUtils.h>
-#include <GameDownloader/Extractor/GameExtractor.h>
+#include <GameDownloader/Extractor/SevenZipExtractor.h>
+#include <GameDownloader/Extractor/MiniZipExtractor.h>
 #include <GameDownloader/Behavior/CompressorBehavior.h>
 #include <GameDownloader/ServiceState.h>
 #include <UpdateSystem/Hasher/Md5FileHasher.h>
@@ -24,10 +25,10 @@
 void scanDir(int removeLength, QStringList &result, QDir dir);
 QStringList getFileList(const QString& directory);
 
-TEST(CompressorBindiff, CompressorBindiffTest)
+TEST(SevenZipCompressorBindiff, SevenZipCompressorBindiffTest)
 {
   P1::GameDownloader::Behavior::CompressorBehavior compressor;
-  P1::GameDownloader::Extractor::GameExtractor extractor;
+  P1::GameDownloader::Extractor::SevenZipExtractor extractor;
   compressor.registerCompressor(&extractor);
 
   PREPAIR_WORK_SPACE(CompressorBindiff, CompressorBindiffTest);
@@ -57,11 +58,45 @@ TEST(CompressorBindiff, CompressorBindiffTest)
   ASSERT_FALSE(killer.isKilledByTimeout());
 
   Q_FOREACH(QString file, files) {
-#ifdef USE_MINI_ZIP_LIB
-    QString arcFile = root + "dist/live/" + file + ".zip";
-#else
     QString arcFile = root + "dist/live/" + file + ".7z";
-#endif
     ASSERT_TRUE(QFile::exists(arcFile));
   }  
+}
+
+TEST(MiniZipCompressorBindiff, MiniZipCompressorBindiffTest)
+{
+  P1::GameDownloader::Behavior::CompressorBehavior compressor;
+  P1::GameDownloader::Extractor::MiniZipExtractor extractor;
+  compressor.registerCompressor(&extractor);
+
+  PREPAIR_WORK_SPACE(CompressorBindiff, CompressorBindiffTest);
+  QString root = WORKSPACE_ROOT(CompressorBindiff, CompressorBindiffTest);
+
+  QStringList files = getFileList(root + "/live");
+
+  P1::GameDownloader::ServiceState state;
+  P1::Core::Service service;
+  service.setId("123");
+  service.setInstallPath(root);
+  service.setDownloadPath(root + "/dist");
+  service.setArea(P1::Core::Service::Live);
+  service.setExtractorType(extractor.extractorId());
+
+  state.setState(P1::GameDownloader::ServiceState::Started);
+  state.setService(&service);
+  state.setPackingFiles(files);
+
+  compressor.start(&state);
+
+  QEventLoop loop;
+  TestEventLoopFinisher killer(&loop, 16000);
+  killer.setTerminateSignal(&compressor, SIGNAL(next(int, P1::GameDownloader::ServiceState *)));
+  loop.exec();
+
+  ASSERT_FALSE(killer.isKilledByTimeout());
+
+  Q_FOREACH(QString file, files) {
+    QString arcFile = root + "dist/live/" + file + ".zip";
+    ASSERT_TRUE(QFile::exists(arcFile));
+  }
 }
